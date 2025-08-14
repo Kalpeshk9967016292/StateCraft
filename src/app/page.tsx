@@ -6,11 +6,13 @@ import StateSelection from '@/components/game/StateSelection';
 import Dashboard from '@/components/game/Dashboard';
 import { getStatesData } from '@/services/state-data-service';
 import { Loader2 } from 'lucide-react';
+import { generateTurnOptions } from './actions';
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [states, setStates] = useState<State[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNewTurnLoading, setIsNewTurnLoading] = useState(false);
 
   useEffect(() => {
     const loadStateData = async () => {
@@ -22,8 +24,9 @@ export default function Home() {
     loadStateData();
   }, []);
 
-  const handleStateSelect = (selectedState: State) => {
-    setGameState({
+  const handleStateSelect = async (selectedState: State) => {
+    setIsNewTurnLoading(true);
+    const initialGameState: GameState = {
       stateDetails: selectedState,
       currentStats: selectedState.initialStats,
       statsHistory: [{ turn: 0, stats: selectedState.initialStats }],
@@ -35,7 +38,11 @@ export default function Home() {
       newsHeadlines: [],
       socialMediaTrends: [],
       oppositionStatement: null,
-    });
+      turnOptions: [],
+    };
+    const options = await generateTurnOptions(initialGameState);
+    setGameState({ ...initialGameState, turnOptions: options });
+    setIsNewTurnLoading(false);
   };
 
   const handleRestart = () => {
@@ -55,7 +62,7 @@ export default function Home() {
             <p className="text-lg text-muted-foreground">Fetching latest real-world data...</p>
           </div>
         ) : !gameState ? (
-          <StateSelection states={states} onStateSelect={handleStateSelect} />
+          <StateSelection states={states} onStateSelect={handleStateSelect} isLoading={isNewTurnLoading} />
         ) : (
           <Dashboard gameState={gameState} setGameState={updateGameState} onRestart={handleRestart} />
         )}

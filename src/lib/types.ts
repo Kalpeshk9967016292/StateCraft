@@ -25,12 +25,20 @@ export const StatsSchema = z.object({
 });
 export type Stats = z.infer<typeof StatsSchema>;
 
+export const PolicyOptionSchema = z.object({
+  id: z.string(),
+  title: z.string().describe("A short, clear title for the policy option."),
+  description: z.string().describe("A brief description of the action."),
+});
+export type PolicyOption = z.infer<typeof PolicyOptionSchema>;
 
-export interface PolicyDecision {
-  id: string;
-  title: string;
-  description: string;
-}
+export const ChallengeSchema = z.object({
+  id: z.string(),
+  title: z.string().describe("The title of the challenge or opportunity."),
+  description: z.string().describe("A detailed description of the situation."),
+  options: z.array(PolicyOptionSchema).describe("An array of 2-3 possible actions the player can take."),
+});
+export type Challenge = z.infer<typeof ChallengeSchema>;
 
 export const CrisisSchema = z.object({
     title: z.string().describe('The title of the crisis event.'),
@@ -57,7 +65,6 @@ export const OppositionStatementSchema = z.object({
 });
 export type OppositionStatement = z.infer<typeof OppositionStatementSchema>;
 
-
 export interface GameState {
   stateDetails: State;
   currentStats: Stats;
@@ -70,6 +77,7 @@ export interface GameState {
   newsHeadlines: NewsHeadline[];
   socialMediaTrends: SocialMediaTrend[];
   oppositionStatement: OppositionStatement | null;
+  turnOptions: Challenge[];
 }
 
 export const GameTurnOutputSchema = z.object({

@@ -3,11 +3,12 @@ import type { State } from '@/lib/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Users, Landmark, GraduationCap, Gavel, Search } from 'lucide-react';
+import { Users, Landmark, GraduationCap, Gavel, Search, Loader2 } from 'lucide-react';
 
 interface StateSelectionProps {
   states: State[];
   onStateSelect: (state: State) => void;
+  isLoading: boolean;
 }
 
 const StatItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | number }) => (
@@ -18,12 +19,18 @@ const StatItem = ({ icon, label, value }: { icon: React.ReactNode, label: string
     </div>
 );
 
-export default function StateSelection({ states, onStateSelect }: StateSelectionProps) {
+export default function StateSelection({ states, onStateSelect, isLoading }: StateSelectionProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
 
   const filteredStates = states.filter(state =>
     state.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
+  const handleSelect = (state: State) => {
+      setSelectedStateId(state.id);
+      onStateSelect(state);
+  }
 
   return (
     <div className="flex flex-col items-center animate-fade-in">
@@ -53,13 +60,17 @@ export default function StateSelection({ states, onStateSelect }: StateSelection
             <CardContent className="flex-grow space-y-3">
                 <h4 className="font-semibold mb-2 text-card-foreground/80">Starting Conditions:</h4>
                 <StatItem icon={<Users size={16} className="text-accent" />} label="Population" value={`${(state.demographics.population / 1_000_000).toFixed(1)}M`} />
-                <StatItem icon={<Landmark size={16} className="text-accent"/>} label="GDP" value={`Rs.${(state.demographics.gdp / 1_000_000_000).toFixed(0)}B`} />
+                <StatItem icon={<Landmark size={16} className="text-accent"/>} label="GDP" value={`₹${(state.demographics.gdp / 1_00_00_00_000).toFixed(0)} Lk Cr`} />
                 <StatItem icon={<GraduationCap size={16} className="text-accent"/>} label="Literacy" value={`${state.demographics.literacyRate}%`} />
                 <StatItem icon={<Gavel size={16} className="text-accent"/>} label="Crime Rate" value={`${state.demographics.crimeRate}`} />
             </CardContent>
             <CardFooter>
-              <Button onClick={() => onStateSelect(state)} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 text-base">
-                Begin Term as CM
+              <Button 
+                onClick={() => handleSelect(state)} 
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 text-base"
+                disabled={isLoading}
+              >
+                {isLoading && selectedStateId === state.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Begin Term as CM'}
               </Button>
             </CardFooter>
           </Card>

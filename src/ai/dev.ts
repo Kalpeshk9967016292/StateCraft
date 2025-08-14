@@ -7,3 +7,4 @@ import '@/ai/flows/outcome-calculation.ts';
 import '@/ai/flows/state-data-fetcher.ts';
 import '@/ai/flows/crisis-generator.ts';
 import '@/ai/flows/game-turn.ts';
+import '@/ai/flows/turn-options-generator.ts';

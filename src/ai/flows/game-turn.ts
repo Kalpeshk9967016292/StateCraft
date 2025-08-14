@@ -48,7 +48,7 @@ const gameMasterPrompt = ai.definePrompt({
   name: 'gameMasterPrompt',
   input: {schema: GameTurnPromptInputSchema},
   output: {schema: GameTurnOutputSchema},
-  prompt: `You are the Game Master for StateCraft, a political simulation game where the player is the Chief Minister of an Indian state. Your role is to act as a realistic simulation of politics, governance, the economy, and public sentiment.
+  prompt: `You are the Game Master for StateCraft, a political simulation game where the player is the Chief Minister of an Indian state. Your role is to act as a realistic simulation of politics, governance, the economy, and public sentiment. Each turn represents one quarter (3 months).
 
 GAME CONTEXT:
 - Player: Chief Minister of {{{stateName}}}, India.
@@ -61,7 +61,7 @@ GAME CONTEXT:
 
 YOUR TASK:
 Simulate the outcome of the player's action for this turn.
-1.  **Calculate Effects & Update Stats**: Based on the player's action, calculate the short-term effects and update all state statistics (Budget, Revenue, Public Approval, Law & Order, Economic Health, Opposition Strength, Corruption Level). The changes should be realistic. For example, a popular but expensive welfare scheme might increase public approval but decrease the budget. A crackdown on protests might increase law & order perception but decrease public approval.
+1.  **Calculate Effects & Update Stats**: Based on the player's action, calculate both the short-term (1-3 months) and potential long-term (1-2 years) effects, then update all state statistics (Budget, Revenue, Public Approval, Law & Order, Economic Health, Opposition Strength, Corruption Level). The changes should be realistic. For example, a popular but expensive welfare scheme might increase public approval but decrease the budget. A crackdown on protests might increase law & order perception but decrease public approval.
 2.  **Check for Game Over Scenarios**: After updating stats, check if a game-ending condition is met. One key scenario is a political coup. This should be a RARE but dramatic event. If Opposition Strength is very high (e.g., > 75) and Public Approval is very low (e.g., < 30), the opposition may conspire to cause defections from your party, leading to a collapse of your government. Only trigger this in extreme circumstances. If a coup or another game-ending event occurs, set 'isGameOver' to true and provide a compelling 'gameOverReason'.
 3.  **Generate Realistic Feedback**: Create immersive in-game feedback based on the action.
     -   **Key Events**: Write a brief narrative summary of what happened this turn.

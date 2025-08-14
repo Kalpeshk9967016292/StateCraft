@@ -1,40 +1,67 @@
-import type { PolicyDecision } from '@/lib/types';
+// src/components/game/DecisionCard.tsx
+import type { Challenge, PolicyOption } from '@/lib/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Loader2 } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 interface DecisionCardProps {
-  policies: PolicyDecision[];
-  onDecision: (policyId: string) => void;
+  challenges: Challenge[];
+  onDecision: (challenge: Challenge, option: PolicyOption) => void;
   isLoading: boolean;
 }
 
-export default function DecisionCard({ policies, onDecision, isLoading }: DecisionCardProps) {
+export default function DecisionCard({ challenges, onDecision, isLoading }: DecisionCardProps) {
+  if (!challenges || challenges.length === 0) {
+    return (
+       <Card className="h-full flex flex-col sticky top-8">
+            <CardHeader>
+                <CardTitle className="font-bold">No new challenges</CardTitle>
+                <CardDescription>Things are quiet this quarter. You can propose a new law.</CardDescription>
+            </CardHeader>
+        </Card>
+    )
+  }
+    
   return (
-    <Card className="h-full flex flex-col sticky top-8">
+    <Card className="h-full flex flex-col sticky top-8 shadow-lg">
       <CardHeader>
-        <CardTitle className="font-bold">Policy Decisions</CardTitle>
-        <CardDescription>Choose your next course of action. Your decision will have consequences.</CardDescription>
+        <CardTitle className="font-bold">This Quarter's Agenda</CardTitle>
+        <CardDescription>Address the key challenges and opportunities facing your state.</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
-        <ScrollArea className="h-[350px] pr-4">
-            <div className="space-y-4">
-            {policies.map((policy) => (
-                <div key={policy.id} className="p-4 border rounded-lg bg-background/50 transition-colors hover:bg-accent/10">
-                    <h4 className="font-semibold text-primary">{policy.title}</h4>
-                    <p className="text-sm text-muted-foreground mt-1 mb-3">{policy.description}</p>
-                    <Button 
-                        onClick={() => onDecision(policy.id)} 
-                        className="w-full font-semibold"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                        Enact Policy
-                    </Button>
-                </div>
+        <ScrollArea className="h-[450px] pr-4 -mr-4">
+            <Accordion type="single" collapsible defaultValue={challenges[0]?.id} className="w-full">
+            {challenges.map((challenge) => (
+                <AccordionItem value={challenge.id} key={challenge.id}>
+                    <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-primary">{challenge.title}</span>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <div className="space-y-4 p-2 bg-background/50 rounded-md">
+                            <p className="text-sm text-muted-foreground">{challenge.description}</p>
+                            <div className="space-y-2">
+                                {challenge.options.map(option => (
+                                    <Button 
+                                        key={option.id}
+                                        onClick={() => onDecision(challenge, option)}
+                                        className="w-full justify-start h-auto py-2"
+                                        variant="ghost"
+                                        disabled={isLoading}
+                                        title={option.description}
+                                    >
+                                        <div className="flex flex-col items-start text-left">
+                                            <span className="font-semibold">{option.title}</span>
+                                            <span className="text-xs text-muted-foreground font-normal">{option.description}</span>
+                                        </div>
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
             ))}
-            </div>
+            </Accordion>
         </ScrollArea>
       </CardContent>
     </Card>

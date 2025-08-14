@@ -1,11 +1,12 @@
 'use server';
 
-import { GameState, PolicyDecision, Stats } from '@/lib/types';
+import type { GameState, Challenge } from '@/lib/types';
 import { processGameTurn } from '@/ai/flows/game-turn';
+import { generateTurnOptions as genOptions } from '@/ai/flows/turn-options-generator';
 
 export async function handleDecision(
   gameState: GameState,
-  decision: PolicyDecision
+  decision: {title: string; description: string}
 ): Promise<GameState> {
   
   const gameTurnInput = {
@@ -19,16 +20,13 @@ export async function handleDecision(
 
   try {
     const turnResult = await processGameTurn(gameTurnInput);
-
-    const newStats: Stats = turnResult.updatedStats;
+    
+    const newStats = turnResult.updatedStats;
     const newHistory = [...gameState.statsHistory, { turn: gameState.turn + 1, stats: newStats }];
     
-    // The AI now has the power to declare a game over.
-    // We can add client-side checks here as a fallback.
     let isGameOver = turnResult.isGameOver;
     let gameOverReason = turnResult.gameOverReason || "";
 
-    // Client-side hard-coded game over checks as a fallback
     if (!isGameOver) {
         if (newStats.publicApproval <= 5) {
             isGameOver = true;
@@ -39,6 +37,7 @@ export async function handleDecision(
         }
     }
 
+    const nextTurnOptions = !isGameOver ? await genOptions(gameState) : [];
 
     return {
       ...gameState,
@@ -52,6 +51,7 @@ export async function handleDecision(
       newsHeadlines: turnResult.newsHeadlines,
       socialMediaTrends: turnResult.socialMediaTrends,
       oppositionStatement: turnResult.oppositionStatement,
+      turnOptions: nextTurnOptions,
     };
   } catch (error) {
     console.error('Error in handleDecision:', error);
@@ -59,10 +59,33 @@ export async function handleDecision(
   }
 }
 
+export async function generateTurnOptions(gameState: GameState): Promise<Challenge[]> {
+  try {
+    const options = await genOptions({
+      stateName: gameState.stateDetails.name,
+      turn: gameState.turn,
+      currentStats: JSON.stringify(gameState.currentStats),
+      politicalClimate: gameState.stateDetails.politicalClimate,
+      statsHistory: JSON.stringify(gameState.statsHistory.slice(-3)), // only last 3 for brevity
+    });
+    return options;
+  } catch (error) {
+    console.error('Error generating turn options:', error);
+    // Return a default "safe" option in case of error
+    return [
+      {
+        id: 'fallback-1',
+        title: 'Review Administrative Budget',
+        description: 'Your advisors suggest a routine review of the administrative budget to ensure efficiency.',
+        options: [
+          { id: 'fallback-1-opt-1', title: 'Approve Review', description: 'Begin a standard review of department budgets.' },
+        ],
+      },
+    ];
+  }
+}
+
 export async function getAiAdvice(gameState: GameState): Promise<{advice: string; reasoning: string}> {
-    // This function can be updated to use a more sophisticated prompt in the future
-    // or be replaced by insights from the main game-turn flow.
-    // For now, keeping the simple version.
     const gameStateString = JSON.stringify(gameState.currentStats);
     let playerInquiry = "What should be my priority right now to improve my standing and govern effectively?";
 
