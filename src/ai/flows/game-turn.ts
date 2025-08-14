@@ -16,7 +16,6 @@ import {
     SocialMediaTrendSchema,
     OppositionStatementSchema,
     CrisisSchema,
-    Stats
 } from '@/lib/types';
 
 
@@ -32,6 +31,15 @@ const GameTurnInputSchema = z.object({
   })),
 });
 export type GameTurnInput = z.infer<typeof GameTurnInputSchema>;
+
+const GameTurnPromptInputSchema = z.object({
+  stateName: z.string(),
+  turn: z.number(),
+  currentStatsString: z.string(),
+  politicalClimate: z.string(),
+  playerAction: z.string(),
+  statsHistoryString: z.string(),
+});
 
 
 const GameTurnOutputSchema = z.object({
@@ -50,17 +58,17 @@ export async function processGameTurn(input: GameTurnInput): Promise<GameTurnOut
 
 const gameMasterPrompt = ai.definePrompt({
   name: 'gameMasterPrompt',
-  input: {schema: GameTurnInputSchema},
+  input: {schema: GameTurnPromptInputSchema},
   output: {schema: GameTurnOutputSchema},
   prompt: `You are the Game Master for StateCraft, a political simulation game where the player is the Chief Minister of an Indian state. Your role is to act as a realistic simulation of politics, governance, the economy, and public sentiment.
 
 GAME CONTEXT:
-- Player: Chief Minister of {stateName}, India.
-- Current Turn: {turn}
-- Current State Stats: {JSON.stringify(currentStats)}
-- Political Situation: {politicalClimate}
-- Player's Action This Turn: {playerAction}
-- Recent History: The last few turns of stats were {JSON.stringify(statsHistory)}
+- Player: Chief Minister of {{{stateName}}}, India.
+- Current Turn: {{{turn}}}
+- Current State Stats: {{{currentStatsString}}}
+- Political Situation: {{{politicalClimate}}}
+- Player's Action This Turn: {{{playerAction}}}
+- Recent History: The last few turns of stats were {{{statsHistoryString}}}
 - Goal: Win re-election by maintaining economic stability, law & order, and public approval.
 
 YOUR TASK:
@@ -90,8 +98,14 @@ const gameTurnFlow = ai.defineFlow(
     outputSchema: GameTurnOutputSchema,
   },
   async input => {
+    const promptInput = {
+      ...input,
+      currentStatsString: JSON.stringify(input.currentStats),
+      statsHistoryString: JSON.stringify(input.statsHistory),
+    };
+    
     // The prompt is powerful enough to do all the work in one go.
-    const {output} = await gameMasterPrompt(input);
+    const {output} = await gameMasterPrompt(promptInput);
     return output!;
   }
 );
