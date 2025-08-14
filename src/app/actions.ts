@@ -21,21 +21,24 @@ export async function handleDecision(
     const turnResult = await processGameTurn(gameTurnInput);
 
     const newStats: Stats = turnResult.updatedStats;
-
     const newHistory = [...gameState.statsHistory, { turn: gameState.turn + 1, stats: newStats }];
     
-    let isGameOver = false;
-    let gameOverReason = "";
+    // The AI now has the power to declare a game over.
+    // We can add client-side checks here as a fallback.
+    let isGameOver = turnResult.isGameOver;
+    let gameOverReason = turnResult.gameOverReason || "";
 
-    if (newStats.publicOpinion <= 10) {
-        isGameOver = true;
-        gameOverReason = "Public opinion has plummeted, leading to mass protests and a vote of no confidence. Your government has fallen.";
-    } else if (newStats.budget <= 5) {
-        isGameOver = true;
-        gameOverReason = "The state is bankrupt. With no funds to run the administration, your government has been dismissed.";
-    } else if (newStats.oppositionStrength >= 80 && newStats.publicOpinion <= 20) {
-        isGameOver = true;
-        gameOverReason = "Political instability is rampant and your administration has lost control. The Central Government has dismissed your government and imposed President's Rule.";
+    if (!isGameOver) {
+        if (newStats.publicOpinion <= 10) {
+            isGameOver = true;
+            gameOverReason = "Public opinion has plummeted, leading to mass protests and a vote of no confidence. Your government has fallen.";
+        } else if (newStats.budget <= 5) {
+            isGameOver = true;
+            gameOverReason = "The state is bankrupt. With no funds to run the administration, your government has been dismissed.";
+        } else if (newStats.oppositionStrength >= 80 && newStats.publicOpinion <= 20) {
+            isGameOver = true;
+            gameOverReason = "Political instability is rampant and your administration has lost control. The Central Government has dismissed your government and imposed President's Rule.";
+        }
     }
 
 

@@ -49,6 +49,8 @@ const GameTurnOutputSchema = z.object({
   socialMediaTrends: z.array(SocialMediaTrendSchema).describe("An array of 1-2 social media trends with topics and sentiment."),
   oppositionStatement: OppositionStatementSchema.describe("A statement from a prominent opposition leader or party reacting to the player's move."),
   newCrisis: CrisisSchema.nullable().describe("A new random crisis event if one occurs, otherwise null. Crises can be natural disasters, scandals, policy failures, major protests, etc. Should be rare but impactful."),
+  isGameOver: z.boolean().describe("Set to true if a game-ending event has occurred."),
+  gameOverReason: z.string().nullable().describe("If isGameOver is true, this field explains why the game ended."),
 });
 export type GameTurnOutput = z.infer<typeof GameTurnOutputSchema>;
 
@@ -74,16 +76,16 @@ GAME CONTEXT:
 YOUR TASK:
 Simulate the outcome of the player's action for this turn.
 1.  **Calculate Effects & Update Stats**: Based on the player's action, calculate the short-term effects and update all state statistics (Budget, Public Opinion, Police Strength, Opposition Strength, Unemployment). The changes should be realistic. For example, a popular but expensive welfare scheme might increase public opinion but decrease the budget. A crackdown on protests might increase police strength perception but decrease public opinion.
-2.  **Generate Realistic Feedback**: Create immersive in-game feedback based on the action.
+2.  **Check for Game Over Scenarios**: After updating stats, check if a game-ending condition is met. One key scenario is a political coup. If Opposition Strength is high (e.g., > 65) and Public Opinion is mediocre or declining (e.g., < 50), the opposition may conspire to cause defections from your party, leading to a collapse of your government. This should be a dramatic event. If a coup or another game-ending event occurs, set 'isGameOver' to true and provide a compelling 'gameOverReason'.
+3.  **Generate Realistic Feedback**: Create immersive in-game feedback based on the action.
     -   **Key Events**: Write a brief narrative summary of what happened this turn.
     -   **News Headlines**: Generate 2-3 diverse headlines from different types of media (e.g., national, local, pro-government, critical).
     -   **Social Media**: Come up with 1-2 trending topics on social media, reflecting public reaction.
     -   **Opposition Statement**: Write a plausible, critical statement from an opposition leader.
-3.  **Introduce a Crisis (Optional)**: There is a small chance (around 15-20%) that a random event or crisis occurs. This could be a natural disaster, a corruption scandal, a major protest, etc. If no crisis occurs, return null for this field. The crisis should feel like a consequence of the game state or be a plausible random event.
+4.  **Introduce a Crisis (Optional)**: If the game is not over, there is a small chance (around 15-20%) that a random event or crisis occurs. This could be a natural disaster, a corruption scandal, a major protest, etc. If no crisis occurs, return null for this field. The crisis should feel like a consequence of the game state or be a plausible random event.
 
 RULES:
-- Use realistic Indian political, cultural, and economic context.
-- The opposition should react strategically. A popular move might be criticized for its cost; an unpopular one will be heavily attacked.
+- Use realistic Indian political, cultural, and economic context. The opposition should react strategically. A popular move might be criticized for its cost; an unpopular one will be heavily attacked.
 - Public reactions can be mixed and differ by demographic (rural, urban, etc.), which should be reflected in the media and social media trends.
 - Do not make the game impossible, but it should be challenging.
 
