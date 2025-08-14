@@ -5,13 +5,12 @@ import type { GameState } from '@/lib/types';
 import { handleDecision } from '@/app/actions';
 import StatsDisplay from './StatsDisplay';
 import PerformanceChart from './PerformanceChart';
-import DecisionCard from './DecisionCard';
+import CustomPolicyCard from './CustomPolicyCard';
 import GameOverDialog from './GameOverDialog';
 import AdvisorDialog from './AdvisorDialog';
 import { Button } from '@/components/ui/button';
 import { Repeat, Newspaper } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import PlayerNotes from './PlayerNotes';
 
 interface DashboardProps {
   gameState: GameState;
@@ -22,13 +21,15 @@ interface DashboardProps {
 export default function Dashboard({ gameState, setGameState, onRestart }: DashboardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const onDecision = async (decisionId: string) => {
+  const onDecision = async (policyText: string) => {
     setIsLoading(true);
-    const decision = gameState.currentPolicies.find(p => p.id === decisionId);
-    if (decision) {
-      const newGameState = await handleDecision(gameState, decision);
-      setGameState(newGameState);
-    }
+    const customDecision = {
+      id: `custom-${Date.now()}`,
+      title: 'Custom Policy',
+      description: policyText,
+    };
+    const newGameState = await handleDecision(gameState, customDecision);
+    setGameState(newGameState);
     setIsLoading(false);
   };
 
@@ -62,13 +63,11 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
       <StatsDisplay stats={gameState.currentStats} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2 grid gap-8">
-          <PerformanceChart history={gameState.statsHistory} />
-          <PlayerNotes />
+        <div className="lg:col-span-2">
+           <PerformanceChart history={gameState.statsHistory} />
         </div>
         <div className="lg:col-span-1">
-          <DecisionCard 
-            policies={gameState.currentPolicies} 
+          <CustomPolicyCard
             onDecision={onDecision}
             isLoading={isLoading}
           />

@@ -33,6 +33,5 @@ export interface GameState {
   turn: number;
   isGameOver: boolean;
   gameOverReason: string;
-  currentPolicies: PolicyDecision[];
   lastEventMessage: string;
 }
