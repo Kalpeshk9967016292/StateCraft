@@ -53,7 +53,7 @@ export default function StateSelection({ states, onStateSelect }: StateSelection
             <CardContent className="flex-grow space-y-3">
                 <h4 className="font-semibold mb-2 text-card-foreground/80">Starting Conditions:</h4>
                 <StatItem icon={<Users size={16} className="text-accent" />} label="Population" value={`${(state.demographics.population / 1_000_000).toFixed(1)}M`} />
-                <StatItem icon={<Landmark size={16} className="text-accent"/>} label="GDP" value={`$${(state.demographics.gdp / 1_000_000_000).toFixed(0)}B`} />
+                <StatItem icon={<Landmark size={16} className="text-accent"/>} label="GDP" value={`Rs.${(state.demographics.gdp / 1_000_000_000).toFixed(0)}B`} />
                 <StatItem icon={<GraduationCap size={16} className="text-accent"/>} label="Literacy" value={`${state.demographics.literacyRate}%`} />
                 <StatItem icon={<Gavel size={16} className="text-accent"/>} label="Crime Rate" value={`${state.demographics.crimeRate}`} />
             </CardContent>

@@ -1,0 +1,537 @@
+{
+  "timestamp": 1755209815534,
+  "states": [
+    {
+      "id": "andhra-pradesh",
+      "name": "Andhra Pradesh",
+      "description": "A coastal state with a strong agricultural base and a growing IT sector.",
+      "demographics": {
+        "population": 53903393,
+        "gdp": 170000000000,
+        "literacyRate": 67.35,
+        "crimeRate": 275.5
+      },
+      "initialStats": {
+        "budget": 60,
+        "publicOpinion": 58,
+        "policeStrength": 55,
+        "oppositionStrength": 42,
+        "unemploymentRate": 12.1
+      },
+      "politicalClimate": "Andhra Pradesh's political climate is currently dominated by the YSR Congress Party (YSRCP) led by Chief Minister Y.S. Jagan Mohan Reddy. Key issues include welfare schemes, development projects, and the ongoing debate surrounding the state's finances and debt. Voter concerns revolve around employment, inflation, and the effective implementation of government programs. The Telugu Desam Party (TDP), led by Chandrababu Naidu, forms the main opposition."
+    },
+    {
+      "id": "arunachal-pradesh",
+      "name": "Arunachal Pradesh",
+      "description": "A scenic, mountainous state with rich biodiversity and a focus on tourism and hydropower.",
+      "demographics": {
+        "population": 1383727,
+        "gdp": 3720000000,
+        "literacyRate": 65.38,
+        "crimeRate": 47.8
+      },
+      "initialStats": {
+        "budget": 45,
+        "publicOpinion": 68,
+        "policeStrength": 65,
+        "oppositionStrength": 35,
+        "unemploymentRate": 10.5
+      },
+      "politicalClimate": "The political climate in Arunachal Pradesh is currently dominated by the Bharatiya Janata Party (BJP). The state government is focused on infrastructure development, border security (given its proximity to China), and maintaining peace and stability. Key issues include unemployment, road connectivity in remote areas, and environmental concerns related to hydropower projects. Voter concerns revolve around economic opportunities, access to healthcare and education, and protection of tribal rights and cultural heritage."
+    },
+    {
+      "id": "assam",
+      "name": "Assam",
+      "description": "Famous for its tea plantations and wildlife, this state is a gateway to Northeast India.",
+      "demographics": {
+        "population": 35600000,
+        "gdp": 49000000000,
+        "literacyRate": 72.19,
+        "crimeRate": 258.5
+      },
+      "initialStats": {
+        "budget": 55,
+        "publicOpinion": 52,
+        "policeStrength": 62,
+        "oppositionStrength": 48,
+        "unemploymentRate": 17.8
+      },
+      "politicalClimate": "The current political climate in Assam is primarily defined by issues of development, ethnic identity, and illegal immigration. The ruling coalition, led by the Bharatiya Janata Party (BJP), faces challenges related to implementing the National Register of Citizens (NRC) and protecting the interests of indigenous communities. Key voter concerns include unemployment, price rise and infrastructure development, alongside long standing issues related to floods and erosion."
+    },
+    {
+      "id": "bihar",
+      "name": "Bihar",
+      "description": "A state with immense potential, battling issues of poverty, governance, and infrastructure development.",
+      "demographics": {
+        "population": 124.7,
+        "gdp": 87.57,
+        "literacyRate": 61.8,
+        "crimeRate": 289.5
+      },
+      "initialStats": {
+        "budget": 30,
+        "publicOpinion": 40,
+        "policeStrength": 40,
+        "oppositionStrength": 60,
+        "unemploymentRate": 25.2
+      },
+      "politicalClimate": "Bihar's political landscape is currently dominated by the coalition government led by the Janata Dal (United) and the Rashtriya Janata Dal. Key issues include unemployment, poverty, and corruption. Voter concerns revolve around development, law and order, and social justice, with caste dynamics playing a significant role in political affiliations."
+    },
+    {
+      "id": "chhattisgarh",
+      "name": "Chhattisgarh",
+      "description": "A resource-rich state known for its forests and tribal culture, facing Naxal insurgency challenges.",
+      "demographics": {
+        "population": 32.2,
+        "gdp": 47.5,
+        "literacyRate": 70.28,
+        "crimeRate": 385.2
+      },
+      "initialStats": {
+        "budget": 58,
+        "publicOpinion": 48,
+        "policeStrength": 70,
+        "oppositionStrength": 40,
+        "unemploymentRate": 14.9
+      },
+      "politicalClimate": "Chhattisgarh is currently governed by the Bharatiya Janata Party (BJP). Key political issues include economic development, particularly in tribal areas, addressing Naxal insurgency, and improving infrastructure. Voter concerns revolve around employment, agricultural support, and access to healthcare and education."
+    },
+    {
+      "id": "goa",
+      "name": "Goa",
+      "description": "A popular tourist destination with beautiful beaches and a vibrant culture.",
+      "demographics": {
+        "population": 1640000,
+        "gdp": 11000000000,
+        "literacyRate": 92.66,
+        "crimeRate": 315.2
+      },
+      "initialStats": {
+        "budget": 65,
+        "publicOpinion": 70,
+        "policeStrength": 58,
+        "oppositionStrength": 30,
+        "unemploymentRate": 8.7
+      },
+      "politicalClimate": "The current political climate in Goa is characterized by a multi-party system with the Bharatiya Janata Party (BJP) currently holding power. Key issues include tourism management, environmental protection (particularly regarding mining), and infrastructure development. Voter concerns revolve around cost of living, unemployment, and the impact of tourism on local culture."
+    },
+    {
+      "id": "gujarat",
+      "name": "Gujarat",
+      "description": "An industrial powerhouse with a long coastline and a strong entrepreneurial spirit.",
+      "demographics": {
+        "population": 65000000,
+        "gdp": 260000000000,
+        "literacyRate": 82.4,
+        "crimeRate": 275.2
+      },
+      "initialStats": {
+        "budget": 75,
+        "publicOpinion": 62,
+        "policeStrength": 65,
+        "oppositionStrength": 38,
+        "unemploymentRate": 5.4
+      },
+      "politicalClimate": "Gujarat's political climate is currently dominated by the Bharatiya Janata Party (BJP), which has held power for over two decades. Key issues include economic development, infrastructure projects like the bullet train, and social issues related to caste and religious demographics. Voter concerns revolve around employment opportunities, agricultural challenges, and the rising cost of living."
+    },
+    {
+      "id": "haryana",
+      "name": "Haryana",
+      "description": "An agricultural state that is also a major manufacturing and IT hub.",
+      "demographics": {
+        "population": 29900000,
+        "gdp": 125000000000,
+        "literacyRate": 76.64,
+        "crimeRate": 302.5
+      },
+      "initialStats": {
+        "budget": 68,
+        "publicOpinion": 55,
+        "policeStrength": 60,
+        "oppositionStrength": 45,
+        "unemploymentRate": 9
+      },
+      "politicalClimate": "Haryana's political climate is currently dominated by the BJP-JJP coalition government. Key issues include unemployment, farmer distress related to MSP for crops, and concerns about air pollution. The opposition parties, mainly Congress and INLD, are trying to capitalize on these issues to gain public support. Voter concerns revolve around economic stability, job creation, and addressing rural distress."
+    },
+    {
+      "id": "himachal-pradesh",
+      "name": "Himachal Pradesh",
+      "description": "A Himalayan state known for its tourism, apples, and hydropower.",
+      "demographics": {
+        "population": 7300000,
+        "gdp": 32000000000,
+        "literacyRate": 82.8,
+        "crimeRate": 152.8
+      },
+      "initialStats": {
+        "budget": 52,
+        "publicOpinion": 72,
+        "policeStrength": 68,
+        "oppositionStrength": 28,
+        "unemploymentRate": 11.2
+      },
+      "politicalClimate": "Himachal Pradesh is currently governed by the Indian National Congress, which won the legislative assembly elections in late 2022. The main concerns are economic development, unemployment, and tourism infrastructure. Voter concerns revolve around price inflation, environmental issues related to hydroelectric projects, and the availability of jobs, particularly for the youth."
+    },
+    {
+      "id": "jharkhand",
+      "name": "Jharkhand",
+      "description": "Rich in mineral resources, this state is working to overcome poverty and political instability.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 48,
+        "publicOpinion": 45,
+        "policeStrength": 55,
+        "oppositionStrength": 55,
+        "unemploymentRate": 18
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "karnataka",
+      "name": "Karnataka",
+      "description": "Home to India's Silicon Valley, with a diverse economy spanning IT, manufacturing, and agriculture.",
+      "demographics": {
+        "population": 68400000,
+        "gdp": 260000000000,
+        "literacyRate": 75.36,
+        "crimeRate": 265.8
+      },
+      "initialStats": {
+        "budget": 72,
+        "publicOpinion": 58,
+        "policeStrength": 60,
+        "oppositionStrength": 42,
+        "unemploymentRate": 7.8
+      },
+      "politicalClimate": "Karnataka's political climate is currently dominated by the Indian National Congress (INC) government. Key issues include infrastructure development, employment, and social welfare programs. Recent controversies have centered on resource allocation and corruption allegations. Voter concerns revolve around cost of living, access to education and healthcare, and the stability of the government."
+    },
+    {
+      "id": "kerala",
+      "name": "Kerala",
+      "description": "Known for its high literacy and social development, but struggles with industrial growth and brain drain.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 50,
+        "publicOpinion": 65,
+        "policeStrength": 50,
+        "oppositionStrength": 50,
+        "unemploymentRate": 9.8
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "madhya-pradesh",
+      "name": "Madhya Pradesh",
+      "description": "The \"Heart of India\", a large state with significant agricultural and mineral wealth.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 55,
+        "publicOpinion": 50,
+        "policeStrength": 58,
+        "oppositionStrength": 50,
+        "unemploymentRate": 16.5
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "maharashtra",
+      "name": "Maharashtra",
+      "description": "A bustling state with a major financial hub, facing challenges of urban infrastructure and rural distress.",
+      "demographics": {
+        "population": 123140000,
+        "gdp": 470000000000,
+        "literacyRate": 82.34,
+        "crimeRate": 278.6
+      },
+      "initialStats": {
+        "budget": 70,
+        "publicOpinion": 55,
+        "policeStrength": 60,
+        "oppositionStrength": 45,
+        "unemploymentRate": 15.3
+      },
+      "politicalClimate": "Maharashtra's political climate is currently characterized by a coalition government. Key issues include economic development, infrastructure projects, and addressing agrarian distress. Voter concerns revolve around inflation, employment opportunities, and social justice."
+    },
+    {
+      "id": "manipur",
+      "name": "Manipur",
+      "description": "A state known for its rich culture and sports achievements, dealing with insurgency and ethnic conflicts.",
+      "demographics": {
+        "population": 3000000,
+        "gdp": 4.2,
+        "literacyRate": 79.85,
+        "crimeRate": 192.5
+      },
+      "initialStats": {
+        "budget": 40,
+        "publicOpinion": 42,
+        "policeStrength": 75,
+        "oppositionStrength": 58,
+        "unemploymentRate": 13.6
+      },
+      "politicalClimate": "Manipur's political climate is currently marked by ethnic tensions and security concerns. The state government faces challenges in maintaining law and order and addressing the grievances of various communities. Key issues include land rights, economic development, and political representation. Voter concerns revolve around peace, stability, and equitable governance."
+    },
+    {
+      "id": "meghalaya",
+      "name": "Meghalaya",
+      "description": "The \"Abode of Clouds\", a picturesque state with unique matrilineal societies.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 47,
+        "publicOpinion": 66,
+        "policeStrength": 60,
+        "oppositionStrength": 34,
+        "unemploymentRate": 9.5
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "mizoram",
+      "name": "Mizoram",
+      "description": "A peaceful state with a high literacy rate and a strong sense of community.",
+      "demographics": {
+        "population": 1200000,
+        "gdp": 4.15,
+        "literacyRate": 91.58,
+        "crimeRate": 253.7
+      },
+      "initialStats": {
+        "budget": 50,
+        "publicOpinion": 75,
+        "policeStrength": 62,
+        "oppositionStrength": 25,
+        "unemploymentRate": 8.9
+      },
+      "politicalClimate": "The political climate in Mizoram is currently dominated by the Mizo National Front (MNF). Key issues include development, unemployment, and border disputes with neighboring states. Voter concerns also revolve around infrastructure and healthcare."
+    },
+    {
+      "id": "nagaland",
+      "name": "Nagaland",
+      "description": "A vibrant state with diverse tribes and a long history of seeking greater political autonomy.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 42,
+        "publicOpinion": 55,
+        "policeStrength": 72,
+        "oppositionStrength": 45,
+        "unemploymentRate": 15.7
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "odisha",
+      "name": "Odisha",
+      "description": "A state rich in culture and minerals, frequently hit by natural disasters like cyclones.",
+      "demographics": {
+        "population": 46000000,
+        "gdp": 88000000000,
+        "literacyRate": 72.87,
+        "crimeRate": 78.5
+      },
+      "initialStats": {
+        "budget": 62,
+        "publicOpinion": 60,
+        "policeStrength": 55,
+        "oppositionStrength": 40,
+        "unemploymentRate": 14.1
+      },
+      "politicalClimate": "Odisha's political climate is currently dominated by the Biju Janata Dal (BJD), which has been in power for over two decades. Naveen Patnaik remains a popular Chief Minister. Key issues include infrastructure development, poverty alleviation, and tribal rights. Voter concerns also revolve around employment opportunities and agricultural reforms."
+    },
+    {
+      "id": "punjab",
+      "name": "Punjab",
+      "description": "The \"Granary of India\", a prosperous agricultural state facing issues of drug abuse and water depletion.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 58,
+        "publicOpinion": 53,
+        "policeStrength": 64,
+        "oppositionStrength": 47,
+        "unemploymentRate": 10.2
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "rajasthan",
+      "name": "Rajasthan",
+      "description": "The \"Land of Kings\", a vast desert state with a rich history and a thriving tourism industry.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 63,
+        "publicOpinion": 56,
+        "policeStrength": 60,
+        "oppositionStrength": 44,
+        "unemploymentRate": 12.8
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "sikkim",
+      "name": "Sikkim",
+      "description": "A small, pristine state in the Himalayas, known for its organic farming and stunning landscapes.",
+      "demographics": {
+        "population": 690251,
+        "gdp": 3.7,
+        "literacyRate": 81.42,
+        "crimeRate": 85.2
+      },
+      "initialStats": {
+        "budget": 55,
+        "publicOpinion": 78,
+        "policeStrength": 65,
+        "oppositionStrength": 22,
+        "unemploymentRate": 7.5
+      },
+      "politicalClimate": "The ruling Sikkim Krantikari Morcha (SKM) government, led by Chief Minister Prem Singh Tamang (Golay), faces challenges related to unemployment, infrastructure development, and environmental concerns. The opposition Sikkim Democratic Front (SDF) seeks to regain influence by highlighting these issues. Voter concerns include job creation, healthcare accessibility, and protection of Sikkim's unique cultural identity and environment."
+    },
+    {
+      "id": "tamil-nadu",
+      "name": "Tamil Nadu",
+      "description": "A major manufacturing and automotive hub with a rich cultural and linguistic heritage.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 68,
+        "publicOpinion": 60,
+        "policeStrength": 58,
+        "oppositionStrength": 40,
+        "unemploymentRate": 6.9
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "telangana",
+      "name": "Telangana",
+      "description": "A newly formed state with a booming IT sector and a focus on irrigation projects.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 65,
+        "publicOpinion": 62,
+        "policeStrength": 60,
+        "oppositionStrength": 38,
+        "unemploymentRate": 8.2
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "tripura",
+      "name": "Tripura",
+      "description": "A hilly state in Northeast India with a history of ethnic diversity and political change.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 49,
+        "publicOpinion": 54,
+        "policeStrength": 63,
+        "oppositionStrength": 46,
+        "unemploymentRate": 16.3
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "uttar-pradesh",
+      "name": "Uttar Pradesh",
+      "description": "India's most populous state, with significant political influence and a diverse economy.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 45,
+        "publicOpinion": 48,
+        "policeStrength": 50,
+        "oppositionStrength": 52,
+        "unemploymentRate": 19.8
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "uttarakhand",
+      "name": "Uttarakhand",
+      "description": "A Himalayan state known for its religious tourism and natural beauty, facing environmental challenges.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 53,
+        "publicOpinion": 64,
+        "policeStrength": 66,
+        "oppositionStrength": 36,
+        "unemploymentRate": 10.8
+      },
+      "politicalClimate": "Could not fetch latest data."
+    },
+    {
+      "id": "west-bengal",
+      "name": "West Bengal",
+      "description": "A state with a rich literary and cultural history, known for its political fervor.",
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "initialStats": {
+        "budget": 50,
+        "publicOpinion": 51,
+        "policeStrength": 55,
+        "oppositionStrength": 49,
+        "unemploymentRate": 17.4
+      },
+      "politicalClimate": "Could not fetch latest data."
+    }
+  ]
+}

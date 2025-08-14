@@ -18,7 +18,7 @@ export type FetchStateDataInput = z.infer<typeof FetchStateDataInputSchema>;
 
 const FetchStateDataOutputSchema = z.object({
   population: z.number().describe('The total population of the state.'),
-  gdp: z.number().describe('The Gross Domestic Product of the state in USD.'),
+  gdp: z.number().describe('The Gross Domestic Product of the state in INR.'),
   literacyRate: z.number().describe('The literacy rate of the state as a percentage.'),
   crimeRate: z.number().describe('The crime rate per 100,000 population.'),
   politicalClimate: z.string().describe('A brief summary of the current political climate, key issues, and voter concerns.'),
@@ -37,7 +37,7 @@ const prompt = ai.definePrompt({
   
   Provide the following information:
   - Population
-  - GDP (in USD)
+  - GDP (in INR)
   - Literacy Rate (%)
   - Crime Rate (per 100,000 population)
   - A short, realistic summary of the current political climate.
