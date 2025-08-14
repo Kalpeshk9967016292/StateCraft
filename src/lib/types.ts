@@ -14,13 +14,15 @@ export interface State {
   politicalClimate: string;
 }
 
-export interface Stats {
-  budget: number; // 0-100 scale, represents fiscal health
-  publicOpinion: number; // 0-100
-  policeStrength: number; // 0-100
-  oppositionStrength: number; // 0-100
-  unemploymentRate: number; // 0-100 (lower is better)
-}
+export const StatsSchema = z.object({
+  budget: z.number().describe("0-100 scale, represents fiscal health"),
+  publicOpinion: z.number().describe("0-100"),
+  policeStrength: z.number().describe("0-100"),
+  oppositionStrength: z.number().describe("0-100"),
+  unemploymentRate: z.number().describe("0-100 (lower is better)"),
+});
+export type Stats = z.infer<typeof StatsSchema>;
+
 
 export interface PolicyDecision {
   id: string;
@@ -34,6 +36,26 @@ export const CrisisSchema = z.object({
 });
 export type CrisisEvent = z.infer<typeof CrisisSchema>;
 
+export const NewsHeadlineSchema = z.object({
+  source: z.string().describe("The name of the news publication (e.g., 'The Times of India', 'State Times')."),
+  headline: z.string().describe("The news headline."),
+});
+export type NewsHeadline = z.infer<typeof NewsHeadlineSchema>;
+
+export const SocialMediaTrendSchema = z.object({
+  platform: z.string().describe("The social media platform (e.g., 'Twitter', 'Facebook')."),
+  topic: z.string().describe("The trending topic or hashtag."),
+  sentiment: z.enum(['Positive', 'Negative', 'Mixed']).describe("The overall sentiment of the trend."),
+});
+export type SocialMediaTrend = z.infer<typeof SocialMediaTrendSchema>;
+
+export const OppositionStatementSchema = z.object({
+  speaker: z.string().describe("The name of the opposition leader or party making the statement."),
+  statement: z.string().describe("The content of the opposition's statement."),
+});
+export type OppositionStatement = z.infer<typeof OppositionStatementSchema>;
+
+
 export interface GameState {
   stateDetails: State;
   currentStats: Stats;
@@ -43,4 +65,7 @@ export interface GameState {
   gameOverReason: string;
   lastEventMessage: string;
   currentCrisis: CrisisEvent | null;
+  newsHeadlines: NewsHeadline[];
+  socialMediaTrends: SocialMediaTrend[];
+  oppositionStatement: OppositionStatement | null;
 }

@@ -1,38 +1,26 @@
 'use server';
 
-import { calculatePolicyOutcomes } from '@/ai/flows/outcome-calculation';
-import { getAiAdvice as getAiAdviceFlow } from '@/ai/flows/ai-advisor';
-import { generateCrisis } from '@/ai/flows/crisis-generator';
-import { GameState, PolicyDecision, Stats, CrisisEvent } from '@/lib/types';
-import { useToast } from '@/hooks/use-toast';
-
-function applyChanges(currentValue: number, change: number): number {
-  return Math.max(0, Math.min(100, currentValue + change));
-}
+import { GameState, PolicyDecision, Stats, CrisisEvent, NewsHeadline, SocialMediaTrend, OppositionStatement } from '@/lib/types';
+import { processGameTurn } from '@/ai/flows/game-turn';
 
 export async function handleDecision(
   gameState: GameState,
   decision: PolicyDecision
 ): Promise<GameState> {
-  const currentStateString = JSON.stringify({
-    stats: gameState.currentStats,
+  
+  const gameTurnInput = {
+    stateName: gameState.stateDetails.name,
+    turn: gameState.turn,
+    currentStats: gameState.currentStats,
     politicalClimate: gameState.stateDetails.politicalClimate,
-  });
+    playerAction: `${decision.title}: ${decision.description}`,
+    statsHistory: gameState.statsHistory,
+  };
 
   try {
-    const outcomes = await calculatePolicyOutcomes({
-      decision: `${decision.title}: ${decision.description}`,
-      currentState: currentStateString,
-    });
+    const turnResult = await processGameTurn(gameTurnInput);
 
-    const newStats: Stats = {
-      budget: applyChanges(gameState.currentStats.budget, outcomes.budgetChange),
-      publicOpinion: applyChanges(gameState.currentStats.publicOpinion, outcomes.approvalRatingChange),
-      policeStrength: applyChanges(gameState.currentStats.policeStrength, outcomes.lawAndOrderChange),
-      oppositionStrength: applyChanges(gameState.currentStats.oppositionStrength, outcomes.oppositionMoraleChange),
-      // For now, unemployment is a metric not directly affected by single decisions in this model
-      unemploymentRate: gameState.currentStats.unemploymentRate,
-    };
+    const newStats: Stats = turnResult.updatedStats;
 
     const newHistory = [...gameState.statsHistory, { turn: gameState.turn + 1, stats: newStats }];
     
@@ -47,20 +35,6 @@ export async function handleDecision(
         gameOverReason = "The state is bankrupt. With no funds to run the administration, your government has been dismissed.";
     }
 
-    // After a decision, check for a new crisis
-    let newCrisis: CrisisEvent | null = null;
-    // Let's say there's a 30% chance of a crisis after turn 3
-    if (!isGameOver && gameState.turn > 2 && Math.random() < 0.3) {
-      try {
-        console.log("Attempting to generate a crisis...");
-        newCrisis = await generateCrisis({ currentState: JSON.stringify({ stats: newStats, politicalClimate: gameState.stateDetails.politicalClimate }) });
-        console.log("Generated crisis:", newCrisis.title);
-      } catch (crisisError) {
-        console.error("Error generating crisis:", crisisError);
-        // Don't let a crisis generation error stop the game
-      }
-    }
-
     return {
       ...gameState,
       currentStats: newStats,
@@ -68,9 +42,11 @@ export async function handleDecision(
       turn: gameState.turn + 1,
       isGameOver,
       gameOverReason,
-      lastEventMessage: outcomes.mediaCoverage || "The latest policy decision has been implemented.",
-      // If a crisis was handled, currentCrisis is set to null. If a new one is generated, it's set here.
-      currentCrisis: newCrisis, 
+      lastEventMessage: turnResult.keyEvents || "The latest policy decision has been implemented.",
+      currentCrisis: turnResult.newCrisis, 
+      newsHeadlines: turnResult.newsHeadlines,
+      socialMediaTrends: turnResult.socialMediaTrends,
+      oppositionStatement: turnResult.oppositionStatement,
     };
   } catch (error) {
     console.error('Error in handleDecision:', error);
@@ -79,6 +55,9 @@ export async function handleDecision(
 }
 
 export async function getAiAdvice(gameState: GameState): Promise<{advice: string; reasoning: string}> {
+    // This function can be updated to use a more sophisticated prompt in the future
+    // or be replaced by insights from the main game-turn flow.
+    // For now, keeping the simple version.
     const gameStateString = JSON.stringify(gameState.currentStats);
     let playerInquiry = "What should be my priority right now to improve my standing and govern effectively?";
 
@@ -87,6 +66,7 @@ export async function getAiAdvice(gameState: GameState): Promise<{advice: string
     }
 
     try {
+        const { getAiAdvice: getAiAdviceFlow } = await import('@/ai/flows/ai-advisor');
         const result = await getAiAdviceFlow({
             gameState: gameStateString,
             playerInquiry: playerInquiry,

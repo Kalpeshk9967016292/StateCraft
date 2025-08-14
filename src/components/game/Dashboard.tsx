@@ -9,9 +9,10 @@ import CustomPolicyCard from './CustomPolicyCard';
 import GameOverDialog from './GameOverDialog';
 import CrisisAlert from './CrisisAlert';
 import AdvisorDialog from './AdvisorDialog';
+import TurnFeedback from './TurnFeedback';
 import { Button } from '@/components/ui/button';
-import { Repeat, Newspaper } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Repeat } from 'lucide-react';
+
 
 interface DashboardProps {
   gameState: GameState;
@@ -25,7 +26,6 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
   const onDecision = async (policyText: string) => {
     setIsLoading(true);
     
-    // If there's a crisis, the policy is a response to it.
     const title = gameState.currentCrisis 
         ? `Response to: ${gameState.currentCrisis.title}`
         : 'Custom Policy';
@@ -60,17 +60,9 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
       
       {gameState.currentCrisis && <CrisisAlert crisis={gameState.currentCrisis} />}
 
-      {gameState.lastEventMessage && !gameState.currentCrisis && (
-        <Alert className="bg-card border-l-4 border-accent">
-            <Newspaper className="h-5 w-5 text-accent" />
-            <AlertTitle className="text-accent-foreground font-semibold">News Flash!</AlertTitle>
-            <AlertDescription>
-                {gameState.lastEventMessage}
-            </AlertDescription>
-        </Alert>
-      )}
-
       <StatsDisplay stats={gameState.currentStats} />
+
+      {gameState.turn > 1 && <TurnFeedback gameState={gameState} />}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2">

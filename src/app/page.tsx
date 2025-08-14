@@ -32,6 +32,9 @@ export default function Home() {
       gameOverReason: '',
       lastEventMessage: `You have been elected as the Chief Minister of ${selectedState.name}. The people have high hopes for your leadership.`,
       currentCrisis: null,
+      newsHeadlines: [],
+      socialMediaTrends: [],
+      oppositionStatement: null,
     });
   };
 
