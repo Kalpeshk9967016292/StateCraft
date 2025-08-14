@@ -33,7 +33,11 @@ export async function handleDecision(
     } else if (newStats.budget <= 5) {
         isGameOver = true;
         gameOverReason = "The state is bankrupt. With no funds to run the administration, your government has been dismissed.";
+    } else if (newStats.oppositionStrength >= 80 && newStats.publicOpinion <= 20) {
+        isGameOver = true;
+        gameOverReason = "Political instability is rampant and your administration has lost control. The Central Government has dismissed your government and imposed President's Rule.";
     }
+
 
     return {
       ...gameState,
