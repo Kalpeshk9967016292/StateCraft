@@ -69,3 +69,14 @@ export interface GameState {
   socialMediaTrends: SocialMediaTrend[];
   oppositionStatement: OppositionStatement | null;
 }
+
+export const GameTurnOutputSchema = z.object({
+  updatedStats: StatsSchema.describe("The state's statistics after the player's action."),
+  keyEvents: z.string().describe("A summary of the key events that occurred this turn as a result of the player's action."),
+  newsHeadlines: z.array(NewsHeadlineSchema).describe("A list of generated news headlines."),
+  socialMediaTrends: z.array(SocialMediaTrendSchema).describe("A list of generated social media trends."),
+  oppositionStatement: OppositionStatementSchema.nullable().describe("A statement from the opposition, or null if they are silent."),
+  newCrisis: CrisisSchema.nullable().describe("A new crisis that has emerged this turn, or null if none."),
+  isGameOver: z.boolean().describe("Set to true if a game-ending condition has been met."),
+  gameOverReason: z.string().nullable().describe("The reason for the game ending, or null if the game is not over."),
+});

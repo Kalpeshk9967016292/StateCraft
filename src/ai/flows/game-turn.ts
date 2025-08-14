@@ -16,6 +16,7 @@ import {
     SocialMediaTrendSchema,
     OppositionStatementSchema,
     CrisisSchema,
+    GameTurnOutputSchema,
 } from '@/lib/types';
 
 
@@ -41,17 +42,6 @@ const GameTurnPromptInputSchema = z.object({
   statsHistoryString: z.string(),
 });
 
-
-const GameTurnOutputSchema = z.object({
-  updatedStats: StatsSchema.describe("The new state statistics after the player's action."),
-  keyEvents: z.string().describe("A summary of the key events and developments that occurred this turn as a result of the player's action."),
-  newsHeadlines: z.array(NewsHeadlineSchema).describe("An array of 2-3 realistic news headlines from different media outlets (state, national, etc.)."),
-  socialMediaTrends: z.array(SocialMediaTrendSchema).describe("An array of 1-2 social media trends with topics and sentiment."),
-  oppositionStatement: OppositionStatementSchema.describe("A statement from a prominent opposition leader or party reacting to the player's move."),
-  newCrisis: CrisisSchema.nullable().describe("A new random crisis event if one occurs, otherwise null. Crises can be natural disasters, scandals, policy failures, major protests, etc. Should be rare but impactful."),
-  isGameOver: z.boolean().describe("Set to true if a game-ending event has occurred."),
-  gameOverReason: z.string().nullable().describe("If isGameOver is true, this field explains why the game ended."),
-});
 export type GameTurnOutput = z.infer<typeof GameTurnOutputSchema>;
 
 export async function processGameTurn(input: GameTurnInput): Promise<GameTurnOutput> {
@@ -76,7 +66,7 @@ GAME CONTEXT:
 YOUR TASK:
 Simulate the outcome of the player's action for this turn.
 1.  **Calculate Effects & Update Stats**: Based on the player's action, calculate the short-term effects and update all state statistics (Budget, Public Opinion, Police Strength, Opposition Strength, Unemployment). The changes should be realistic. For example, a popular but expensive welfare scheme might increase public opinion but decrease the budget. A crackdown on protests might increase police strength perception but decrease public opinion.
-2.  **Check for Game Over Scenarios**: After updating stats, check if a game-ending condition is met. One key scenario is a political coup. If Opposition Strength is high (e.g., > 65) and Public Opinion is mediocre or declining (e.g., < 50), the opposition may conspire to cause defections from your party, leading to a collapse of your government. This should be a dramatic event. If a coup or another game-ending event occurs, set 'isGameOver' to true and provide a compelling 'gameOverReason'.
+2.  **Check for Game Over Scenarios**: After updating stats, check if a game-ending condition is met. One key scenario is a political coup. This should be a RARE but dramatic event. If Opposition Strength is very high (e.g., > 75) and Public Opinion is very low (e.g., < 30), the opposition may conspire to cause defections from your party, leading to a collapse of your government. Only trigger this in extreme circumstances. If a coup or another game-ending event occurs, set 'isGameOver' to true and provide a compelling 'gameOverReason'.
 3.  **Generate Realistic Feedback**: Create immersive in-game feedback based on the action.
     -   **Key Events**: Write a brief narrative summary of what happened this turn.
     -   **News Headlines**: Generate 2-3 diverse headlines from different types of media (e.g., national, local, pro-government, critical).
@@ -111,3 +101,4 @@ const gameTurnFlow = ai.defineFlow(
     return output!;
   }
 );
+

@@ -1,6 +1,6 @@
 'use server';
 
-import { GameState, PolicyDecision, Stats, CrisisEvent, NewsHeadline, SocialMediaTrend, OppositionStatement } from '@/lib/types';
+import { GameState, PolicyDecision, Stats } from '@/lib/types';
 import { processGameTurn } from '@/ai/flows/game-turn';
 
 export async function handleDecision(
@@ -28,16 +28,14 @@ export async function handleDecision(
     let isGameOver = turnResult.isGameOver;
     let gameOverReason = turnResult.gameOverReason || "";
 
+    // Client-side hard-coded game over checks as a fallback
     if (!isGameOver) {
-        if (newStats.publicOpinion <= 10) {
+        if (newStats.publicOpinion <= 5) {
             isGameOver = true;
-            gameOverReason = "Public opinion has plummeted, leading to mass protests and a vote of no confidence. Your government has fallen.";
-        } else if (newStats.budget <= 5) {
+            gameOverReason = "Public opinion has plummeted to near zero, leading to mass protests and a vote of no confidence. Your government has fallen.";
+        } else if (newStats.budget <= 0) {
             isGameOver = true;
             gameOverReason = "The state is bankrupt. With no funds to run the administration, your government has been dismissed.";
-        } else if (newStats.oppositionStrength >= 80 && newStats.publicOpinion <= 20) {
-            isGameOver = true;
-            gameOverReason = "Political instability is rampant and your administration has lost control. The Central Government has dismissed your government and imposed President's Rule.";
         }
     }
 
