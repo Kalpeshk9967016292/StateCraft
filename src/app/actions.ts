@@ -2,7 +2,8 @@
 
 import { calculatePolicyOutcomes } from '@/ai/flows/outcome-calculation';
 import { getAiAdvice as getAiAdviceFlow } from '@/ai/flows/ai-advisor';
-import { GameState, PolicyDecision, Stats } from '@/lib/types';
+import { generateCrisis } from '@/ai/flows/crisis-generator';
+import { GameState, PolicyDecision, Stats, CrisisEvent } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 
 function applyChanges(currentValue: number, change: number): number {
@@ -46,6 +47,20 @@ export async function handleDecision(
         gameOverReason = "The state is bankrupt. With no funds to run the administration, your government has been dismissed.";
     }
 
+    // After a decision, check for a new crisis
+    let newCrisis: CrisisEvent | null = null;
+    // Let's say there's a 30% chance of a crisis after turn 3
+    if (!isGameOver && gameState.turn > 2 && Math.random() < 0.3) {
+      try {
+        console.log("Attempting to generate a crisis...");
+        newCrisis = await generateCrisis({ currentState: JSON.stringify({ stats: newStats, politicalClimate: gameState.stateDetails.politicalClimate }) });
+        console.log("Generated crisis:", newCrisis.title);
+      } catch (crisisError) {
+        console.error("Error generating crisis:", crisisError);
+        // Don't let a crisis generation error stop the game
+      }
+    }
+
     return {
       ...gameState,
       currentStats: newStats,
@@ -54,6 +69,8 @@ export async function handleDecision(
       isGameOver,
       gameOverReason,
       lastEventMessage: outcomes.mediaCoverage || "The latest policy decision has been implemented.",
+      // If a crisis was handled, currentCrisis is set to null. If a new one is generated, it's set here.
+      currentCrisis: newCrisis, 
     };
   } catch (error) {
     console.error('Error in handleDecision:', error);
@@ -63,7 +80,11 @@ export async function handleDecision(
 
 export async function getAiAdvice(gameState: GameState): Promise<{advice: string; reasoning: string}> {
     const gameStateString = JSON.stringify(gameState.currentStats);
-    const playerInquiry = "What should be my priority right now to improve my standing and govern effectively?";
+    let playerInquiry = "What should be my priority right now to improve my standing and govern effectively?";
+
+    if (gameState.currentCrisis) {
+        playerInquiry = `We are facing a crisis: "${gameState.currentCrisis.title} - ${gameState.currentCrisis.description}". What is the best way to handle this?`;
+    }
 
     try {
         const result = await getAiAdviceFlow({

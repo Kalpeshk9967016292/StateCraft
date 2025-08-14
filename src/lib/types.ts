@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export interface State {
   id: string;
   name: string;
@@ -26,6 +28,12 @@ export interface PolicyDecision {
   description: string;
 }
 
+export const CrisisSchema = z.object({
+    title: z.string().describe('The title of the crisis event.'),
+    description: z.string().describe('A detailed description of the crisis, explaining what is happening and why.'),
+});
+export type CrisisEvent = z.infer<typeof CrisisSchema>;
+
 export interface GameState {
   stateDetails: State;
   currentStats: Stats;
@@ -34,4 +42,5 @@ export interface GameState {
   isGameOver: boolean;
   gameOverReason: string;
   lastEventMessage: string;
+  currentCrisis: CrisisEvent | null;
 }

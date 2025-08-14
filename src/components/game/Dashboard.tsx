@@ -7,6 +7,7 @@ import StatsDisplay from './StatsDisplay';
 import PerformanceChart from './PerformanceChart';
 import CustomPolicyCard from './CustomPolicyCard';
 import GameOverDialog from './GameOverDialog';
+import CrisisAlert from './CrisisAlert';
 import AdvisorDialog from './AdvisorDialog';
 import { Button } from '@/components/ui/button';
 import { Repeat, Newspaper } from 'lucide-react';
@@ -23,11 +24,18 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
 
   const onDecision = async (policyText: string) => {
     setIsLoading(true);
+    
+    // If there's a crisis, the policy is a response to it.
+    const title = gameState.currentCrisis 
+        ? `Response to: ${gameState.currentCrisis.title}`
+        : 'Custom Policy';
+
     const customDecision = {
       id: `custom-${Date.now()}`,
-      title: 'Custom Policy',
+      title: title,
       description: policyText,
     };
+
     const newGameState = await handleDecision(gameState, customDecision);
     setGameState(newGameState);
     setIsLoading(false);
@@ -50,7 +58,9 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
         </div>
       </header>
       
-      {gameState.lastEventMessage && (
+      {gameState.currentCrisis && <CrisisAlert crisis={gameState.currentCrisis} />}
+
+      {gameState.lastEventMessage && !gameState.currentCrisis && (
         <Alert className="bg-card border-l-4 border-accent">
             <Newspaper className="h-5 w-5 text-accent" />
             <AlertTitle className="text-accent-foreground font-semibold">News Flash!</AlertTitle>
@@ -70,6 +80,7 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
           <CustomPolicyCard
             onDecision={onDecision}
             isLoading={isLoading}
+            crisis={gameState.currentCrisis}
           />
         </div>
       </div>
