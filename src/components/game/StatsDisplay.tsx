@@ -1,19 +1,23 @@
 import type { Stats } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Landmark, Smile, Shield, Users, Briefcase } from 'lucide-react';
+import { Landmark, Smile, Shield, Users, Briefcase, Handshake, IndianRupee } from 'lucide-react';
 
 interface StatsDisplayProps {
   stats: Stats;
 }
 
-const StatCard = ({ title, value, icon, isPercentage = true, invertProgress = false }: { title: string; value: string | number; icon: React.ReactNode, isPercentage?: boolean, invertProgress?: boolean }) => {
+const StatCard = ({ title, value, icon, isPercentage = true, invertProgress = false, isCurrency = false }: { title: string; value: string | number; icon: React.ReactNode, isPercentage?: boolean, invertProgress?: boolean, isCurrency?: boolean }) => {
     let numericValue = typeof value === 'number' ? value : parseFloat(value.toString());
-    const displayValue = isPercentage ? `${numericValue.toFixed(0)}%` : `${numericValue.toFixed(0)}`;
+    const displayValue = isCurrency ? `₹${numericValue.toFixed(0)} cr` : (isPercentage ? `${numericValue.toFixed(0)}%` : `${numericValue.toFixed(0)}`);
     
-    if (invertProgress) {
-        numericValue = 100 - numericValue;
+    let progressValue = numericValue;
+    if (!isCurrency) {
+        if (invertProgress) {
+            progressValue = 100 - numericValue;
+        }
     }
+
 
     return (
         <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
@@ -23,7 +27,7 @@ const StatCard = ({ title, value, icon, isPercentage = true, invertProgress = fa
             </CardHeader>
             <CardContent>
                 <div className="text-2xl font-bold">{displayValue}</div>
-                <Progress value={numericValue} className="mt-2 h-2" />
+                {!isCurrency && <Progress value={progressValue} className="mt-2 h-2" />}
             </CardContent>
         </Card>
     );
@@ -31,12 +35,14 @@ const StatCard = ({ title, value, icon, isPercentage = true, invertProgress = fa
 
 export default function StatsDisplay({ stats }: StatsDisplayProps) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-      <StatCard title="Budget Health" value={stats.budget} icon={<Landmark className="h-4 w-4 text-muted-foreground" />} />
-      <StatCard title="Public Opinion" value={stats.publicOpinion} icon={<Smile className="h-4 w-4 text-muted-foreground" />} />
-      <StatCard title="Police Strength" value={stats.policeStrength} icon={<Shield className="h-4 w-4 text-muted-foreground" />} />
+    <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+      <StatCard title="Budget" value={stats.budget} icon={<Landmark className="h-4 w-4 text-muted-foreground" />} isPercentage={false} isCurrency={true}/>
+      <StatCard title="Revenue" value={stats.revenue} icon={<IndianRupee className="h-4 w-4 text-muted-foreground" />} isPercentage={false} isCurrency={true}/>
+      <StatCard title="Public Approval" value={stats.publicApproval} icon={<Smile className="h-4 w-4 text-muted-foreground" />} />
+      <StatCard title="Law & Order" value={stats.lawAndOrder} icon={<Shield className="h-4 w-4 text-muted-foreground" />} />
+      <StatCard title="Economic Health" value={stats.economicHealth} icon={<Briefcase className="h-4 w-4 text-muted-foreground" />} />
       <StatCard title="Opposition" value={stats.oppositionStrength} icon={<Users className="h-4 w-4 text-muted-foreground" />} invertProgress={true}/>
-      <StatCard title="Unemployment" value={stats.unemploymentRate} icon={<Briefcase className="h-4 w-4 text-muted-foreground" />} invertProgress={true} />
+      <StatCard title="Corruption" value={stats.corruptionLevel} icon={<Handshake className="h-4 w-4 text-muted-foreground" />} invertProgress={true} />
     </div>
   );
 }

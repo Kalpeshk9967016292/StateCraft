@@ -12,26 +12,26 @@ interface PerformanceChartProps {
 export default function PerformanceChart({ history }: PerformanceChartProps) {
   const chartData = history.map(entry => ({
     name: `T${entry.turn}`,
-    Budget: entry.stats.budget,
-    publicOpinion: entry.stats.publicOpinion,
-    policeStrength: entry.stats.policeStrength,
-    oppositionStrength: entry.stats.oppositionStrength,
-    unemploymentRate: entry.stats.unemploymentRate
+    "Public Approval": entry.stats.publicApproval,
+    "Law & Order": entry.stats.lawAndOrder,
+    "Economic Health": entry.stats.economicHealth,
+    "Opposition Strength": entry.stats.oppositionStrength,
+    "Corruption Level": entry.stats.corruptionLevel
   }));
 
   const chartConfig = {
-    publicOpinion: { label: "Public Opinion", color: "hsl(var(--primary))" },
-    Budget: { label: "Budget Health", color: "hsl(var(--chart-2))" },
-    policeStrength: { label: "Police", color: "hsl(var(--chart-3))" },
-    oppositionStrength: { label: "Opposition", color: "hsl(var(--destructive))" },
-    unemploymentRate: { label: "Unemployment", color: "hsl(var(--accent))" },
+    "Public Approval": { label: "Public Approval", color: "hsl(var(--primary))" },
+    "Law & Order": { label: "Law & Order", color: "hsl(var(--chart-2))" },
+    "Economic Health": { label: "Economic Health", color: "hsl(var(--chart-3))" },
+    "Opposition Strength": { label: "Opposition", color: "hsl(var(--destructive))" },
+    "Corruption Level": { label: "Corruption", color: "hsl(var(--accent))" },
   }
 
   return (
     <Card className="h-full">
       <CardHeader>
         <CardTitle className="font-bold">Performance Overview</CardTitle>
-        <CardDescription>Track the impact of your decisions on key metrics.</CardDescription>
+        <CardDescription>Track the impact of your decisions on key metrics (0-100 scale).</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="min-h-[350px] w-full">
@@ -56,11 +56,11 @@ export default function PerformanceChart({ history }: PerformanceChartProps) {
                     content={<ChartTooltipContent indicator="line" />}
                 />
                 <Legend />
-                <Line dataKey="publicOpinion" type="monotone" stroke="var(--color-publicOpinion)" strokeWidth={2.5} dot={false} />
-                <Line dataKey="Budget" type="monotone" stroke="var(--color-Budget)" strokeWidth={2} dot={false} />
-                <Line dataKey="policeStrength" type="monotone" stroke="var(--color-policeStrength)" strokeWidth={2} dot={false} />
-                <Line dataKey="oppositionStrength" type="monotone" stroke="var(--color-oppositionStrength)" strokeWidth={2} dot={false} />
-                <Line dataKey="unemploymentRate" type="monotone" stroke="var(--color-unemploymentRate)" strokeWidth={2} dot={false} />
+                <Line dataKey="Public Approval" type="monotone" stroke="var(--color-Public Approval)" strokeWidth={2.5} dot={false} />
+                <Line dataKey="Law & Order" type="monotone" stroke="var(--color-Law & Order)" strokeWidth={2} dot={false} />
+                <Line dataKey="Economic Health" type="monotone" stroke="var(--color-Economic Health)" strokeWidth={2} dot={false} />
+                <Line dataKey="Opposition Strength" type="monotone" stroke="var(--color-Opposition Strength)" strokeWidth={2} dot={false} />
+                <Line dataKey="Corruption Level" type="monotone" stroke="var(--color-Corruption Level)" strokeWidth={2} dot={false} />
             </LineChart>
         </ChartContainer>
       </CardContent>

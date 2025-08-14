@@ -15,11 +15,13 @@ export interface State {
 }
 
 export const StatsSchema = z.object({
-  budget: z.number().describe("0-100 scale, represents fiscal health"),
-  publicOpinion: z.number().describe("0-100"),
-  policeStrength: z.number().describe("0-100"),
-  oppositionStrength: z.number().describe("0-100"),
-  unemploymentRate: z.number().describe("0-100 (lower is better)"),
+  budget: z.number().describe("in ₹ crore, represents the state's available funds."),
+  revenue: z.number().describe("in ₹ crore, represents the state's income."),
+  publicApproval: z.number().describe("0-100%, public's approval of the player's performance."),
+  lawAndOrder: z.number().describe("0-100%, represents the stability and safety in the state."),
+  economicHealth: z.number().describe("0-100%, represents the overall health of the state's economy."),
+  oppositionStrength: z.number().describe("0-100%, represents the influence and power of the opposition."),
+  corruptionLevel: z.number().describe("0-100% (lower is better), represents the perceived level of corruption."),
 });
 export type Stats = z.infer<typeof StatsSchema>;
 

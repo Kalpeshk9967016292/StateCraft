@@ -30,9 +30,9 @@ export async function handleDecision(
 
     // Client-side hard-coded game over checks as a fallback
     if (!isGameOver) {
-        if (newStats.publicOpinion <= 5) {
+        if (newStats.publicApproval <= 5) {
             isGameOver = true;
-            gameOverReason = "Public opinion has plummeted to near zero, leading to mass protests and a vote of no confidence. Your government has fallen.";
+            gameOverReason = "Public approval has plummeted to near zero, leading to mass protests and a vote of no confidence. Your government has fallen.";
         } else if (newStats.budget <= 0) {
             isGameOver = true;
             gameOverReason = "The state is bankrupt. With no funds to run the administration, your government has been dismissed.";
