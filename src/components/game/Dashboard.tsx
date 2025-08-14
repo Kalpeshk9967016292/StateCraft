@@ -11,6 +11,7 @@ import AdvisorDialog from './AdvisorDialog';
 import { Button } from '@/components/ui/button';
 import { Repeat, Newspaper } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import PlayerNotes from './PlayerNotes';
 
 interface DashboardProps {
   gameState: GameState;
@@ -61,8 +62,9 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
       <StatsDisplay stats={gameState.currentStats} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 grid gap-8">
           <PerformanceChart history={gameState.statsHistory} />
+          <PlayerNotes />
         </div>
         <div className="lg:col-span-1">
           <DecisionCard 
