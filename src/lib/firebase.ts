@@ -1,5 +1,6 @@
-import { initializeApp, getApp, getApps } from 'firebase/app';
+import { initializeApp, getApp, getApps, type FirebaseApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getAnalytics, isSupported } from 'firebase/analytics';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -13,7 +14,19 @@ const firebaseConfig = {
 
 
 // Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const app: FirebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
-export { app, db };
+// Initialize Analytics if supported
+const initializeAnalytics = async () => {
+    if (typeof window !== "undefined") {
+        const isAnalyticsSupported = await isSupported();
+        if (isAnalyticsSupported) {
+            return getAnalytics(app);
+        }
+    }
+    return null;
+};
+
+
+export { app, db, initializeAnalytics };
