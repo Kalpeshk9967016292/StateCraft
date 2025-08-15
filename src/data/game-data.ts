@@ -1,16 +1,13 @@
-import type { State, PolicyDecision } from '@/lib/types';
+import type { State } from '@/lib/types';
 
-export const initialStates: State[] = [
+// This file now provides the base structure and fallback initial stats.
+// The dynamic data (demographics, political climate) will be fetched by AI.
+
+export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] = [
   {
     id: 'andhra-pradesh',
     name: 'Andhra Pradesh',
     description: 'A coastal state with a strong agricultural base and a growing IT sector.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 35000,
       revenue: 42000,
@@ -20,18 +17,11 @@ export const initialStates: State[] = [
       oppositionStrength: 42,
       corruptionLevel: 55,
     },
-    politicalClimate: ''
   },
   {
     id: 'arunachal-pradesh',
     name: 'Arunachal Pradesh',
     description: 'A scenic, mountainous state with rich biodiversity and a focus on tourism and hydropower.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 8000,
       revenue: 9500,
@@ -41,18 +31,11 @@ export const initialStates: State[] = [
       oppositionStrength: 35,
       corruptionLevel: 40,
     },
-    politicalClimate: ''
   },
   {
     id: 'assam',
     name: 'Assam',
     description: 'Famous for its tea plantations and wildlife, this state is a gateway to Northeast India.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 25000,
       revenue: 30000,
@@ -62,18 +45,11 @@ export const initialStates: State[] = [
       oppositionStrength: 48,
       corruptionLevel: 60,
     },
-    politicalClimate: ''
   },
   {
     id: 'bihar',
     name: 'Bihar',
     description: 'A state with immense potential, battling issues of poverty, governance, and infrastructure development.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 28000,
       revenue: 32000,
@@ -83,18 +59,11 @@ export const initialStates: State[] = [
       oppositionStrength: 60,
       corruptionLevel: 75,
     },
-    politicalClimate: ''
   },
   {
     id: 'chhattisgarh',
     name: 'Chhattisgarh',
     description: 'A resource-rich state known for its forests and tribal culture, facing Naxal insurgency challenges.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 22000,
       revenue: 26000,
@@ -104,18 +73,11 @@ export const initialStates: State[] = [
       oppositionStrength: 40,
       corruptionLevel: 65,
     },
-    politicalClimate: ''
   },
   {
     id: 'goa',
     name: 'Goa',
     description: 'A popular tourist destination with beautiful beaches and a vibrant culture.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 5000,
       revenue: 7000,
@@ -125,18 +87,11 @@ export const initialStates: State[] = [
       oppositionStrength: 30,
       corruptionLevel: 30,
     },
-    politicalClimate: ''
   },
   {
     id: 'gujarat',
     name: 'Gujarat',
     description: 'An industrial powerhouse with a long coastline and a strong entrepreneurial spirit.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 90000,
       revenue: 110000,
@@ -146,18 +101,11 @@ export const initialStates: State[] = [
       oppositionStrength: 38,
       corruptionLevel: 45,
     },
-    politicalClimate: ''
   },
   {
     id: 'haryana',
     name: 'Haryana',
     description: 'An agricultural state that is also a major manufacturing and IT hub.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 45000,
       revenue: 55000,
@@ -167,18 +115,11 @@ export const initialStates: State[] = [
       oppositionStrength: 45,
       corruptionLevel: 50,
     },
-    politicalClimate: ''
   },
   {
     id: 'himachal-pradesh',
     name: 'Himachal Pradesh',
     description: 'A Himalayan state known for its tourism, apples, and hydropower.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 12000,
       revenue: 15000,
@@ -188,18 +129,11 @@ export const initialStates: State[] = [
       oppositionStrength: 28,
       corruptionLevel: 35,
     },
-    politicalClimate: ''
   },
   {
     id: 'jharkhand',
     name: 'Jharkhand',
     description: 'Rich in mineral resources, this state is working to overcome poverty and political instability.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 18000,
       revenue: 22000,
@@ -209,18 +143,11 @@ export const initialStates: State[] = [
       oppositionStrength: 55,
       corruptionLevel: 70,
     },
-    politicalClimate: ''
   },
   {
     id: 'karnataka',
     name: 'Karnataka',
     description: 'Home to India\'s Silicon Valley, with a diverse economy spanning IT, manufacturing, and agriculture.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 85000,
       revenue: 100000,
@@ -230,18 +157,11 @@ export const initialStates: State[] = [
       oppositionStrength: 42,
       corruptionLevel: 50,
     },
-    politicalClimate: ''
   },
   {
     id: 'kerala',
     name: 'Kerala',
     description: 'Known for its high literacy and social development, but struggles with industrial growth and brain drain.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 40000,
       revenue: 45000,
@@ -251,18 +171,11 @@ export const initialStates: State[] = [
       oppositionStrength: 50,
       corruptionLevel: 40,
     },
-    politicalClimate: ''
   },
   {
     id: 'madhya-pradesh',
     name: 'Madhya Pradesh',
     description: 'The "Heart of India", a large state with significant agricultural and mineral wealth.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 55000,
       revenue: 65000,
@@ -272,18 +185,11 @@ export const initialStates: State[] = [
       oppositionStrength: 50,
       corruptionLevel: 68,
     },
-    politicalClimate: ''
   },
   {
     id: 'maharashtra',
     name: 'Maharashtra',
     description: 'A bustling state with a major financial hub, facing challenges of urban infrastructure and rural distress.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 150000,
       revenue: 180000,
@@ -293,18 +199,11 @@ export const initialStates: State[] = [
       oppositionStrength: 45,
       corruptionLevel: 60,
     },
-    politicalClimate: ''
   },
   {
     id: 'manipur',
     name: 'Manipur',
     description: 'A state known for its rich culture and sports achievements, dealing with insurgency and ethnic conflicts.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 6000,
       revenue: 7500,
@@ -314,18 +213,11 @@ export const initialStates: State[] = [
       oppositionStrength: 58,
       corruptionLevel: 72,
     },
-    politicalClimate: ''
   },
   {
     id: 'meghalaya',
     name: 'Meghalaya',
     description: 'The "Abode of Clouds", a picturesque state with unique matrilineal societies.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 7000,
       revenue: 8500,
@@ -335,18 +227,11 @@ export const initialStates: State[] = [
       oppositionStrength: 34,
       corruptionLevel: 42,
     },
-    politicalClimate: ''
   },
   {
     id: 'mizoram',
     name: 'Mizoram',
     description: 'A peaceful state with a high literacy rate and a strong sense of community.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 5500,
       revenue: 6500,
@@ -356,18 +241,11 @@ export const initialStates: State[] = [
       oppositionStrength: 25,
       corruptionLevel: 32,
     },
-    politicalClimate: ''
   },
   {
     id: 'nagaland',
     name: 'Nagaland',
     description: 'A vibrant state with diverse tribes and a long history of seeking greater political autonomy.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 6500,
       revenue: 8000,
@@ -377,18 +255,11 @@ export const initialStates: State[] = [
       oppositionStrength: 45,
       corruptionLevel: 68,
     },
-    politicalClimate: ''
   },
   {
     id: 'odisha',
     name: 'Odisha',
     description: 'A state rich in culture and minerals, frequently hit by natural disasters like cyclones.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 48000,
       revenue: 55000,
@@ -398,18 +269,11 @@ export const initialStates: State[] = [
       oppositionStrength: 40,
       corruptionLevel: 58,
     },
-    politicalClimate: ''
   },
   {
     id: 'punjab',
     name: 'Punjab',
     description: 'The "Granary of India", a prosperous agricultural state facing issues of drug abuse and water depletion.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 40000,
       revenue: 48000,
@@ -419,18 +283,11 @@ export const initialStates: State[] = [
       oppositionStrength: 47,
       corruptionLevel: 62,
     },
-    politicalClimate: ''
   },
   {
     id: 'rajasthan',
     name: 'Rajasthan',
     description: 'The "Land of Kings", a vast desert state with a rich history and a thriving tourism industry.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 65000,
       revenue: 75000,
@@ -440,18 +297,11 @@ export const initialStates: State[] = [
       oppositionStrength: 44,
       corruptionLevel: 55,
     },
-    politicalClimate: ''
   },
   {
     id: 'sikkim',
     name: 'Sikkim',
     description: 'A small, pristine state in the Himalayas, known for its organic farming and stunning landscapes.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 4000,
       revenue: 5000,
@@ -461,18 +311,11 @@ export const initialStates: State[] = [
       oppositionStrength: 22,
       corruptionLevel: 25,
     },
-    politicalClimate: ''
   },
   {
     id: 'tamil-nadu',
     name: 'Tamil Nadu',
     description: 'A major manufacturing and automotive hub with a rich cultural and linguistic heritage.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 100000,
       revenue: 120000,
@@ -482,18 +325,11 @@ export const initialStates: State[] = [
       oppositionStrength: 40,
       corruptionLevel: 52,
     },
-    politicalClimate: ''
   },
   {
     id: 'telangana',
     name: 'Telangana',
     description: 'A newly formed state with a booming IT sector and a focus on irrigation projects.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 75000,
       revenue: 90000,
@@ -503,18 +339,11 @@ export const initialStates: State[] = [
       oppositionStrength: 38,
       corruptionLevel: 48,
     },
-    politicalClimate: ''
   },
   {
     id: 'tripura',
     name: 'Tripura',
     description: 'A hilly state in Northeast India with a history of ethnic diversity and political change.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 8500,
       revenue: 10000,
@@ -524,18 +353,11 @@ export const initialStates: State[] = [
       oppositionStrength: 46,
       corruptionLevel: 63,
     },
-    politicalClimate: ''
   },
   {
     id: 'uttar-pradesh',
     name: 'Uttar Pradesh',
     description: 'India\'s most populous state, with significant political influence and a diverse economy.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 180000,
       revenue: 200000,
@@ -545,18 +367,11 @@ export const initialStates: State[] = [
       oppositionStrength: 52,
       corruptionLevel: 70,
     },
-    politicalClimate: ''
   },
   {
     id: 'uttarakhand',
     name: 'Uttarakhand',
     description: 'A Himalayan state known for its religious tourism and natural beauty, facing environmental challenges.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 15000,
       revenue: 18000,
@@ -566,18 +381,11 @@ export const initialStates: State[] = [
       oppositionStrength: 36,
       corruptionLevel: 45,
     },
-    politicalClimate: ''
   },
   {
     id: 'west-bengal',
     name: 'West Bengal',
     description: 'A state with a rich literary and cultural history, known for its political fervor.',
-    demographics: {
-      population: 0,
-      gdp: 0,
-      literacyRate: 0,
-      crimeRate: 0,
-    },
     initialStats: {
       budget: 80000,
       revenue: 95000,
@@ -587,19 +395,5 @@ export const initialStates: State[] = [
       oppositionStrength: 49,
       corruptionLevel: 66,
     },
-    politicalClimate: ''
   },
-];
-
-export const policyDecisions: PolicyDecision[] = [
-    { id: 'tax_cut_fuel', title: 'Cut Fuel Taxes', description: 'Reduce state taxes on petrol and diesel to lower prices for consumers.' },
-    { id: 'invest_infra', title: 'Invest in Infrastructure', description: 'Launch a major project to build new highways and bridges across the state.' },
-    { id: 'increase_msp', title: 'Increase Farm Subsidies', description: 'Increase the Minimum Support Price (MSP) for key crops to support farmers.' },
-    { id: 'police_reform', title: 'Modernize Police Force', description: 'Invest in new equipment, training, and technology for the state police.' },
-    { id: 'build_schools', title: 'Build New Schools', description: 'Fund the construction of 100 new public schools in underserved areas.' },
-    { id: 'industry_incentive', title: 'Offer Industrial Incentives', description: 'Provide tax breaks and land concessions to attract new manufacturing industries.' },
-    { id: 'welfare_scheme', title: 'Launch a Welfare Scheme', description: 'Start a direct cash transfer scheme for underprivileged families.' },
-    { id: 'environmental_reg', title: 'Strengthen Environmental Laws', description: 'Impose stricter regulations on industries to curb pollution.'},
-    { id: 'healthcare_investment', title: 'Boost Healthcare Funding', description: 'Increase the budget for public hospitals and primary health centers.'},
-    { id: 'tourism_campaign', title: 'Launch Tourism Campaign', description: 'Promote the state as a prime tourist destination to boost the local economy.'},
 ];

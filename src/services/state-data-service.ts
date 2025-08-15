@@ -1,91 +1,103 @@
 // src/services/state-data-service.ts
 'use server';
 
-import fs from 'fs/promises';
-import path from 'path';
 import type { State } from '@/lib/types';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc } from 'firebase/firestore';
+import { fetchStateData } from '@/ai/flows/state-data-fetcher';
+import { initialStates } from '@/data/game-data';
 
+const TWO_DAYS_IN_MS = 2 * 24 * 60 * 60 * 1000;
 
-const CACHE_FILE_PATH = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
-
-interface CachedData {
-  timestamp: number;
-  states: State[];
-}
-
-async function readCache(): Promise<CachedData | null> {
+async function needsUpdate(): Promise<boolean> {
   try {
-    await fs.mkdir(path.dirname(CACHE_FILE_PATH), { recursive: true });
-    const data = await fs.readFile(CACHE_FILE_PATH, 'utf-8');
-    return JSON.parse(data) as CachedData;
-  } catch (error) {
-    if (error instanceof Error && 'code' in error && 'code' in error && (error as NodeJS.ErrnoException).code === 'ENOENT') {
-        console.warn("Cache file not found, will use fallback data.");
-        return null;
+    const metadataDocRef = doc(db, 'metadata', 'states');
+    const docSnap = await getDoc(metadataDocRef);
+
+    if (!docSnap.exists()) {
+      console.log('No metadata found, update is needed.');
+      return true; // No timestamp, so we need to fetch.
     }
-    console.error('Error reading cache:', error);
-    return null;
+
+    const lastUpdated = docSnap.data().lastUpdated?.toDate();
+    if (!lastUpdated) {
+        console.log('Metadata exists but lastUpdated field is missing, update is needed.');
+        return true;
+    }
+
+    const isStale = (new Date().getTime() - lastUpdated.getTime()) > TWO_DAYS_IN_MS;
+    console.log(isStale ? "Data is stale, update is needed." : "Data is fresh.");
+    return isStale;
+
+  } catch (error) {
+    console.error("Error checking metadata for update:", error);
+    return true; // Assume update is needed on error.
   }
 }
 
-// --- Firestore Integration ---
-async function fetchStatesFromFirestore(): Promise<State[] | null> {
-  try {
-    const statesCollection = collection(db, 'states');
-    const snapshot = await getDocs(statesCollection);
-    
-    if (snapshot.empty) {
-      console.log('No states found in Firestore. Populating with initial data from cache file...');
+async function updateStateDataInFirestore(): Promise<State[]> {
+  console.log('Starting to update state data in Firestore...');
+  const updatedStates: State[] = [];
+
+  for (const staticState of initialStates) {
+    try {
+      console.log(`Fetching latest data for ${staticState.name}...`);
+      const dynamicData = await fetchStateData({ stateName: staticState.name });
       
-      // Read from the rich cache file to populate firestore
-      const cachedData = await readCache();
-      const statesToPopulate = cachedData?.states;
+      const newState: State = {
+        ...staticState, // Start with the base static data (id, description, initialStats)
+        demographics: { // Overwrite demographics with fresh data
+          population: dynamicData.population,
+          gdp: dynamicData.gdp,
+          literacyRate: dynamicData.literacyRate,
+          crimeRate: dynamicData.crimeRate,
+        },
+        politicalClimate: dynamicData.politicalClimate,
+      };
 
-      if (!statesToPopulate || statesToPopulate.length === 0) {
-        console.error("Cache is empty. Cannot populate Firestore.");
-        return null;
-      }
+      await setDoc(doc(db, 'states', newState.id), newState);
+      updatedStates.push(newState);
 
-      for (const state of statesToPopulate) {
-        // Ensure political climate has a default value if missing
-        if (!state.politicalClimate) {
-            state.politicalClimate = `The political situation in ${state.name} is complex, with various factions vying for power.`;
-        }
-        await setDoc(doc(db, 'states', state.id), state);
-      }
-      console.log('Firestore populated with initial state data from cache.');
-      return statesToPopulate;
+    } catch (error) {
+        console.error(`Failed to fetch or update data for ${staticState.name}. It will be skipped.`, error);
     }
-
-    const states = snapshot.docs.map(doc => doc.data() as State);
-    return states;
-  } catch (error) {
-    console.error("Error fetching or populating states from Firestore:", error);
-    // This might happen if Firestore isn't set up yet or due to permissions.
-    return null;
   }
+  
+  if (updatedStates.length > 0) {
+      const metadataDocRef = doc(db, 'metadata', 'states');
+      await setDoc(metadataDocRef, { lastUpdated: new Date() });
+      console.log('Firestore state data and timestamp have been updated.');
+  }
+
+  return updatedStates;
 }
+
 
 export async function getStatesData(): Promise<State[]> {
-  
-  // STEP 1: Use Firestore
-  const firestoreStates = await fetchStatesFromFirestore();
-  if (firestoreStates) {
-    console.log("Using data from Firestore.");
-    return firestoreStates;
-  }
-  console.log("Could not fetch from Firestore, falling back to local cache/static data.");
-  
-  // Fallback: Read from local file cache if Firestore fails for any reason other than being empty
-  const cachedData = await readCache();
-  if (cachedData?.states) {
-    console.log('Using cached state data as a final fallback.');
-    return cachedData.states;
-  }
+    if (await needsUpdate()) {
+        const states = await updateStateDataInFirestore();
+        // If the update fails for some reason and returns no states,
+        // we try to read whatever is in the DB as a fallback.
+        if (states.length > 0) {
+            return states;
+        }
+    }
 
-  // Absolute fallback - should not be reached if cache exists
-  console.error("CRITICAL: Firestore and local cache failed. No data available to start game.");
-  return [];
+    // If data is fresh or update failed, read existing data from Firestore.
+    try {
+        console.log("Fetching existing state data from Firestore.");
+        const statesCollection = collection(db, 'states');
+        const snapshot = await getDocs(statesCollection);
+
+        if (snapshot.empty) {
+            // This should now only happen if the initial population also failed.
+            console.log('Firestore is empty. Triggering an initial data population.');
+            return await updateStateDataInFirestore();
+        }
+
+        return snapshot.docs.map(doc => doc.data() as State);
+    } catch (error) {
+        console.error("CRITICAL: Failed to read from Firestore and update failed. No data available.", error);
+        return []; // Critical failure
+    }
 }
