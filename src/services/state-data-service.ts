@@ -11,7 +11,7 @@ import path from 'path';
 
 // This is a temporary solution to prevent the AI from running on every startup.
 // In a real app, this would be a scheduled job.
-const USE_AI_DATA_FETCHER = false; 
+const USE_AI_DATA_FETCHER = true; 
 const TWO_DAYS_IN_MS = 2 * 24 * 60 * 60 * 1000;
 
 /**
@@ -76,7 +76,6 @@ async function updateStateDataInFirestore(): Promise<State[]> {
   const updatedStates: State[] = [];
   const batch = writeBatch(db);
   
-  // Use the rich cache as the primary source for fallbacks
   const cachedStates = await getCachedStates();
   const cachedStatesMap = new Map(cachedStates.map(s => [s.id, s]));
 
@@ -102,7 +101,6 @@ async function updateStateDataInFirestore(): Promise<State[]> {
         finalState = cachedStatesMap.get(staticState.id);
     }
     
-    // If we have a state to write (either from AI or cache), add it to the batch.
     if (finalState) {
         const stateDocRef = doc(db, 'states', finalState.id);
         batch.set(stateDocRef, finalState);
@@ -125,6 +123,7 @@ async function updateStateDataInFirestore(): Promise<State[]> {
 
 /**
  * Populates Firestore from the local cache file if the database is empty.
+ * It validates the data and fetches from AI if a cached entry is invalid.
  * @returns {Promise<State[]>}
  */
 async function populateFirestoreFromCache(): Promise<State[]> {
@@ -136,17 +135,45 @@ async function populateFirestoreFromCache(): Promise<State[]> {
     }
 
     const batch = writeBatch(db);
-    cachedStates.forEach(state => {
-        const stateDocRef = doc(db, 'states', state.id);
-        batch.set(stateDocRef, state);
-    });
+    const populatedStates: State[] = [];
+
+    for (const cachedState of cachedStates) {
+        const { demographics } = cachedState;
+        const isInvalid = demographics.population === 0 && demographics.gdp === 0 && demographics.literacyRate === 0;
+
+        if (isInvalid) {
+            console.warn(`Invalid data for ${cachedState.name} in cache. Fetching fresh data...`);
+            try {
+                const dynamicData = await fetchStateData({ stateName: cachedState.name });
+                const repairedState: State = {
+                    ...cachedState,
+                    demographics: {
+                        population: dynamicData.population,
+                        gdp: dynamicData.gdp,
+                        literacyRate: dynamicData.literacyRate,
+                        crimeRate: dynamicData.crimeRate,
+                    },
+                    politicalClimate: dynamicData.politicalClimate,
+                };
+                const stateDocRef = doc(db, 'states', repairedState.id);
+                batch.set(stateDocRef, repairedState);
+                populatedStates.push(repairedState);
+            } catch (error) {
+                console.error(`Failed to repair data for ${cachedState.name}. It will be missing from the DB.`, error);
+            }
+        } else {
+            const stateDocRef = doc(db, 'states', cachedState.id);
+            batch.set(stateDocRef, cachedState);
+            populatedStates.push(cachedState);
+        }
+    }
     
     const metadataDocRef = doc(db, 'metadata', 'states');
     batch.set(metadataDocRef, { lastUpdated: new Date() });
     
     await batch.commit();
-    console.log('Firestore has been populated from cache.');
-    return cachedStates;
+    console.log(`Firestore has been populated with ${populatedStates.length} states.`);
+    return populatedStates;
 }
 
 
@@ -157,24 +184,26 @@ async function populateFirestoreFromCache(): Promise<State[]> {
  */
 export async function getStatesData(): Promise<State[]> {
     try {
+        const statesCollection = collection(db, 'states');
+        const snapshot = await getDocs(statesCollection);
+
+        if (snapshot.empty) {
+            console.log("Firestore is empty, populating from source.");
+            return await populateFirestoreFromCache();
+        }
+        
+        const states = snapshot.docs.map(doc => doc.data() as State);
+        
         const needsAiUpdate = await needsUpdate();
         if (needsAiUpdate) {
             console.log("Data is stale. Fetching fresh data from AI.");
             return await updateStateDataInFirestore();
         }
-
-        console.log("Data is fresh. Fetching existing state data from Firestore.");
-        const statesCollection = collection(db, 'states');
-        const snapshot = await getDocs(statesCollection);
-
-        if (snapshot.empty) {
-            return await populateFirestoreFromCache();
-        }
         
-        const states = snapshot.docs.map(doc => doc.data() as State);
-
+        console.log("Data is fresh. Using existing state data from Firestore.");
+        
         if (states.length < initialStates.length) {
-            console.log('Firestore is incomplete. Triggering data population.');
+            console.warn('Firestore is incomplete. Triggering data population to fill gaps.');
             return await populateFirestoreFromCache();
         }
 
