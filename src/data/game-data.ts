@@ -411,17 +411,17 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate' | 'l
   },
   {
     id: 'west-bengal',
-    "name": "West Bengal",
-    "description": "A state with a rich literary and cultural history, known for its political fervor.",
-    "language": "Bengali",
-    "initialStats": {
-      "budget": 80000,
-      "revenue": 95000,
-      "publicApproval": 51,
-      "lawAndOrder": 60,
-      "economicHealth": 63,
-      "oppositionStrength": 49,
-      "corruptionLevel": 66,
+    name: "West Bengal",
+    description: "A state with a rich literary and cultural history, known for its political fervor.",
+    language: "Bengali",
+    initialStats: {
+      budget: 80000,
+      revenue: 95000,
+      publicApproval: 51,
+      lawAndOrder: 60,
+      economicHealth: 63,
+      oppositionStrength: 49,
+      corruptionLevel: 66,
     },
   },
 ];
