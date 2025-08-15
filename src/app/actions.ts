@@ -27,6 +27,7 @@ export async function handleDecision(
     let isGameOver = turnResult.isGameOver;
     let gameOverReason = turnResult.gameOverReason || "";
 
+    // The AI can now set the gameOver flag, but we keep these client-side checks as a fallback.
     if (!isGameOver) {
         if (newStats.publicApproval <= 5) {
             isGameOver = true;
@@ -37,7 +38,7 @@ export async function handleDecision(
         }
     }
 
-    const nextTurnOptions = !isGameOver ? await genOptions(gameState) : [];
+    const nextTurnOptions = !isGameOver ? await generateTurnOptions(gameState) : [];
 
     return {
       ...gameState,

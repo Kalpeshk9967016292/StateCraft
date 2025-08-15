@@ -39,7 +39,7 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
   
   const onCustomDecision = async (policyText: string) => {
     await onDecision({
-        title: 'Custom Policy Initiative',
+        title: gameState.currentCrisis ? 'Crisis Response' : 'Custom Policy Initiative',
         description: policyText,
     });
   }
@@ -90,6 +90,12 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
                 <h3 className="text-lg font-semibold">Simulating Turn...</h3>
                 <p className="text-sm text-center text-muted-foreground">The AI is processing your decision, calculating outcomes, and generating news from across the state.</p>
             </div>
+          ) : gameState.currentCrisis ? (
+             <CustomPolicyCard
+                onDecision={onCustomDecision}
+                isLoading={isLoading}
+                crisis={gameState.currentCrisis}
+             />
           ) : (
              <Tabs defaultValue="challenges" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
