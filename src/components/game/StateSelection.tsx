@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { State } from '@/lib/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Users, Landmark, GraduationCap, Gavel, Search, Loader2 } from 'lucide-react';
+import { Users, Landmark, GraduationCap, Gavel, Search, Loader2, Info } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+
 
 interface StateSelectionProps {
   states: State[];
@@ -22,6 +31,16 @@ const StatItem = ({ icon, label, value }: { icon: React.ReactNode, label: string
 export default function StateSelection({ states, onStateSelect, isLoading }: StateSelectionProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  useEffect(() => {
+    // Show welcome dialog only once per session
+    const hasSeenWelcome = sessionStorage.getItem('hasSeenWelcome');
+    if (!hasSeenWelcome) {
+      setShowWelcome(true);
+      sessionStorage.setItem('hasSeenWelcome', 'true');
+    }
+  }, []);
 
   const filteredStates = states.filter(state =>
     state.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -48,8 +67,26 @@ export default function StateSelection({ states, onStateSelect, isLoading }: Sta
 
   return (
     <div className="flex flex-col items-center animate-fade-in">
+       <Dialog open={showWelcome} onOpenChange={setShowWelcome}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-primary">Welcome to StateCraft!</DialogTitle>
+            <DialogDescription className="text-base pt-2">
+              Step into the shoes of a Chief Minister of an Indian state. Your mission is to govern effectively, make tough policy decisions, navigate unexpected crises, and ultimately, win re-election.
+              <br /><br />
+              Your every decision will shape the future of your state. Choose your starting state below to begin your political journey. Good luck!
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setShowWelcome(false)}>Let's Get Started</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <h1 className="text-4xl sm:text-5xl font-extrabold font-headline text-primary mb-2 tracking-tight">StateCraft</h1>
-      <p className="text-lg text-muted-foreground mb-6 text-center">Choose your state to begin your political journey.</p>
+      <p className="text-lg text-muted-foreground mb-6 text-center max-w-2xl">
+        A political simulation game where you lead an Indian state. Manage your budget, maintain public approval, and navigate the complex world of politics to win.
+      </p>
       
       <div className="w-full max-w-md mb-8">
         <div className="relative">
