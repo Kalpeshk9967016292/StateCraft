@@ -30,7 +30,11 @@ export async function handleDecision(
     let gameOverReason = turnResult.gameOverReason || "";
 
     // The AI can now set the gameOver flag, but we keep these client-side checks as a fallback.
-    if (!isGameOver) {
+    // Also, add a "grace period" for the first turn to prevent an immediate game over.
+    if (gameState.turn <= 1) {
+        isGameOver = false;
+        gameOverReason = "";
+    } else if (!isGameOver) {
         if (newStats.publicApproval <= 5) {
             isGameOver = true;
             gameOverReason = "Public approval has plummeted to near zero, leading to mass protests and a vote of no confidence. Your government has fallen.";
