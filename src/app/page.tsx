@@ -1,12 +1,15 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import type { GameState, State } from '@/lib/types';
 import StateSelection from '@/components/game/StateSelection';
 import Dashboard from '@/components/game/Dashboard';
 import { getStatesData } from '@/services/state-data-service';
 import { Loader2 } from 'lucide-react';
 import { generateTurnOptions } from './actions';
+import logo from './logo.png';
 
 export default function Home() {
   const [gameState, setGameState] = useState<GameState | null>(null);
@@ -58,7 +61,8 @@ export default function Home() {
       <div className="container mx-auto p-4 sm:p-6 md:p-8">
         {isLoading ? (
            <div className="flex flex-col items-center justify-center min-h-[80vh] gap-4">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <Image src={logo} alt="StateCraft Logo" width={150} height={150} priority />
+            <Loader2 className="h-12 w-12 animate-spin text-primary mt-4" />
             <p className="text-lg text-muted-foreground">Loading Game...</p>
           </div>
         ) : !gameState ? (
