@@ -81,9 +81,7 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
       </header>
       
       <div className="my-6 flex justify-center">
-        <div className="w-full max-w-4xl h-24 bg-muted/50 rounded-lg overflow-hidden flex items-center justify-center">
-            <AdBanner />
-        </div>
+        <AdBanner />
       </div>
       
       {gameState.currentCrisis && <CrisisAlert crisis={gameState.currentCrisis} />}

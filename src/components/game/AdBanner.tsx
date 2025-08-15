@@ -20,7 +20,7 @@ const AdBanner = () => {
   return (
     <ins
       className="adsbygoogle"
-      style={{ display: 'block' }}
+      style={{ display: 'block', minWidth: '250px', minHeight: '50px' }}
       data-ad-client="ca-pub-4648414963251970"
       data-ad-slot="1341194686"
       data-ad-format="auto"
