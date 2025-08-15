@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -14,14 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Repeat, Loader2 } from 'lucide-react';
 import DecisionCard from './DecisionCard';
 import AdBanner from './AdBanner';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
+import GuidedTour from './GuidedTour';
 import {
   Tabs,
   TabsContent,
@@ -84,25 +78,7 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <Dialog open={showTour} onOpenChange={setShowTour}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">Your Chief Minister's Dashboard</DialogTitle>
-            <DialogDescription className="text-base pt-2">
-              This is your command center. Here's a quick look at what's important:
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-2 text-sm">
-            <p>📊 <span className="font-semibold">Stats Display:</span> Your state's vital signs are at the top. Keep a close eye on Public Approval and your Budget!</p>
-            <p>📈 <span className="font-semibold">Performance Chart:</span> This chart tracks your key metrics over time. Use it to see the long-term impact of your decisions.</p>
-            <p>📋 <span className="font-semibold">Decision Cards:</span> On the right, you'll find this quarter's agenda with specific challenges or the option to propose your own laws. Your choices here drive the game.</p>
-            <p>💡 <span className="font-semibold">AI Advisor:</span> Feeling stuck? Use the AI Advisor for strategic guidance based on your current situation.</p>
-          </div>
-          <DialogFooter>
-            <Button onClick={() => setShowTour(false)}>Got It</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <GuidedTour open={showTour} onOpenChange={setShowTour} />
 
       <GameOverDialog isOpen={gameState.isGameOver} reason={gameState.gameOverReason} onRestart={onRestart} />
 
@@ -119,7 +95,7 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
         </div>
       </header>
       
-       <div className="my-4 p-4 min-h-[90px] w-full flex items-center justify-center bg-card rounded-lg shadow-sm">
+       <div className="my-4 p-4 w-full flex items-center justify-center bg-card rounded-lg shadow-sm">
         <AdBanner />
       </div>
       
