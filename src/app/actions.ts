@@ -1,3 +1,4 @@
+
 'use server';
 
 import type { GameState, Challenge, NewsHeadline, OppositionStatement, TranslateRequest } from '@/lib/types';
@@ -20,7 +21,7 @@ export async function handleDecision(
   };
 
   try {
-    const turnResult = await processGameTurn(gameturnInput);
+    const turnResult = await processGameTurn(gameTurnInput);
     
     const newStats = turnResult.updatedStats;
     const newHistory = [...gameState.statsHistory, { turn: gameState.turn + 1, stats: newStats }];
