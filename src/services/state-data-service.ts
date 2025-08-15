@@ -6,6 +6,8 @@ import { db } from '@/lib/firebase';
 import { collection, getDocs, doc, setDoc, getDoc, writeBatch } from 'firebase/firestore';
 import { fetchStateData } from '@/ai/flows/state-data-fetcher';
 import { initialStates } from '@/data/game-data';
+import fs from 'fs/promises';
+import path from 'path';
 
 const TWO_DAYS_IN_MS = 2 * 24 * 60 * 60 * 1000;
 
@@ -35,10 +37,24 @@ async function needsUpdate(): Promise<boolean> {
   }
 }
 
+async function getCachedStates(): Promise<State[]> {
+    const cachePath = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
+    try {
+        const fileContent = await fs.readFile(cachePath, 'utf-8');
+        const cacheData = JSON.parse(fileContent);
+        return cacheData.states || [];
+    } catch (error) {
+        console.warn("Could not read or parse state data cache. This is normal on first run.", error);
+        return [];
+    }
+}
+
 async function updateStateDataInFirestore(): Promise<State[]> {
   console.log('Starting to update state data in Firestore...');
   const updatedStates: State[] = [];
   const batch = writeBatch(db);
+  const cachedStates = await getCachedStates();
+  const cachedStatesMap = new Map(cachedStates.map(s => [s.id, s]));
 
   for (const staticState of initialStates) {
     try {
@@ -61,21 +77,29 @@ async function updateStateDataInFirestore(): Promise<State[]> {
       updatedStates.push(newState);
 
     } catch (error) {
-        console.error(`Failed to fetch or update data for ${staticState.name}. Using fallback static data.`, error);
-        // Fallback: use the static data if AI fetch fails
-        const fallbackState: State = {
-            ...staticState,
-            demographics: { // Use placeholder data for demographics
-                population: 0,
-                gdp: 0,
-                literacyRate: 0,
-                crimeRate: 0,
-            },
-            politicalClimate: "Could not fetch latest data.",
-        };
-        const stateDocRef = doc(db, 'states', fallbackState.id);
-        batch.set(stateDocRef, fallbackState);
-        updatedStates.push(fallbackState); // Still add it to the list
+        console.error(`Failed to fetch or update data for ${staticState.name}. Using fallback cache data.`, error);
+        // Fallback: use the cached data if AI fetch fails
+        const cachedState = cachedStatesMap.get(staticState.id);
+        if (cachedState) {
+            const stateDocRef = doc(db, 'states', cachedState.id);
+            batch.set(stateDocRef, cachedState);
+            updatedStates.push(cachedState);
+        } else {
+             // Absolute last resort if cache is also missing
+            const fallbackState: State = {
+                ...staticState,
+                demographics: { 
+                    population: 0,
+                    gdp: 0,
+                    literacyRate: 0,
+                    crimeRate: 0,
+                },
+                politicalClimate: "Could not fetch latest data.",
+            };
+            const stateDocRef = doc(db, 'states', fallbackState.id);
+            batch.set(stateDocRef, fallbackState);
+            updatedStates.push(fallbackState);
+        }
     }
   }
   
@@ -106,7 +130,7 @@ export async function getStatesData(): Promise<State[]> {
             return await updateStateDataInFirestore();
         }
 
-        return snapshot.docs.map(doc => doc.data() as State);
+        return snapshot.docs.map(doc => doc.data() as State).sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
         console.error("CRITICAL: Failed to read from Firestore. No data available.", error);
         return []; // Critical failure

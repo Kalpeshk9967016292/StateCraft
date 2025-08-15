@@ -32,6 +32,20 @@ export default function StateSelection({ states, onStateSelect, isLoading }: Sta
       onStateSelect(state);
   }
 
+  const formatGdp = (gdp: number) => {
+    if (gdp === 0) return '₹0 Lk Cr';
+    const gdpInCrores = gdp / 10000000;
+    if (gdpInCrores >= 100000) {
+        return `₹${(gdpInCrores / 100000).toFixed(2)} Lk Cr`;
+    }
+    return `₹${gdpInCrores.toFixed(0)} Cr`;
+  }
+  
+  const formatPopulation = (population: number) => {
+    if (population === 0) return '0.0M';
+    return `${(population / 1_000_000).toFixed(1)}M`;
+  }
+
   return (
     <div className="flex flex-col items-center animate-fade-in">
       <h1 className="text-4xl sm:text-5xl font-extrabold font-headline text-primary mb-2 tracking-tight">StateCraft</h1>
@@ -59,8 +73,8 @@ export default function StateSelection({ states, onStateSelect, isLoading }: Sta
             </CardHeader>
             <CardContent className="flex-grow space-y-3">
                 <h4 className="font-semibold mb-2 text-card-foreground/80">Starting Conditions:</h4>
-                <StatItem icon={<Users size={16} className="text-accent" />} label="Population" value={`${(state.demographics.population / 1_000_000).toFixed(1)}M`} />
-                <StatItem icon={<Landmark size={16} className="text-accent"/>} label="GDP" value={`₹${(state.demographics.gdp / 1_00_00_00_000).toFixed(0)} Lk Cr`} />
+                <StatItem icon={<Users size={16} className="text-accent" />} label="Population" value={formatPopulation(state.demographics.population)} />
+                <StatItem icon={<Landmark size={16} className="text-accent"/>} label="GDP" value={formatGdp(state.demographics.gdp)} />
                 <StatItem icon={<GraduationCap size={16} className="text-accent"/>} label="Literacy" value={`${state.demographics.literacyRate}%`} />
                 <StatItem icon={<Gavel size={16} className="text-accent"/>} label="Crime Rate" value={`${state.demographics.crimeRate}`} />
             </CardContent>

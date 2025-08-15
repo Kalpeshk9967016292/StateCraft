@@ -29,11 +29,17 @@ interface DashboardProps {
 
 export default function Dashboard({ gameState, setGameState, onRestart }: DashboardProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('challenges');
 
   const onDecision = async (decision: {title: string; description: string}) => {
     setIsLoading(true);
     const newGameState = await handleDecision(gameState, decision);
     setGameState(newGameState);
+    // After a decision, if there are new challenges, stay on the challenges tab.
+    // Otherwise, it implies a custom law was made, so we can switch back.
+    if(newGameState.turnOptions && newGameState.turnOptions.length > 0) {
+        setActiveTab('challenges');
+    }
     setIsLoading(false);
   };
   
@@ -97,7 +103,7 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
                 crisis={gameState.currentCrisis}
              />
           ) : (
-             <Tabs defaultValue="challenges" className="w-full">
+             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="challenges">This Quarter's Agenda</TabsTrigger>
                 <TabsTrigger value="custom">Propose a Law</TabsTrigger>
