@@ -7,15 +7,22 @@ interface StatsDisplayProps {
   stats: Stats;
 }
 
-const StatCard = ({ title, value, icon, isPercentage = true, invertProgress = false, isCurrency = false, progressColor }: { title: string; value: string | number; icon: React.ReactNode, isPercentage?: boolean, invertProgress?: boolean, isCurrency?: boolean, progressColor?: string }) => {
-    let numericValue = typeof value === 'number' ? value : parseFloat(value.toString());
+const StatCard = ({ title, value, icon, isPercentage = true, lowerIsBetter = false, isCurrency = false }: { title: string; value: string | number; icon: React.ReactNode, isPercentage?: boolean, lowerIsBetter?: boolean, isCurrency?: boolean }) => {
+    const numericValue = typeof value === 'number' ? value : parseFloat(value.toString());
     const displayValue = isCurrency ? `₹${numericValue.toLocaleString()} cr` : (isPercentage ? `${numericValue.toFixed(0)}%` : `${numericValue.toFixed(0)}`);
     
     let progressValue = numericValue;
-    if (!isCurrency) {
-        if (invertProgress) {
-            progressValue = 100 - numericValue;
-        }
+    let progressColor = 'bg-primary'; // Default color
+
+    if (lowerIsBetter) {
+        progressValue = 100 - numericValue;
+        if (numericValue > 75) progressColor = 'bg-red-600';
+        else if (numericValue > 50) progressColor = 'bg-yellow-500';
+        else progressColor = 'bg-green-500';
+    } else if (!isCurrency) {
+        if (numericValue < 25) progressColor = 'bg-red-600';
+        else if (numericValue < 50) progressColor = 'bg-yellow-500';
+        else progressColor = 'bg-green-500';
     }
 
 
@@ -38,11 +45,11 @@ export default function StatsDisplay({ stats }: StatsDisplayProps) {
     <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
       <StatCard title="Budget" value={stats.budget} icon={<Landmark className="h-4 w-4 text-muted-foreground" />} isPercentage={false} isCurrency={true}/>
       <StatCard title="Revenue" value={stats.revenue} icon={<IndianRupee className="h-4 w-4 text-muted-foreground" />} isPercentage={false} isCurrency={true}/>
-      <StatCard title="Public Approval" value={stats.publicApproval} icon={<Smile className="h-4 w-4 text-muted-foreground" />} progressColor="bg-green-500" />
-      <StatCard title="Law & Order" value={stats.lawAndOrder} icon={<Shield className="h-4 w-4 text-muted-foreground" />} progressColor="bg-blue-500" />
-      <StatCard title="Economic Health" value={stats.economicHealth} icon={<Briefcase className="h-4 w-4 text-muted-foreground" />} progressColor="bg-indigo-500" />
-      <StatCard title="Opposition" value={stats.oppositionStrength} icon={<Users className="h-4 w-4 text-muted-foreground" />} invertProgress={true} progressColor="bg-red-500" />
-      <StatCard title="Corruption" value={stats.corruptionLevel} icon={<Handshake className="h-4 w-4 text-muted-foreground" />} invertProgress={true} progressColor="bg-yellow-500" />
+      <StatCard title="Public Approval" value={stats.publicApproval} icon={<Smile className="h-4 w-4 text-muted-foreground" />} />
+      <StatCard title="Law & Order" value={stats.lawAndOrder} icon={<Shield className="h-4 w-4 text-muted-foreground" />} />
+      <StatCard title="Economic Health" value={stats.economicHealth} icon={<Briefcase className="h-4 w-4 text-muted-foreground" />} />
+      <StatCard title="Opposition" value={stats.oppositionStrength} icon={<Users className="h-4 w-4 text-muted-foreground" />} lowerIsBetter={true} />
+      <StatCard title="Corruption" value={stats.corruptionLevel} icon={<Handshake className="h-4 w-4 text-muted-foreground" />} lowerIsBetter={true} />
     </div>
   );
 }
