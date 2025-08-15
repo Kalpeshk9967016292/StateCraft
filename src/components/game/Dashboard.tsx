@@ -80,7 +80,7 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
         </div>
       </header>
       
-      <div className="my-6 flex justify-center">
+      <div className="my-6 flex justify-center" style={{ minHeight: '90px' }}>
         <AdBanner />
       </div>
       

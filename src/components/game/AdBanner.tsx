@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 declare global {
     interface Window {
@@ -20,7 +20,7 @@ const AdBanner = () => {
   return (
     <ins
       className="adsbygoogle"
-      style={{ display: 'block' }}
+      style={{ display: 'block', width: '100%' }}
       data-ad-client="ca-pub-4648414963251970"
       data-ad-slot="1341194686"
       data-ad-format="auto"
