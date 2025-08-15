@@ -5,9 +5,71 @@ import { Toaster } from '@/components/ui/toaster';
 import FirebaseAnalytics from '@/components/FirebaseAnalytics';
 import Script from 'next/script';
 
+const siteConfig = {
+  name: 'StateCraft',
+  description: 'StateCraft is a free-to-play political simulation game where you become the Chief Minister of an Indian state. Make policy decisions, manage crises, and navigate the complex world of politics to lead your state to prosperity and get re-elected.',
+  url: 'https://statecraft.iamtiksha.com',
+  ogImage: 'https://statecraft.iamtiksha.com/og-image.png', // You should create this image
+  links: {
+    twitter: 'https://twitter.com/your-twitter-handle', // Add your twitter handle
+    github: 'https://github.com/your-repo' // Add your github repo
+  },
+  keywords: [
+    'political simulation game',
+    'politics game',
+    'government simulation',
+    'Chief Minister game',
+    'Indian politics game',
+    'statecraft',
+    'strategy game',
+    'governance game',
+    'free to play',
+  ],
+}
+
 export const metadata: Metadata = {
-  title: 'StateCraft',
-  description: 'A political simulation game where you govern a state.',
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [
+    {
+      name: 'Studio',
+      url: 'https://firebase.google.com/studio',
+    },
+  ],
+  creator: 'Studio',
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+    creator: '@your-twitter-handle', // Add your twitter handle
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
