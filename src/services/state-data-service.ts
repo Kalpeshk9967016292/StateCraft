@@ -3,7 +3,7 @@
 
 import type { State } from '@/lib/types';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, setDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc, writeBatch } from 'firebase/firestore';
 import { fetchStateData } from '@/ai/flows/state-data-fetcher';
 import { initialStates } from '@/data/game-data';
 
@@ -38,6 +38,7 @@ async function needsUpdate(): Promise<boolean> {
 async function updateStateDataInFirestore(): Promise<State[]> {
   console.log('Starting to update state data in Firestore...');
   const updatedStates: State[] = [];
+  const batch = writeBatch(db);
 
   for (const staticState of initialStates) {
     try {
@@ -45,8 +46,8 @@ async function updateStateDataInFirestore(): Promise<State[]> {
       const dynamicData = await fetchStateData({ stateName: staticState.name });
       
       const newState: State = {
-        ...staticState, // Start with the base static data (id, description, initialStats)
-        demographics: { // Overwrite demographics with fresh data
+        ...staticState,
+        demographics: {
           population: dynamicData.population,
           gdp: dynamicData.gdp,
           literacyRate: dynamicData.literacyRate,
@@ -54,18 +55,34 @@ async function updateStateDataInFirestore(): Promise<State[]> {
         },
         politicalClimate: dynamicData.politicalClimate,
       };
-
-      await setDoc(doc(db, 'states', newState.id), newState);
+      
+      const stateDocRef = doc(db, 'states', newState.id);
+      batch.set(stateDocRef, newState);
       updatedStates.push(newState);
 
     } catch (error) {
-        console.error(`Failed to fetch or update data for ${staticState.name}. It will be skipped.`, error);
+        console.error(`Failed to fetch or update data for ${staticState.name}. Using fallback static data.`, error);
+        // Fallback: use the static data if AI fetch fails
+        const fallbackState: State = {
+            ...staticState,
+            demographics: { // Use placeholder data for demographics
+                population: 0,
+                gdp: 0,
+                literacyRate: 0,
+                crimeRate: 0,
+            },
+            politicalClimate: "Could not fetch latest data.",
+        };
+        const stateDocRef = doc(db, 'states', fallbackState.id);
+        batch.set(stateDocRef, fallbackState);
+        updatedStates.push(fallbackState); // Still add it to the list
     }
   }
   
   if (updatedStates.length > 0) {
       const metadataDocRef = doc(db, 'metadata', 'states');
-      await setDoc(metadataDocRef, { lastUpdated: new Date() });
+      batch.set(metadataDocRef, { lastUpdated: new Date() });
+      await batch.commit();
       console.log('Firestore state data and timestamp have been updated.');
   }
 
@@ -75,29 +92,23 @@ async function updateStateDataInFirestore(): Promise<State[]> {
 
 export async function getStatesData(): Promise<State[]> {
     if (await needsUpdate()) {
-        const states = await updateStateDataInFirestore();
-        // If the update fails for some reason and returns no states,
-        // we try to read whatever is in the DB as a fallback.
-        if (states.length > 0) {
-            return states;
-        }
+        console.log("Update required. Fetching new data for all states.");
+        return await updateStateDataInFirestore();
     }
 
-    // If data is fresh or update failed, read existing data from Firestore.
     try {
-        console.log("Fetching existing state data from Firestore.");
+        console.log("Data is fresh. Fetching existing state data from Firestore.");
         const statesCollection = collection(db, 'states');
         const snapshot = await getDocs(statesCollection);
 
-        if (snapshot.empty) {
-            // This should now only happen if the initial population also failed.
-            console.log('Firestore is empty. Triggering an initial data population.');
+        if (snapshot.empty || snapshot.docs.length < initialStates.length) {
+            console.log('Firestore is empty or incomplete. Triggering a data population.');
             return await updateStateDataInFirestore();
         }
 
         return snapshot.docs.map(doc => doc.data() as State);
     } catch (error) {
-        console.error("CRITICAL: Failed to read from Firestore and update failed. No data available.", error);
+        console.error("CRITICAL: Failed to read from Firestore. No data available.", error);
         return []; // Critical failure
     }
 }
