@@ -72,16 +72,19 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
           <h1 className="text-4xl font-extrabold font-headline text-primary tracking-tight">{gameState.stateDetails.name}</h1>
           <p className="text-muted-foreground font-medium">Year {year}, Q{quarter} | Turn {gameState.turn} | Chief Minister's Dashboard</p>
         </div>
-        <div className="flex-grow sm:flex-grow-0 sm:w-72 md:w-80 lg:w-96 h-24 bg-muted/50 rounded-lg overflow-hidden flex items-center justify-center">
-          <AdBanner />
-        </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
             <AdvisorDialog gameState={gameState} />
             <Button variant="outline" onClick={onRestart}>
                 <Repeat className="mr-2 h-4 w-4" /> Restart
             </Button>
         </div>
       </header>
+      
+      <div className="my-6 flex justify-center">
+        <div className="w-full max-w-4xl h-24 bg-muted/50 rounded-lg overflow-hidden flex items-center justify-center">
+            <AdBanner />
+        </div>
+      </div>
       
       {gameState.currentCrisis && <CrisisAlert crisis={gameState.currentCrisis} />}
 
