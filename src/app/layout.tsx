@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import FirebaseAnalytics from '@/components/FirebaseAnalytics';
 import Script from 'next/script';
+import { Analytics } from "@vercel/analytics/react";
 
 const siteConfig = {
   name: 'StateCraft',
@@ -94,6 +95,7 @@ export default function RootLayout({
       <body className="font-body antialiased h-full">
         <FirebaseAnalytics />
         {children}
+        <Analytics />
         <Toaster />
       </body>
     </html>
