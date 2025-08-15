@@ -5,9 +5,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import type { State } from '@/lib/types';
 import { initialStates as fallbackStates } from '@/data/game-data';
-// Uncomment the following lines after you have enabled Firestore in your Firebase project.
-// import { db } from '@/lib/firebase';
-// import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
 
 
 const CACHE_FILE_PATH = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
@@ -19,7 +18,7 @@ interface CachedData {
 
 // --- Firestore Integration (commented out) ---
 // This function shows how you would fetch data from Firestore.
-/*
+
 async function fetchStatesFromFirestore(): Promise<State[] | null> {
   try {
     const statesCollection = collection(db, 'states');
@@ -40,7 +39,7 @@ async function fetchStatesFromFirestore(): Promise<State[] | null> {
     return null;
   }
 }
-*/
+
 
 async function readCache(): Promise<CachedData | null> {
   try {
@@ -48,7 +47,7 @@ async function readCache(): Promise<CachedData | null> {
     const data = await fs.readFile(CACHE_FILE_PATH, 'utf-8');
     return JSON.parse(data) as CachedData;
   } catch (error) {
-    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+    if (error instanceof Error && 'code' in error && 'code' in error && error.code === 'ENOENT') {
         console.warn("Cache file not found, will use fallback data.");
         return null;
     }
@@ -60,14 +59,14 @@ async function readCache(): Promise<CachedData | null> {
 export async function getStatesData(): Promise<State[]> {
   
   // STEP 1: Uncomment this block to use Firestore
-  /*
+  
   const firestoreStates = await fetchStatesFromFirestore();
   if (firestoreStates) {
     console.log("Using data from Firestore.");
     return firestoreStates;
   }
   console.log("Could not fetch from Firestore, falling back to local cache/static data.");
-  */
+  
 
   // Current implementation: Read from local file cache
   const cachedData = await readCache();
