@@ -54,7 +54,7 @@ function serializeState(state: State): State {
 async function writeToCache(states: State[]): Promise<void> {
     try {
         await fs.mkdir(path.dirname(CACHE_PATH), { recursive: true });
-        await fs.writeFile(CACHE_PATH, JSON.stringify({ timestamp: Date.now(), states: states }, null, 2), 'utf-8');
+        await fs.writeFile(CACHE_PATH, JSON.stringify({ timestamp: Date.now(), states: states.map(serializeState) }, null, 2), 'utf-8');
     } catch (error) {
         console.error("Failed to write to state data cache:", error);
     }
@@ -101,6 +101,7 @@ async function updateSingleState(stateShell: Omit<State, 'demographics' | 'polit
 
 /**
  * Populates Firestore from the local cache file if the database is empty.
+ * This is a critical, one-time operation.
  * @returns {Promise<State[]>}
  */
 async function populateFirestoreFromScratch(): Promise<State[]> {
@@ -112,13 +113,22 @@ async function populateFirestoreFromScratch(): Promise<State[]> {
     }
 
     const populatedStates: State[] = [];
+    
+    // Use Promise.allSettled to fetch all data without failing the entire process if one fetch fails.
+    const results = await Promise.allSettled(
+        stateShells.map(shell => fetchStateData({ stateName: shell.name }))
+    );
+
     const batch = writeBatch(db);
 
-    for (const shell of stateShells) {
-        console.log(`Fetching initial data for ${shell.name}...`);
-        try {
-            const dynamicData = await fetchStateData({ stateName: shell.name });
-            const fullState: State = {
+    for (let i = 0; i < stateShells.length; i++) {
+        const shell = stateShells[i];
+        const result = results[i];
+        let fullState: State;
+
+        if (result.status === 'fulfilled') {
+            const dynamicData = result.value;
+            fullState = {
                 ...shell,
                 demographics: {
                     population: dynamicData.population,
@@ -129,20 +139,30 @@ async function populateFirestoreFromScratch(): Promise<State[]> {
                 politicalClimate: dynamicData.politicalClimate,
                 lastUpdated: Timestamp.now(),
             };
-            const stateDocRef = doc(db, 'states', fullState.id);
-            batch.set(stateDocRef, fullState);
-            populatedStates.push(serializeState(fullState));
             console.log(`Successfully fetched data for ${shell.name}.`);
-        } catch (error) {
-            console.error(`Failed to fetch initial data for ${shell.name}. It will be skipped.`, error);
+        } else {
+            // If the AI fetch failed, create a state with placeholder data.
+            // It will be updated on the next load because its `lastUpdated` will be old.
+            console.error(`Failed to fetch initial data for ${shell.name}. It will be saved with placeholder data.`, result.reason);
+            fullState = {
+                ...shell,
+                demographics: { population: 0, gdp: 0, literacyRate: 0, crimeRate: 0 },
+                politicalClimate: 'Could not fetch latest data.',
+                lastUpdated: Timestamp.fromMillis(0), // Set to a very old date to trigger update next time.
+            };
         }
+        
+        const stateDocRef = doc(db, 'states', fullState.id);
+        batch.set(stateDocRef, fullState);
+        populatedStates.push(fullState);
     }
 
     try {
         await batch.commit();
         console.log(`Firestore has been populated with ${populatedStates.length} states.`);
-        await writeToCache(populatedStates);
-        return populatedStates.sort((a, b) => a.name.localeCompare(b.name));
+        const serializableStates = populatedStates.map(serializeState);
+        await writeToCache(serializableStates);
+        return serializableStates.sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
         console.error("CRITICAL: Failed to commit the batch to Firestore.", error);
         return [];
@@ -179,7 +199,7 @@ export async function getStatesData(): Promise<State[]> {
         const now = Date.now();
 
         for (const state of states) {
-            const lastUpdated = state.lastUpdated?.toDate?.()?.getTime() || state.lastUpdated as number || 0;
+            const lastUpdated = state.lastUpdated?.toDate?.().getTime() || (state.lastUpdated as number) || 0;
             const isStale = !lastUpdated || (now - lastUpdated > TWO_DAYS_IN_MS);
             const isDataMissing = !state.demographics || state.demographics.population === 0;
 
