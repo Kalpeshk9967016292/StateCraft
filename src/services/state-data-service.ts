@@ -21,6 +21,7 @@ async function getCachedStates(): Promise<State[]> {
         const fileContent = await fs.readFile(cachePath, 'utf-8');
         const cacheData = JSON.parse(fileContent);
         if (cacheData.states && cacheData.states.length > 0) {
+            // When reading from cache, the timestamp is already a plain number, so no conversion needed.
             return cacheData.states;
         }
         return [];
@@ -30,6 +31,22 @@ async function getCachedStates(): Promise<State[]> {
         return [];
     }
 }
+
+/**
+ * Converts Firestore Timestamp objects in a state object to serializable numbers.
+ * @param {State} state - The state object with a potential Timestamp.
+ * @returns {State} - The state object with the timestamp converted.
+ */
+function serializeState(state: State): State {
+    if (state.lastUpdated && typeof state.lastUpdated.toDate === 'function') {
+        return {
+            ...state,
+            lastUpdated: state.lastUpdated.toDate().getTime(),
+        };
+    }
+    return state;
+}
+
 
 /**
  * Fetches fresh data for a single state using AI and updates it in Firestore.
@@ -54,11 +71,11 @@ async function updateSingleState(state: State): Promise<State> {
         const stateDocRef = doc(db, 'states', updatedState.id);
         await setDoc(stateDocRef, updatedState);
         console.log(`Successfully updated ${state.name}.`);
-        return updatedState;
+        return serializeState(updatedState);
     } catch (error) {
         console.error(`AI fetch failed for ${state.name}. Data will remain stale.`, error);
-        // Return original state if update fails
-        return state;
+        // Return original state (serialized) if update fails
+        return serializeState(state);
     }
 }
 
@@ -77,20 +94,32 @@ async function populateFirestoreFromCache(): Promise<State[]> {
 
     const batch = writeBatch(db);
     const populatedStates: State[] = [];
+    const updatePromises: Promise<State>[] = [];
 
     for (const cachedState of cachedStates) {
-        // Add a lastUpdated timestamp to each state
-        const stateWithTimestamp = {
-            ...cachedState,
-            lastUpdated: Timestamp.now()
-        };
-        
-        const stateDocRef = doc(db, 'states', cachedState.id);
-        batch.set(stateDocRef, stateWithTimestamp);
-        populatedStates.push(stateWithTimestamp);
+        // If demographics are missing/zero, queue an immediate AI fetch.
+        if (cachedState.demographics.population === 0 || cachedState.demographics.gdp === 0) {
+             console.log(`Cached data for ${cachedState.name} is incomplete. Fetching fresh data...`);
+             // We pass the shell of the state to be filled by the AI
+             updatePromises.push(updateSingleState(cachedState));
+        } else {
+            const stateWithTimestamp = {
+                ...cachedState,
+                lastUpdated: Timestamp.now()
+            };
+            const stateDocRef = doc(db, 'states', cachedState.id);
+            batch.set(stateDocRef, stateWithTimestamp);
+            populatedStates.push(serializeState(stateWithTimestamp));
+        }
     }
     
     await batch.commit();
+
+     if (updatePromises.length > 0) {
+        const freshlyFetchedStates = await Promise.all(updatePromises);
+        populatedStates.push(...freshlyFetchedStates); // Already serialized
+    }
+
     console.log(`Firestore has been populated with ${populatedStates.length} states.`);
     return populatedStates.sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -130,11 +159,13 @@ export async function getStatesData(): Promise<State[]> {
             // Create a map of updated states by ID for easy lookup
             const updatedStatesMap = new Map(updatedStates.map(s => [s.id, s]));
 
-            // Merge updated states back into the main list
-            states = states.map(s => updatedStatesMap.get(s.id) || s);
+            // Merge updated states back into the main list, ensuring all are serialized
+            states = states.map(s => serializeState(updatedStatesMap.get(s.id) || s));
             console.log("State updates complete.");
         } else {
             console.log("All state data is fresh. No updates needed.");
+            // Ensure all states are serialized even if no updates were needed.
+            states = states.map(serializeState);
         }
 
         return states.sort((a, b) => a.name.localeCompare(b.name));
