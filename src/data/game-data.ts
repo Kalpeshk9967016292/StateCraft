@@ -8,6 +8,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'andhra-pradesh',
     name: 'Andhra Pradesh',
     description: 'A coastal state with a strong agricultural base and a growing IT sector.',
+    language: 'Telugu',
     initialStats: {
       budget: 35000,
       revenue: 42000,
@@ -22,6 +23,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'arunachal-pradesh',
     name: 'Arunachal Pradesh',
     description: 'A scenic, mountainous state with rich biodiversity and a focus on tourism and hydropower.',
+    language: 'English',
     initialStats: {
       budget: 8000,
       revenue: 9500,
@@ -36,6 +38,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'assam',
     name: 'Assam',
     description: 'Famous for its tea plantations and wildlife, this state is a gateway to Northeast India.',
+    language: 'Assamese',
     initialStats: {
       budget: 25000,
       revenue: 30000,
@@ -50,6 +53,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'bihar',
     name: 'Bihar',
     description: 'A state with immense potential, battling issues of poverty, governance, and infrastructure development.',
+    language: 'Hindi',
     initialStats: {
       budget: 28000,
       revenue: 32000,
@@ -64,6 +68,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'chhattisgarh',
     name: 'Chhattisgarh',
     description: 'A resource-rich state known for its forests and tribal culture, facing Naxal insurgency challenges.',
+    language: 'Hindi',
     initialStats: {
       budget: 22000,
       revenue: 26000,
@@ -78,6 +83,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'goa',
     name: 'Goa',
     description: 'A popular tourist destination with beautiful beaches and a vibrant culture.',
+    language: 'Konkani',
     initialStats: {
       budget: 5000,
       revenue: 7000,
@@ -92,6 +98,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'gujarat',
     name: 'Gujarat',
     description: 'An industrial powerhouse with a long coastline and a strong entrepreneurial spirit.',
+    language: 'Gujarati',
     initialStats: {
       budget: 90000,
       revenue: 110000,
@@ -106,6 +113,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'haryana',
     name: 'Haryana',
     description: 'An agricultural state that is also a major manufacturing and IT hub.',
+    language: 'Hindi',
     initialStats: {
       budget: 45000,
       revenue: 55000,
@@ -120,6 +128,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'himachal-pradesh',
     name: 'Himachal Pradesh',
     description: 'A Himalayan state known for its tourism, apples, and hydropower.',
+    language: 'Hindi',
     initialStats: {
       budget: 12000,
       revenue: 15000,
@@ -134,6 +143,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'jharkhand',
     name: 'Jharkhand',
     description: 'Rich in mineral resources, this state is working to overcome poverty and political instability.',
+    language: 'Hindi',
     initialStats: {
       budget: 18000,
       revenue: 22000,
@@ -148,6 +158,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'karnataka',
     name: 'Karnataka',
     description: 'Home to India\'s Silicon Valley, with a diverse economy spanning IT, manufacturing, and agriculture.',
+    language: 'Kannada',
     initialStats: {
       budget: 85000,
       revenue: 100000,
@@ -162,6 +173,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'kerala',
     name: 'Kerala',
     description: 'Known for its high literacy and social development, but struggles with industrial growth and brain drain.',
+    language: 'Malayalam',
     initialStats: {
       budget: 40000,
       revenue: 45000,
@@ -176,6 +188,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'madhya-pradesh',
     name: 'Madhya Pradesh',
     description: 'The "Heart of India", a large state with significant agricultural and mineral wealth.',
+    language: 'Hindi',
     initialStats: {
       budget: 55000,
       revenue: 65000,
@@ -190,6 +203,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'maharashtra',
     name: 'Maharashtra',
     description: 'A bustling state with a major financial hub, facing challenges of urban infrastructure and rural distress.',
+    language: 'Marathi',
     initialStats: {
       budget: 150000,
       revenue: 180000,
@@ -204,6 +218,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'manipur',
     name: 'Manipur',
     description: 'A state known for its rich culture and sports achievements, dealing with insurgency and ethnic conflicts.',
+    language: 'Meitei',
     initialStats: {
       budget: 6000,
       revenue: 7500,
@@ -218,6 +233,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'meghalaya',
     name: 'Meghalaya',
     description: 'The "Abode of Clouds", a picturesque state with unique matrilineal societies.',
+    language: 'English',
     initialStats: {
       budget: 7000,
       revenue: 8500,
@@ -232,6 +248,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'mizoram',
     name: 'Mizoram',
     description: 'A peaceful state with a high literacy rate and a strong sense of community.',
+    language: 'Mizo',
     initialStats: {
       budget: 5500,
       revenue: 6500,
@@ -246,6 +263,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'nagaland',
     name: 'Nagaland',
     description: 'A vibrant state with diverse tribes and a long history of seeking greater political autonomy.',
+    language: 'English',
     initialStats: {
       budget: 6500,
       revenue: 8000,
@@ -260,6 +278,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'odisha',
     name: 'Odisha',
     description: 'A state rich in culture and minerals, frequently hit by natural disasters like cyclones.',
+    language: 'Odia',
     initialStats: {
       budget: 48000,
       revenue: 55000,
@@ -274,6 +293,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'punjab',
     name: 'Punjab',
     description: 'The "Granary of India", a prosperous agricultural state facing issues of drug abuse and water depletion.',
+    language: 'Punjabi',
     initialStats: {
       budget: 40000,
       revenue: 48000,
@@ -288,6 +308,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'rajasthan',
     name: 'Rajasthan',
     description: 'The "Land of Kings", a vast desert state with a rich history and a thriving tourism industry.',
+    language: 'Hindi',
     initialStats: {
       budget: 65000,
       revenue: 75000,
@@ -302,6 +323,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'sikkim',
     name: 'Sikkim',
     description: 'A small, pristine state in the Himalayas, known for its organic farming and stunning landscapes.',
+    language: 'Nepali',
     initialStats: {
       budget: 4000,
       revenue: 5000,
@@ -316,6 +338,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'tamil-nadu',
     name: 'Tamil Nadu',
     description: 'A major manufacturing and automotive hub with a rich cultural and linguistic heritage.',
+    language: 'Tamil',
     initialStats: {
       budget: 100000,
       revenue: 120000,
@@ -330,6 +353,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'telangana',
     name: 'Telangana',
     description: 'A newly formed state with a booming IT sector and a focus on irrigation projects.',
+    language: 'Telugu',
     initialStats: {
       budget: 75000,
       revenue: 90000,
@@ -344,6 +368,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'tripura',
     name: 'Tripura',
     description: 'A hilly state in Northeast India with a history of ethnic diversity and political change.',
+    language: 'Bengali',
     initialStats: {
       budget: 8500,
       revenue: 10000,
@@ -358,6 +383,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'uttar-pradesh',
     name: 'Uttar Pradesh',
     description: 'India\'s most populous state, with significant political influence and a diverse economy.',
+    language: 'Hindi',
     initialStats: {
       budget: 180000,
       revenue: 200000,
@@ -372,6 +398,7 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     id: 'uttarakhand',
     name: 'Uttarakhand',
     description: 'A Himalayan state known for its religious tourism and natural beauty, facing environmental challenges.',
+    language: 'Hindi',
     initialStats: {
       budget: 15000,
       revenue: 18000,
@@ -385,15 +412,16 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
   {
     id: 'west-bengal',
     name: 'West Bengal',
-    description: 'A state with a rich literary and cultural history, known for its political fervor.',
-    initialStats: {
-      budget: 80000,
-      revenue: 95000,
-      publicApproval: 51,
-      lawAndOrder: 60,
-      economicHealth: 63,
-      oppositionStrength: 49,
-      corruptionLevel: 66,
+    "description": "A state with a rich literary and cultural history, known for its political fervor.",
+    "language": "Bengali",
+    "initialStats": {
+      "budget": 80000,
+      "revenue": 95000,
+      "publicApproval": 51,
+      "lawAndOrder": 60,
+      "economicHealth": 63,
+      "oppositionStrength": 49,
+      "corruptionLevel": 66,
     },
   },
 ];

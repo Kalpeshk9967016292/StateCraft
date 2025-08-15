@@ -50,15 +50,15 @@ function serializeState(state: State): State {
 
 /**
  * Fetches fresh data for a single state using AI and updates it in Firestore.
- * @param {State} state - The state object to update.
+ * @param {Omit<State, 'demographics' | 'politicalClimate'>} stateShell - The base state object to update.
  * @returns {Promise<State>} - The newly updated state.
  */
-async function updateSingleState(state: State): Promise<State> {
-    console.log(`Updating data for ${state.name}...`);
+async function updateSingleState(stateShell: Omit<State, 'demographics' | 'politicalClimate' | 'lastUpdated'>): Promise<State> {
+    console.log(`Updating data for ${stateShell.name}...`);
     try {
-        const dynamicData = await fetchStateData({ stateName: state.name });
+        const dynamicData = await fetchStateData({ stateName: stateShell.name });
         const updatedState: State = {
-            ...state,
+            ...stateShell,
             demographics: {
                 population: dynamicData.population,
                 gdp: dynamicData.gdp,
@@ -70,12 +70,18 @@ async function updateSingleState(state: State): Promise<State> {
         };
         const stateDocRef = doc(db, 'states', updatedState.id);
         await setDoc(stateDocRef, updatedState);
-        console.log(`Successfully updated ${state.name}.`);
+        console.log(`Successfully updated ${stateShell.name}.`);
         return serializeState(updatedState);
     } catch (error) {
-        console.error(`AI fetch failed for ${state.name}. Data will remain stale.`, error);
-        // Return original state (serialized) if update fails
-        return serializeState(state);
+        console.error(`AI fetch failed for ${stateShell.name}. Data will remain stale.`, error);
+        // Return a shell state if update fails, which will be retried on next load
+        const fallbackState: State = {
+             ...stateShell,
+             demographics: { population: 0, gdp: 0, literacyRate: 0, crimeRate: 0 },
+             politicalClimate: 'Could not fetch latest data.',
+             lastUpdated: Timestamp.fromMillis(0)
+        }
+        return serializeState(fallbackState);
     }
 }
 
@@ -85,41 +91,27 @@ async function updateSingleState(state: State): Promise<State> {
  * @returns {Promise<State[]>}
  */
 async function populateFirestoreFromCache(): Promise<State[]> {
-    console.log('Firestore is empty. Populating from local cache file...');
-    const cachedStates = await getCachedStates();
+    console.log('Firestore is empty. Populating from source data...');
+    const cachedStates = initialStates;
     if (cachedStates.length === 0) {
-        console.error('CRITICAL: Firestore is empty and local cache is empty. Cannot start game.');
+        console.error('CRITICAL: Firestore is empty and initialStates data is empty. Cannot start game.');
         return [];
     }
 
     const batch = writeBatch(db);
-    const populatedStates: State[] = [];
     const updatePromises: Promise<State>[] = [];
 
-    for (const cachedState of cachedStates) {
-        // If demographics are missing/zero, queue an immediate AI fetch.
-        if (!cachedState.demographics || cachedState.demographics.population === 0 || cachedState.demographics.gdp === 0) {
-             console.log(`Cached data for ${cachedState.name} is incomplete. Fetching fresh data...`);
-             // We pass the shell of the state to be filled by the AI
-             updatePromises.push(updateSingleState(cachedState));
-        } else {
-            const stateWithTimestamp = {
-                ...cachedState,
-                lastUpdated: Timestamp.now()
-            };
-            const stateDocRef = doc(db, 'states', cachedState.id);
-            batch.set(stateDocRef, stateWithTimestamp);
-            populatedStates.push(serializeState(stateWithTimestamp));
-        }
+    // All states are fetched on first go now to ensure data integrity
+    for (const stateShell of cachedStates) {
+        updatePromises.push(updateSingleState(stateShell));
     }
     
-    await batch.commit();
-
-     if (updatePromises.length > 0) {
-        const freshlyFetchedStates = await Promise.all(updatePromises);
-        populatedStates.push(...freshlyFetchedStates); // Already serialized
-    }
-
+    const populatedStates = await Promise.all(updatePromises);
+    
+    const cachePath = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
+    await fs.mkdir(path.dirname(cachePath), { recursive: true });
+    await fs.writeFile(cachePath, JSON.stringify({ timestamp: Date.now(), states: populatedStates }, null, 2), 'utf-8');
+    
     console.log(`Firestore has been populated with ${populatedStates.length} states.`);
     return populatedStates.sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -146,25 +138,32 @@ export async function getStatesData(): Promise<State[]> {
 
         for (const state of states) {
             const lastUpdated = state.lastUpdated?.toDate()?.getTime();
-            if (!lastUpdated || (now - lastUpdated > TWO_DAYS_IN_MS)) {
-                console.log(`Data for ${state.name} is stale or missing timestamp. Queuing for update.`);
+            const isStale = !lastUpdated || (now - lastUpdated > TWO_DAYS_IN_MS);
+            const isDataMissing = !state.demographics || state.demographics.population === 0;
+
+            if (isStale || isDataMissing) {
+                if (isDataMissing) console.log(`Data for ${state.name} is missing. Queuing for immediate update.`);
+                else console.log(`Data for ${state.name} is stale. Queuing for update.`);
+                
                 updatePromises.push(updateSingleState(state));
             }
         }
 
         if (updatePromises.length > 0) {
-            console.log(`Updating ${updatePromises.length} stale states...`);
+            console.log(`Updating ${updatePromises.length} states...`);
             const updatedStates = await Promise.all(updatePromises);
             
-            // Create a map of updated states by ID for easy lookup
             const updatedStatesMap = new Map(updatedStates.map(s => [s.id, s]));
 
-            // Merge updated states back into the main list, ensuring all are serialized
             states = states.map(s => serializeState(updatedStatesMap.get(s.id) || s));
             console.log("State updates complete.");
+
+            const cachePath = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
+            await fs.mkdir(path.dirname(cachePath), { recursive: true });
+            await fs.writeFile(cachePath, JSON.stringify({ timestamp: Date.now(), states: states }, null, 2), 'utf-8');
+
         } else {
             console.log("All state data is fresh. No updates needed.");
-            // Ensure all states are serialized even if no updates were needed.
             states = states.map(serializeState);
         }
 
