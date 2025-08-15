@@ -3,48 +3,13 @@
 
 import type { State } from '@/lib/types';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, setDoc, getDoc, writeBatch } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, writeBatch, Timestamp } from 'firebase/firestore';
 import { fetchStateData } from '@/ai/flows/state-data-fetcher';
 import { initialStates } from '@/data/game-data';
 import fs from 'fs/promises';
 import path from 'path';
 
-// This is a temporary solution to prevent the AI from running on every startup.
-// In a real app, this would be a scheduled job.
-const USE_AI_DATA_FETCHER = true; 
 const TWO_DAYS_IN_MS = 2 * 24 * 60 * 60 * 1000;
-
-/**
- * Checks if the Firestore data is stale and needs to be updated.
- * @returns {Promise<boolean>} - True if an update is needed.
- */
-async function needsUpdate(): Promise<boolean> {
-  if (!USE_AI_DATA_FETCHER) return false;
-  
-  try {
-    const metadataDocRef = doc(db, 'metadata', 'states');
-    const docSnap = await getDoc(metadataDocRef);
-
-    if (!docSnap.exists()) {
-      console.log('No metadata found, update is needed.');
-      return true;
-    }
-
-    const lastUpdated = docSnap.data().lastUpdated?.toDate();
-    if (!lastUpdated) {
-        console.log('Metadata exists but lastUpdated field is missing, update is needed.');
-        return true;
-    }
-
-    const isStale = (new Date().getTime() - lastUpdated.getTime()) > TWO_DAYS_IN_MS;
-    console.log(isStale ? "Data is stale, update is needed." : "Data is fresh.");
-    return isStale;
-
-  } catch (error) {
-    console.error("Error checking metadata for update:", error);
-    return true; // Assume update is needed on error.
-  }
-}
 
 /**
  * Reads the state data from the local JSON cache file.
@@ -67,63 +32,39 @@ async function getCachedStates(): Promise<State[]> {
 }
 
 /**
- * Fetches fresh data using the AI and updates Firestore.
- * This function is expensive and should be used sparingly.
- * @returns {Promise<State[]>} - The newly fetched states.
+ * Fetches fresh data for a single state using AI and updates it in Firestore.
+ * @param {State} state - The state object to update.
+ * @returns {Promise<State>} - The newly updated state.
  */
-async function updateStateDataInFirestore(): Promise<State[]> {
-  console.log('Starting to update state data in Firestore using AI...');
-  const updatedStates: State[] = [];
-  const batch = writeBatch(db);
-  
-  const cachedStates = await getCachedStates();
-  const cachedStatesMap = new Map(cachedStates.map(s => [s.id, s]));
-
-  for (const staticState of initialStates) {
-    let finalState: State | undefined;
+async function updateSingleState(state: State): Promise<State> {
+    console.log(`Updating data for ${state.name}...`);
     try {
-      console.log(`Fetching latest data for ${staticState.name}...`);
-      const dynamicData = await fetchStateData({ stateName: staticState.name });
-      
-      finalState = {
-        ...staticState,
-        demographics: {
-          population: dynamicData.population,
-          gdp: dynamicData.gdp,
-          literacyRate: dynamicData.literacyRate,
-          crimeRate: dynamicData.crimeRate,
-        },
-        politicalClimate: dynamicData.politicalClimate,
-      };
-
+        const dynamicData = await fetchStateData({ stateName: state.name });
+        const updatedState: State = {
+            ...state,
+            demographics: {
+                population: dynamicData.population,
+                gdp: dynamicData.gdp,
+                literacyRate: dynamicData.literacyRate,
+                crimeRate: dynamicData.crimeRate,
+            },
+            politicalClimate: dynamicData.politicalClimate,
+            lastUpdated: Timestamp.now(),
+        };
+        const stateDocRef = doc(db, 'states', updatedState.id);
+        await setDoc(stateDocRef, updatedState);
+        console.log(`Successfully updated ${state.name}.`);
+        return updatedState;
     } catch (error) {
-        console.error(`AI fetch failed for ${staticState.name}. Using fallback cache data.`, error);
-        finalState = cachedStatesMap.get(staticState.id);
+        console.error(`AI fetch failed for ${state.name}. Data will remain stale.`, error);
+        // Return original state if update fails
+        return state;
     }
-    
-    if (finalState) {
-        const stateDocRef = doc(db, 'states', finalState.id);
-        batch.set(stateDocRef, finalState);
-        updatedStates.push(finalState);
-    } else {
-        console.error(`CRITICAL: No data found for ${staticState.name} in AI or cache.`);
-    }
-  }
-  
-  if (updatedStates.length > 0) {
-      const metadataDocRef = doc(db, 'metadata', 'states');
-      batch.set(metadataDocRef, { lastUpdated: new Date() });
-      await batch.commit();
-      console.log(`Firestore state data updated for ${updatedStates.length} states.`);
-  }
-
-  return updatedStates;
 }
 
 
 /**
  * Populates Firestore from the local cache file if the database is empty.
- * It validates the data and fetches from AI if a cached entry is invalid.
  * @returns {Promise<State[]>}
  */
 async function populateFirestoreFromCache(): Promise<State[]> {
@@ -138,48 +79,26 @@ async function populateFirestoreFromCache(): Promise<State[]> {
     const populatedStates: State[] = [];
 
     for (const cachedState of cachedStates) {
-        const { demographics } = cachedState;
-        const isInvalid = demographics.population === 0 && demographics.gdp === 0 && demographics.literacyRate === 0;
-
-        if (isInvalid) {
-            console.warn(`Invalid data for ${cachedState.name} in cache. Fetching fresh data...`);
-            try {
-                const dynamicData = await fetchStateData({ stateName: cachedState.name });
-                const repairedState: State = {
-                    ...cachedState,
-                    demographics: {
-                        population: dynamicData.population,
-                        gdp: dynamicData.gdp,
-                        literacyRate: dynamicData.literacyRate,
-                        crimeRate: dynamicData.crimeRate,
-                    },
-                    politicalClimate: dynamicData.politicalClimate,
-                };
-                const stateDocRef = doc(db, 'states', repairedState.id);
-                batch.set(stateDocRef, repairedState);
-                populatedStates.push(repairedState);
-            } catch (error) {
-                console.error(`Failed to repair data for ${cachedState.name}. It will be missing from the DB.`, error);
-            }
-        } else {
-            const stateDocRef = doc(db, 'states', cachedState.id);
-            batch.set(stateDocRef, cachedState);
-            populatedStates.push(cachedState);
-        }
+        // Add a lastUpdated timestamp to each state
+        const stateWithTimestamp = {
+            ...cachedState,
+            lastUpdated: Timestamp.now()
+        };
+        
+        const stateDocRef = doc(db, 'states', cachedState.id);
+        batch.set(stateDocRef, stateWithTimestamp);
+        populatedStates.push(stateWithTimestamp);
     }
-    
-    const metadataDocRef = doc(db, 'metadata', 'states');
-    batch.set(metadataDocRef, { lastUpdated: new Date() });
     
     await batch.commit();
     console.log(`Firestore has been populated with ${populatedStates.length} states.`);
-    return populatedStates;
+    return populatedStates.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 
 /**
  * The main data fetching service for the application.
- * It orchestrates fetching from Firestore, updating from AI, and using local cache.
+ * It fetches from Firestore and triggers updates for stale documents.
  * @returns {Promise<State[]>}
  */
 export async function getStatesData(): Promise<State[]> {
@@ -192,19 +111,30 @@ export async function getStatesData(): Promise<State[]> {
             return await populateFirestoreFromCache();
         }
         
-        const states = snapshot.docs.map(doc => doc.data() as State);
-        
-        const needsAiUpdate = await needsUpdate();
-        if (needsAiUpdate) {
-            console.log("Data is stale. Fetching fresh data from AI.");
-            return await updateStateDataInFirestore();
+        let states = snapshot.docs.map(doc => doc.data() as State);
+        const updatePromises: Promise<State>[] = [];
+        const now = Date.now();
+
+        for (const state of states) {
+            const lastUpdated = state.lastUpdated?.toDate()?.getTime();
+            if (!lastUpdated || (now - lastUpdated > TWO_DAYS_IN_MS)) {
+                console.log(`Data for ${state.name} is stale or missing timestamp. Queuing for update.`);
+                updatePromises.push(updateSingleState(state));
+            }
         }
-        
-        console.log("Data is fresh. Using existing state data from Firestore.");
-        
-        if (states.length < initialStates.length) {
-            console.warn('Firestore is incomplete. Triggering data population to fill gaps.');
-            return await populateFirestoreFromCache();
+
+        if (updatePromises.length > 0) {
+            console.log(`Updating ${updatePromises.length} stale states...`);
+            const updatedStates = await Promise.all(updatePromises);
+            
+            // Create a map of updated states by ID for easy lookup
+            const updatedStatesMap = new Map(updatedStates.map(s => [s.id, s]));
+
+            // Merge updated states back into the main list
+            states = states.map(s => updatedStatesMap.get(s.id) || s);
+            console.log("State updates complete.");
+        } else {
+            console.log("All state data is fresh. No updates needed.");
         }
 
         return states.sort((a, b) => a.name.localeCompare(b.name));

@@ -12,6 +12,7 @@ export interface State {
   };
   initialStats: Stats;
   politicalClimate: string;
+  lastUpdated?: any; // Firestore Timestamp
 }
 
 export const StatsSchema = z.object({
