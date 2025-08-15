@@ -30,8 +30,8 @@ const tourSteps = [
     highlight: "chart",
   },
   {
-    title: "📋 Your Agenda",
-    description: "This is where you take action. Each turn, you'll face specific challenges or have the opportunity to propose your own laws. Your choices here drive the game.",
+    title: "📋 Your Agenda & Custom Laws",
+    description: "This is where you take action. Each turn, you can address this quarter's specific challenges or use the 'Propose a Law' tab to create your own policies from scratch.",
     highlight: "actions",
   },
   {
