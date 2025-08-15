@@ -16,26 +16,36 @@ interface CachedData {
   states: State[];
 }
 
-// --- Firestore Integration (commented out) ---
-// This function shows how you would fetch data from Firestore.
+// --- Firestore Integration ---
+// This function now fetches data from Firestore and populates it if it's empty.
 
 async function fetchStatesFromFirestore(): Promise<State[] | null> {
   try {
     const statesCollection = collection(db, 'states');
     const snapshot = await getDocs(statesCollection);
+    
     if (snapshot.empty) {
       console.log('No states found in Firestore. Populating with initial data.');
-      // You could populate Firestore with initial data here if needed.
-      // for (const state of fallbackStates) {
-      //   await setDoc(doc(db, 'states', state.id), state);
-      // }
-      return null;
+      // Populate Firestore with the fallback data
+      const populatedStates = fallbackStates.map(state => {
+          if (!state.politicalClimate) {
+              state.politicalClimate = `The political situation in ${state.name} is complex, with various factions vying for power.`;
+          }
+          return state;
+      });
+
+      for (const state of populatedStates) {
+        await setDoc(doc(db, 'states', state.id), state);
+      }
+      console.log('Firestore populated with initial state data.');
+      return populatedStates;
     }
+
     const states = snapshot.docs.map(doc => doc.data() as State);
     return states;
   } catch (error) {
-    console.error("Error fetching states from Firestore:", error);
-    // This might happen if Firestore isn't set up yet.
+    console.error("Error fetching or populating states from Firestore:", error);
+    // This might happen if Firestore isn't set up yet or due to permissions.
     return null;
   }
 }
@@ -58,8 +68,7 @@ async function readCache(): Promise<CachedData | null> {
 
 export async function getStatesData(): Promise<State[]> {
   
-  // STEP 1: Uncomment this block to use Firestore
-  
+  // STEP 1: Use Firestore
   const firestoreStates = await fetchStatesFromFirestore();
   if (firestoreStates) {
     console.log("Using data from Firestore.");
@@ -68,7 +77,7 @@ export async function getStatesData(): Promise<State[]> {
   console.log("Could not fetch from Firestore, falling back to local cache/static data.");
   
 
-  // Current implementation: Read from local file cache
+  // Fallback 1: Read from local file cache
   const cachedData = await readCache();
 
   if (cachedData?.states) {
@@ -76,7 +85,7 @@ export async function getStatesData(): Promise<State[]> {
     return cachedData.states;
   }
 
-  // Fallback to static data if cache is empty or fails to load
+  // Fallback 2: Use static data if cache is empty or fails to load
   console.log('Using fallback static state data.');
   return fallbackStates.map(state => {
     if (!state.politicalClimate) {
