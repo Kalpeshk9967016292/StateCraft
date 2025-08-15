@@ -92,27 +92,52 @@ async function updateSingleState(stateShell: Omit<State, 'demographics' | 'polit
  */
 async function populateFirestoreFromCache(): Promise<State[]> {
     console.log('Firestore is empty. Populating from source data...');
-    const cachedStates = initialStates;
-    if (cachedStates.length === 0) {
+    const stateShells = initialStates;
+    if (stateShells.length === 0) {
         console.error('CRITICAL: Firestore is empty and initialStates data is empty. Cannot start game.');
         return [];
     }
 
-    const updatePromises: Promise<State>[] = [];
+    const statePromises = stateShells.map(shell => fetchStateData({ stateName: shell.name }));
 
-    // All states are fetched on first go now to ensure data integrity
-    for (const stateShell of cachedStates) {
-        updatePromises.push(updateSingleState(stateShell));
+    try {
+        const fetchedData = await Promise.all(statePromises);
+
+        const batch = writeBatch(db);
+        const populatedStates: State[] = [];
+
+        for (let i = 0; i < stateShells.length; i++) {
+            const shell = stateShells[i];
+            const dynamicData = fetchedData[i];
+            const fullState: State = {
+                ...shell,
+                demographics: {
+                    population: dynamicData.population,
+                    gdp: dynamicData.gdp,
+                    literacyRate: dynamicData.literacyRate,
+                    crimeRate: dynamicData.crimeRate,
+                },
+                politicalClimate: dynamicData.politicalClimate,
+                lastUpdated: Timestamp.now(),
+            };
+            const stateDocRef = doc(db, 'states', fullState.id);
+            batch.set(stateDocRef, fullState);
+            populatedStates.push(serializeState(fullState));
+        }
+
+        await batch.commit();
+        console.log(`Firestore has been populated with ${populatedStates.length} states.`);
+        
+        const cachePath = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
+        await fs.mkdir(path.dirname(cachePath), { recursive: true });
+        await fs.writeFile(cachePath, JSON.stringify({ timestamp: Date.now(), states: populatedStates }, null, 2), 'utf-8');
+        
+        return populatedStates.sort((a, b) => a.name.localeCompare(b.name));
+
+    } catch (error) {
+        console.error("Failed to fetch initial data and populate Firestore.", error);
+        return [];
     }
-    
-    const populatedStates = await Promise.all(updatePromises);
-    
-    const cachePath = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
-    await fs.mkdir(path.dirname(cachePath), { recursive: true });
-    await fs.writeFile(cachePath, JSON.stringify({ timestamp: Date.now(), states: populatedStates }, null, 2), 'utf-8');
-    
-    console.log(`Firestore has been populated with ${populatedStates.length} states.`);
-    return populatedStates.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 
@@ -173,5 +198,3 @@ export async function getStatesData(): Promise<State[]> {
         return getCachedStates();
     }
 }
-
-    
