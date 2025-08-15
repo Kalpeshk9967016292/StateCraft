@@ -1,8 +1,9 @@
 'use server';
 
-import type { GameState, Challenge } from '@/lib/types';
+import type { GameState, Challenge, NewsHeadline, OppositionStatement, TranslateRequest } from '@/lib/types';
 import { processGameTurn } from '@/ai/flows/game-turn';
 import { generateTurnOptions as genOptions } from '@/ai/flows/turn-options-generator';
+import { translateText as translateTextFlow } from '@/ai/flows/translator';
 
 export async function handleDecision(
   gameState: GameState,
@@ -19,7 +20,7 @@ export async function handleDecision(
   };
 
   try {
-    const turnResult = await processGameTurn(gameTurnInput);
+    const turnResult = await processGameTurn(gameturnInput);
     
     const newStats = turnResult.updatedStats;
     const newHistory = [...gameState.statsHistory, { turn: gameState.turn + 1, stats: newStats }];
@@ -107,5 +108,54 @@ export async function getAiAdvice(gameState: GameState): Promise<{advice: string
             advice: "Could not fetch advice.",
             reasoning: "There was an error communicating with the AI advisor. Please try again later."
         };
+    }
+}
+
+export async function translateTurnSummary(
+    content: {
+        keyEvents: string;
+        newsHeadlines: NewsHeadline[];
+        oppositionStatement: OppositionStatement | null;
+    },
+    language: string
+): Promise<{
+    keyEvents: string;
+    newsHeadlines: NewsHeadline[];
+    oppositionStatement: OppositionStatement | null;
+}> {
+    try {
+        const translate = async (text: string) => {
+            if (!text) return text;
+            const response = await translateTextFlow({ textToTranslate: text, targetLanguage: language });
+            return response.translatedText;
+        };
+
+        const translatedKeyEvents = await translate(content.keyEvents);
+        
+        const translatedNewsHeadlines = await Promise.all(
+            content.newsHeadlines.map(async (item) => ({
+                ...item,
+                headline: await translate(item.headline),
+            }))
+        );
+
+        let translatedOppositionStatement = null;
+        if (content.oppositionStatement) {
+            translatedOppositionStatement = {
+                ...content.oppositionStatement,
+                statement: await translate(content.oppositionStatement.statement),
+            };
+        }
+
+        return {
+            keyEvents: translatedKeyEvents,
+            newsHeadlines: translatedNewsHeadlines,
+            oppositionStatement: translatedOppositionStatement,
+        };
+
+    } catch (error) {
+        console.error("Error translating content:", error);
+        // Return original content if translation fails
+        return content;
     }
 }

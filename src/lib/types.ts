@@ -4,6 +4,7 @@ export interface State {
   id: string;
   name: string;
   description: string;
+  language: string;
   demographics: {
     population: number;
     gdp: number;
@@ -91,3 +92,15 @@ export interface GameState {
   oppositionStatement: OppositionStatement | null;
   turnOptions: Challenge[];
 }
+
+// Translator Schemas
+export const TranslateRequestSchema = z.object({
+  textToTranslate: z.string().describe('The text to be translated.'),
+  targetLanguage: z.string().describe('The language to translate the text into (e.g., "Hindi", "Tamil").'),
+});
+export type TranslateRequest = z.infer<typeof TranslateRequestSchema>;
+
+export const TranslateResponseSchema = z.object({
+  translatedText: z.string().describe('The translated text.'),
+});
+export type TranslateResponse = z.infer<typeof TranslateResponseSchema>;

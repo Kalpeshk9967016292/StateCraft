@@ -5,6 +5,7 @@
       "id": "andhra-pradesh",
       "name": "Andhra Pradesh",
       "description": "A coastal state with a strong agricultural base and a growing IT sector.",
+      "language": "Telugu",
       "demographics": {
         "population": 53903393,
         "gdp": 170000000000,
@@ -26,6 +27,7 @@
       "id": "arunachal-pradesh",
       "name": "Arunachal Pradesh",
       "description": "A scenic, mountainous state with rich biodiversity and a focus on tourism and hydropower.",
+      "language": "English",
       "demographics": {
         "population": 1383727,
         "gdp": 3720000000,
@@ -47,6 +49,7 @@
       "id": "assam",
       "name": "Assam",
       "description": "Famous for its tea plantations and wildlife, this state is a gateway to Northeast India.",
+      "language": "Assamese",
       "demographics": {
         "population": 35600000,
         "gdp": 49000000000,
@@ -68,6 +71,7 @@
       "id": "bihar",
       "name": "Bihar",
       "description": "A state with immense potential, battling issues of poverty, governance, and infrastructure development.",
+      "language": "Hindi",
       "demographics": {
         "population": 124.7,
         "gdp": 87.57,
@@ -89,6 +93,7 @@
       "id": "chhattisgarh",
       "name": "Chhattisgarh",
       "description": "A resource-rich state known for its forests and tribal culture, facing Naxal insurgency challenges.",
+      "language": "Hindi",
       "demographics": {
         "population": 32.2,
         "gdp": 47.5,
@@ -110,6 +115,7 @@
       "id": "goa",
       "name": "Goa",
       "description": "A popular tourist destination with beautiful beaches and a vibrant culture.",
+      "language": "Konkani",
       "demographics": {
         "population": 1640000,
         "gdp": 11000000000,
@@ -131,6 +137,7 @@
       "id": "gujarat",
       "name": "Gujarat",
       "description": "An industrial powerhouse with a long coastline and a strong entrepreneurial spirit.",
+      "language": "Gujarati",
       "demographics": {
         "population": 65000000,
         "gdp": 260000000000,
@@ -152,6 +159,7 @@
       "id": "haryana",
       "name": "Haryana",
       "description": "An agricultural state that is also a major manufacturing and IT hub.",
+      "language": "Hindi",
       "demographics": {
         "population": 29900000,
         "gdp": 125000000000,
@@ -173,6 +181,7 @@
       "id": "himachal-pradesh",
       "name": "Himachal Pradesh",
       "description": "A Himalayan state known for its tourism, apples, and hydropower.",
+      "language": "Hindi",
       "demographics": {
         "population": 7300000,
         "gdp": 32000000000,
@@ -194,6 +203,7 @@
       "id": "jharkhand",
       "name": "Jharkhand",
       "description": "Rich in mineral resources, this state is working to overcome poverty and political instability.",
+      "language": "Hindi",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -215,6 +225,7 @@
       "id": "karnataka",
       "name": "Karnataka",
       "description": "Home to India's Silicon Valley, with a diverse economy spanning IT, manufacturing, and agriculture.",
+      "language": "Kannada",
       "demographics": {
         "population": 68400000,
         "gdp": 260000000000,
@@ -236,6 +247,7 @@
       "id": "kerala",
       "name": "Kerala",
       "description": "Known for its high literacy and social development, but struggles with industrial growth and brain drain.",
+      "language": "Malayalam",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -257,6 +269,7 @@
       "id": "madhya-pradesh",
       "name": "Madhya Pradesh",
       "description": "The \"Heart of India\", a large state with significant agricultural and mineral wealth.",
+      "language": "Hindi",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -278,6 +291,7 @@
       "id": "maharashtra",
       "name": "Maharashtra",
       "description": "A bustling state with a major financial hub, facing challenges of urban infrastructure and rural distress.",
+      "language": "Marathi",
       "demographics": {
         "population": 123140000,
         "gdp": 470000000000,
@@ -299,6 +313,7 @@
       "id": "manipur",
       "name": "Manipur",
       "description": "A state known for its rich culture and sports achievements, dealing with insurgency and ethnic conflicts.",
+      "language": "Meitei",
       "demographics": {
         "population": 3000000,
         "gdp": 4.2,
@@ -320,6 +335,7 @@
       "id": "meghalaya",
       "name": "Meghalaya",
       "description": "The \"Abode of Clouds\", a picturesque state with unique matrilineal societies.",
+      "language": "English",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -341,6 +357,7 @@
       "id": "mizoram",
       "name": "Mizoram",
       "description": "A peaceful state with a high literacy rate and a strong sense of community.",
+      "language": "Mizo",
       "demographics": {
         "population": 1200000,
         "gdp": 4.15,
@@ -362,6 +379,7 @@
       "id": "nagaland",
       "name": "Nagaland",
       "description": "A vibrant state with diverse tribes and a long history of seeking greater political autonomy.",
+      "language": "English",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -383,6 +401,7 @@
       "id": "odisha",
       "name": "Odisha",
       "description": "A state rich in culture and minerals, frequently hit by natural disasters like cyclones.",
+      "language": "Odia",
       "demographics": {
         "population": 46000000,
         "gdp": 88000000000,
@@ -404,6 +423,7 @@
       "id": "punjab",
       "name": "Punjab",
       "description": "The \"Granary of India\", a prosperous agricultural state facing issues of drug abuse and water depletion.",
+      "language": "Punjabi",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -425,6 +445,7 @@
       "id": "rajasthan",
       "name": "Rajasthan",
       "description": "The \"Land of Kings\", a vast desert state with a rich history and a thriving tourism industry.",
+      "language": "Hindi",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -446,6 +467,7 @@
       "id": "sikkim",
       "name": "Sikkim",
       "description": "A small, pristine state in the Himalayas, known for its organic farming and stunning landscapes.",
+      "language": "Nepali",
       "demographics": {
         "population": 690251,
         "gdp": 3.7,
@@ -467,6 +489,7 @@
       "id": "tamil-nadu",
       "name": "Tamil Nadu",
       "description": "A major manufacturing and automotive hub with a rich cultural and linguistic heritage.",
+      "language": "Tamil",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -488,6 +511,7 @@
       "id": "telangana",
       "name": "Telangana",
       "description": "A newly formed state with a booming IT sector and a focus on irrigation projects.",
+      "language": "Telugu",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -509,6 +533,7 @@
       "id": "tripura",
       "name": "Tripura",
       "description": "A hilly state in Northeast India with a history of ethnic diversity and political change.",
+      "language": "Bengali",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -530,6 +555,7 @@
       "id": "uttar-pradesh",
       "name": "Uttar Pradesh",
       "description": "India's most populous state, with significant political influence and a diverse economy.",
+      "language": "Hindi",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -551,6 +577,7 @@
       "id": "uttarakhand",
       "name": "Uttarakhand",
       "description": "A Himalayan state known for its religious tourism and natural beauty, facing environmental challenges.",
+      "language": "Hindi",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -572,6 +599,7 @@
       "id": "west-bengal",
       "name": "West Bengal",
       "description": "A state with a rich literary and cultural history, known for its political fervor.",
+      "language": "Bengali",
       "demographics": {
         "population": 0,
         "gdp": 0,
@@ -591,3 +619,5 @@
     }
   ]
 }
+
+    
