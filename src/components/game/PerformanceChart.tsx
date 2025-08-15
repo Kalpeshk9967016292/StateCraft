@@ -1,3 +1,4 @@
+
 "use client"
 
 import type { Stats } from '@/lib/types';
@@ -26,7 +27,7 @@ export default function PerformanceChart({ history }: PerformanceChartProps) {
     "Economic Health": entry.stats.economicHealth,
     "Opposition Strength": entry.stats.oppositionStrength,
     "Corruption Level": entry.stats.corruptionLevel
-  }));
+  })).filter(item => item.name !== 'T0'); // Filter out the initial state turn 0
 
   return (
     <Card className="h-full">

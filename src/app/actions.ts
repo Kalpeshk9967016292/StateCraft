@@ -24,7 +24,7 @@ export async function handleDecision(
     const turnResult = await processGameTurn(gameTurnInput);
     
     const newStats = turnResult.updatedStats;
-    const newHistory = [...gameState.statsHistory, { turn: gameState.turn + 1, stats: newStats }];
+    const newHistory = [...gameState.statsHistory, { turn: gameState.turn, stats: gameState.currentStats }]; // Log current state for the turn just passed
     
     let isGameOver = turnResult.isGameOver;
     let gameOverReason = turnResult.gameOverReason || "";
@@ -35,6 +35,7 @@ export async function handleDecision(
         isGameOver = false;
         gameOverReason = "";
     } else if (!isGameOver) {
+        // Only check for these game over conditions after the grace period
         if (newStats.publicApproval <= 0) {
             isGameOver = true;
             gameOverReason = "Public approval has plummeted to zero, leading to mass protests and a vote of no confidence. Your government has fallen.";
@@ -49,7 +50,7 @@ export async function handleDecision(
     return {
       ...gameState,
       currentStats: newStats,
-      statsHistory: newHistory,
+      statsHistory: [...newHistory, { turn: gameState.turn + 1, stats: newStats }], // Log the new state for the start of the next turn
       turn: gameState.turn + 1,
       isGameOver,
       gameOverReason,
