@@ -43,7 +43,7 @@ export default function StateSelection({ states, onStateSelect, isLoading }: Sta
   }, []);
 
   const filteredStates = states.filter(state =>
-    state.name.toLowerCase().includes(searchTerm.toLowerCase())
+    state && state.name && state.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   
   const handleSelect = (state: State) => {
