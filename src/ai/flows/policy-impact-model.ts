@@ -19,10 +19,11 @@ const PolicyImpactInputSchema = z.object({
     .string()
     .describe(
       'A JSON string representing the current state statistics including Budget, Public Opinion, Police Strength, Opposition Strength, and Unemployment Rate.'
-    ),\n  politicalClimate: z
+    ),
+  politicalClimate: z
     .string()
     .describe(
-      'A description of the current political climate in the state, including ruling party strength vs opposition strength, past election history, and voter issues.'
+      'A description of the current political climate in the state, including the strength of various parties, past election history, and key voter issues.'
     ),
 });
 export type PolicyImpactInput = z.infer<typeof PolicyImpactInputSchema>;
@@ -46,7 +47,7 @@ const prompt = ai.definePrompt({
   name: 'policyImpactPrompt',
   input: {schema: PolicyImpactInputSchema},
   output: {schema: PolicyImpactOutputSchema},
-  prompt: `You are an expert policy analyst specializing in predicting the impacts of policy decisions on state statistics.
+  prompt: `You are an expert policy analyst specializing in predicting the impacts of policy decisions on state statistics. The player is an independent Chief Minister, not affiliated with any party.
 
 You will use the policy description, the current state statistics, and the political climate to predict the impact of the policy on various state statistics.
 
