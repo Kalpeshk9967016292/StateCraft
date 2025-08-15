@@ -1,18 +1,11 @@
-
 {
-  "timestamp": 1755209815534,
+  "timestamp": 1755274724823,
   "states": [
     {
       "id": "andhra-pradesh",
       "name": "Andhra Pradesh",
       "description": "A coastal state with a strong agricultural base and a growing IT sector.",
       "language": "Telugu",
-      "demographics": {
-        "population": 53903393,
-        "gdp": 170000000000,
-        "literacyRate": 67.35,
-        "crimeRate": 275.5
-      },
       "initialStats": {
         "budget": 35000,
         "revenue": 42000,
@@ -22,19 +15,20 @@
         "oppositionStrength": 42,
         "corruptionLevel": 55
       },
-      "politicalClimate": "Andhra Pradesh's political climate is currently dominated by the ruling party. Key issues include welfare schemes, development projects, and the ongoing debate surrounding the state's finances and debt. Voter concerns revolve around employment, inflation, and the effective implementation of government programs. A major regional party forms the main opposition."
+      "demographics": {
+        "population": 53903393,
+        "gdp": 13780000000000,
+        "literacyRate": 67.35,
+        "crimeRate": 278.5
+      },
+      "politicalClimate": "Andhra Pradesh's political landscape is currently dominated by The Ruling Party, which secured a significant majority in the recent elections. Key issues include economic development, job creation, and welfare programs aimed at uplifting marginalized communities. The Main Opposition is actively challenging the government on issues of transparency and accountability, particularly concerning large infrastructure projects. Voter concerns revolve around rising inflation, unemployment, and access to quality healthcare and education. The Chief Minister is focused on attracting foreign investment and promoting industrial growth, while the Opposition Leader is rallying support by highlighting alleged government failures and corruption.",
+      "lastUpdated": 1755274718997
     },
     {
       "id": "arunachal-pradesh",
       "name": "Arunachal Pradesh",
       "description": "A scenic, mountainous state with rich biodiversity and a focus on tourism and hydropower.",
       "language": "English",
-      "demographics": {
-        "population": 1383727,
-        "gdp": 3720000000,
-        "literacyRate": 65.38,
-        "crimeRate": 47.8
-      },
       "initialStats": {
         "budget": 8000,
         "revenue": 9500,
@@ -44,19 +38,20 @@
         "oppositionStrength": 35,
         "corruptionLevel": 40
       },
-      "politicalClimate": "The political climate in Arunachal Pradesh is currently dominated by the ruling national party. The state government is focused on infrastructure development, border security, and maintaining peace and stability. Key issues include unemployment, road connectivity in remote areas, and environmental concerns related to hydropower projects. Voter concerns revolve around economic opportunities, access to healthcare and education, and protection of tribal rights and cultural heritage."
+      "demographics": {
+        "population": 1383727,
+        "gdp": 320000000000,
+        "literacyRate": 66.95,
+        "crimeRate": 81.5
+      },
+      "politicalClimate": "The Ruling Party maintains a strong majority in the state assembly. Recent political discourse has centered on infrastructure development in remote areas and environmental concerns related to large-scale projects. Public sentiment is cautiously optimistic, with a focus on job creation and improved access to healthcare. The Main Opposition has been vocal about issues of transparency and equitable resource distribution, though their influence remains limited. The Chief Minister's leadership is generally perceived as stable, with an emphasis on maintaining peace and fostering economic growth.",
+      "lastUpdated": 1755274724479
     },
     {
       "id": "assam",
       "name": "Assam",
       "description": "Famous for its tea plantations and wildlife, this state is a gateway to Northeast India.",
       "language": "Assamese",
-      "demographics": {
-        "population": 35600000,
-        "gdp": 49000000000,
-        "literacyRate": 72.19,
-        "crimeRate": 258.5
-      },
       "initialStats": {
         "budget": 25000,
         "revenue": 30000,
@@ -66,19 +61,20 @@
         "oppositionStrength": 48,
         "corruptionLevel": 60
       },
-      "politicalClimate": "The current political climate in Assam is primarily defined by issues of development, ethnic identity, and immigration. The ruling coalition, led by a major national party, faces challenges related to implementing citizenship verification and protecting the interests of indigenous communities. Key voter concerns include unemployment, price rise and infrastructure development, alongside long standing issues related to floods and erosion."
+      "demographics": {
+        "population": 35607039,
+        "gdp": 4000000000000,
+        "literacyRate": 72.19,
+        "crimeRate": 312.5
+      },
+      "politicalClimate": "Assam's political climate is currently influenced by debates surrounding economic development and social inclusion. The Ruling Party, led by the Chief Minister, focuses on infrastructure projects and attracting investment. The Main Opposition is criticizing the government's handling of unemployment and rising cost of living. Concerns over resource allocation and regional autonomy are also prominent, creating a dynamic and competitive political environment.",
+      "lastUpdated": 1755274722822
     },
     {
       "id": "bihar",
       "name": "Bihar",
       "description": "A state with immense potential, battling issues of poverty, governance, and infrastructure development.",
       "language": "Hindi",
-      "demographics": {
-        "population": 124700000,
-        "gdp": 87570000000,
-        "literacyRate": 61.8,
-        "crimeRate": 289.5
-      },
       "initialStats": {
         "budget": 28000,
         "revenue": 32000,
@@ -88,19 +84,20 @@
         "oppositionStrength": 60,
         "corruptionLevel": 75
       },
-      "politicalClimate": "Bihar's political landscape is currently dominated by a coalition government of major regional parties. Key issues include unemployment, poverty, and corruption. Voter concerns revolve around development, law and order, and social justice, with caste dynamics playing a significant role in political affiliations."
+      "demographics": {
+        "population": 124740000,
+        "gdp": 6804000000000,
+        "literacyRate": 61.8,
+        "crimeRate": 298.5
+      },
+      "politicalClimate": "Bihar's political landscape is currently dominated by The Ruling Party, which governs in coalition with several smaller regional parties. Key issues include economic development, job creation, and addressing concerns around infrastructure. The Main Opposition is attempting to mobilize support by highlighting issues of corruption and government inefficiency. Public discourse also focuses on social justice and agricultural reforms, reflecting the diverse interests of the electorate. The Chief Minister maintains a high profile, while the Opposition Leader seeks to gain traction by criticizing current policies.",
+      "lastUpdated": 1755274718237
     },
     {
       "id": "chhattisgarh",
       "name": "Chhattisgarh",
       "description": "A resource-rich state known for its forests and tribal culture, facing Naxal insurgency challenges.",
       "language": "Hindi",
-      "demographics": {
-        "population": 32200000,
-        "gdp": 47500000000,
-        "literacyRate": 70.28,
-        "crimeRate": 385.2
-      },
       "initialStats": {
         "budget": 22000,
         "revenue": 26000,
@@ -110,19 +107,20 @@
         "oppositionStrength": 40,
         "corruptionLevel": 65
       },
-      "politicalClimate": "Chhattisgarh is currently governed by a major national party. Key political issues include economic development, particularly in tribal areas, addressing internal security challenges, and improving infrastructure. Voter concerns revolve around employment, agricultural support, and access to healthcare and education."
+      "demographics": {
+        "population": 32000000,
+        "gdp": 4000000000000,
+        "literacyRate": 70.28,
+        "crimeRate": 315.5
+      },
+      "politicalClimate": "Chhattisgarh's political landscape is currently dominated by The Ruling Party, which secured a majority in the recent elections. Key issues include agricultural reforms, infrastructure development, and addressing Maoist insurgency in certain regions. The Main Opposition is focusing on highlighting issues of unemployment and inflation, attempting to mobilize public support against the current government's policies. There's also growing concern among voters regarding environmental issues, particularly related to mining activities. The Chief Minister is focused on implementing welfare schemes and attracting investment, while the Opposition Leader is pushing for greater transparency and accountability in governance.",
+      "lastUpdated": 1755274719024
     },
     {
       "id": "goa",
       "name": "Goa",
       "description": "A popular tourist destination with beautiful beaches and a vibrant culture.",
       "language": "Konkani",
-      "demographics": {
-        "population": 1640000,
-        "gdp": 11000000000,
-        "literacyRate": 92.66,
-        "crimeRate": 315.2
-      },
       "initialStats": {
         "budget": 5000,
         "revenue": 7000,
@@ -132,19 +130,20 @@
         "oppositionStrength": 30,
         "corruptionLevel": 30
       },
-      "politicalClimate": "The current political climate in Goa is characterized by a multi-party system with a major national party currently holding power. Key issues include tourism management, environmental protection (particularly regarding mining), and infrastructure development. Voter concerns revolve around cost of living, unemployment, and the impact of tourism on local culture."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "gujarat",
       "name": "Gujarat",
       "description": "An industrial powerhouse with a long coastline and a strong entrepreneurial spirit.",
       "language": "Gujarati",
-      "demographics": {
-        "population": 65000000,
-        "gdp": 260000000000,
-        "literacyRate": 82.4,
-        "crimeRate": 275.2
-      },
       "initialStats": {
         "budget": 90000,
         "revenue": 110000,
@@ -154,19 +153,20 @@
         "oppositionStrength": 38,
         "corruptionLevel": 45
       },
-      "politicalClimate": "Gujarat's political climate is currently dominated by a major national party, which has held power for over two decades. Key issues include economic development, infrastructure projects, and social issues related to caste and religious demographics. Voter concerns revolve around employment opportunities, agricultural challenges, and the rising cost of living."
+      "demographics": {
+        "population": 65000000,
+        "gdp": 22000000000000,
+        "literacyRate": 82.4,
+        "crimeRate": 278.5
+      },
+      "politicalClimate": "The Ruling Party, which has been in power for several terms, is currently focusing on economic development and infrastructure projects. The Main Opposition is trying to gain traction by highlighting issues of unemployment and agricultural distress. Recent local elections suggest some shifting voter preferences, with concerns about rising costs of living and access to healthcare becoming prominent.",
+      "lastUpdated": 1755274723770
     },
     {
       "id": "haryana",
       "name": "Haryana",
       "description": "An agricultural state that is also a major manufacturing and IT hub.",
       "language": "Hindi",
-      "demographics": {
-        "population": 29900000,
-        "gdp": 125000000000,
-        "literacyRate": 76.64,
-        "crimeRate": 302.5
-      },
       "initialStats": {
         "budget": 45000,
         "revenue": 55000,
@@ -176,19 +176,20 @@
         "oppositionStrength": 45,
         "corruptionLevel": 50
       },
-      "politicalClimate": "Haryana's political climate is currently dominated by a coalition government. Key issues include unemployment, farmer distress related to crop prices, and concerns about air pollution. The opposition parties are trying to capitalize on these issues to gain public support. Voter concerns revolve around economic stability, job creation, and addressing rural distress."
+      "demographics": {
+        "population": 29000000,
+        "gdp": 9500000000000,
+        "literacyRate": 76.64,
+        "crimeRate": 312.5
+      },
+      "politicalClimate": "Haryana's political landscape is currently dominated by 'The Ruling Party', which faces challenges related to agricultural reforms and unemployment. 'The Main Opposition' is actively campaigning on issues of price rises and farmer distress, attempting to sway public opinion. Recent local elections have indicated a slight shift in voter sentiment, with increased support for regional parties. The 'Chief Minister' is focused on attracting investment and improving infrastructure, while the 'Opposition Leader' is demanding greater transparency in government projects.",
+      "lastUpdated": 1755274723741
     },
     {
       "id": "himachal-pradesh",
       "name": "Himachal Pradesh",
       "description": "A Himalayan state known for its tourism, apples, and hydropower.",
       "language": "Hindi",
-      "demographics": {
-        "population": 7300000,
-        "gdp": 32000000000,
-        "literacyRate": 82.8,
-        "crimeRate": 152.8
-      },
       "initialStats": {
         "budget": 12000,
         "revenue": 15000,
@@ -198,19 +199,20 @@
         "oppositionStrength": 28,
         "corruptionLevel": 35
       },
-      "politicalClimate": "Himachal Pradesh is currently governed by a major national opposition party. The main concerns are economic development, unemployment, and tourism infrastructure. Voter concerns revolve around price inflation, environmental issues related to hydroelectric projects, and the availability of jobs, particularly for the youth."
+      "demographics": {
+        "population": 7300000,
+        "gdp": 1750000000000,
+        "literacyRate": 82.8,
+        "crimeRate": 312.5
+      },
+      "politicalClimate": "Himachal Pradesh is currently governed by 'The Ruling Party.' Key political issues include infrastructure development, environmental protection, and employment opportunities for the youth. Recent debates have centered on tourism regulations and their impact on the local economy. Voter concerns primarily revolve around rising living costs, access to quality healthcare, and sustainable development practices. The 'The Main Opposition' is actively campaigning on issues of government accountability and promises of improved social welfare programs.",
+      "lastUpdated": 1755274724486
     },
     {
       "id": "jharkhand",
       "name": "Jharkhand",
       "description": "Rich in mineral resources, this state is working to overcome poverty and political instability.",
       "language": "Hindi",
-      "demographics": {
-        "population": 38593948,
-        "gdp": 48000000000,
-        "literacyRate": 67.63,
-        "crimeRate": 213.7
-      },
       "initialStats": {
         "budget": 18000,
         "revenue": 22000,
@@ -220,19 +222,20 @@
         "oppositionStrength": 55,
         "corruptionLevel": 70
       },
-      "politicalClimate": "The state's political climate is marked by a coalition government navigating issues of tribal rights, resource management, and industrial development. The opposition frequently raises concerns about corruption and displacement. Voter priorities include stable governance, employment, and the protection of land and forests."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "karnataka",
       "name": "Karnataka",
       "description": "Home to India's Silicon Valley, with a diverse economy spanning IT, manufacturing, and agriculture.",
       "language": "Kannada",
-      "demographics": {
-        "population": 68400000,
-        "gdp": 260000000000,
-        "literacyRate": 75.36,
-        "crimeRate": 265.8
-      },
       "initialStats": {
         "budget": 85000,
         "revenue": 100000,
@@ -242,19 +245,20 @@
         "oppositionStrength": 42,
         "corruptionLevel": 50
       },
-      "politicalClimate": "Karnataka's political climate is currently dominated by a major national opposition party's government. Key issues include infrastructure development, employment, and social welfare programs. Recent controversies have centered on resource allocation and corruption allegations. Voter concerns revolve around cost of living, access to education and healthcare, and the stability of the government."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "kerala",
       "name": "Kerala",
       "description": "Known for its high literacy and social development, but struggles with industrial growth and brain drain.",
       "language": "Malayalam",
-      "demographics": {
-        "population": 35330888,
-        "gdp": 120000000000,
-        "literacyRate": 96.2,
-        "crimeRate": 1621.1
-      },
       "initialStats": {
         "budget": 40000,
         "revenue": 45000,
@@ -264,19 +268,20 @@
         "oppositionStrength": 50,
         "corruptionLevel": 40
       },
-      "politicalClimate": "The political landscape is dominated by two major coalitions. The current ruling coalition focuses on social welfare, public health, and education. The opposition challenges the government on fiscal management and unemployment. Key voter concerns include job creation for educated youth and managing the state's debt."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "madhya-pradesh",
       "name": "Madhya Pradesh",
       "description": "The \"Heart of India\", a large state with significant agricultural and mineral wealth.",
       "language": "Hindi",
-      "demographics": {
-        "population": 85358965,
-        "gdp": 150000000000,
-        "literacyRate": 69.32,
-        "crimeRate": 358.7
-      },
       "initialStats": {
         "budget": 55000,
         "revenue": 65000,
@@ -286,19 +291,20 @@
         "oppositionStrength": 50,
         "corruptionLevel": 68
       },
-      "politicalClimate": "A major national party holds a strong majority. The government's focus is on agricultural growth, welfare schemes, and industrial investment. The opposition is trying to consolidate its base by focusing on issues of unemployment and tribal welfare. Voter concerns are primarily related to farm income, infrastructure, and access to water."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "maharashtra",
       "name": "Maharashtra",
       "description": "A bustling state with a major financial hub, facing challenges of urban infrastructure and rural distress.",
       "language": "Marathi",
-      "demographics": {
-        "population": 123140000,
-        "gdp": 470000000000,
-        "literacyRate": 82.34,
-        "crimeRate": 278.6
-      },
       "initialStats": {
         "budget": 150000,
         "revenue": 180000,
@@ -308,19 +314,20 @@
         "oppositionStrength": 45,
         "corruptionLevel": 60
       },
-      "politicalClimate": "Maharashtra's political climate is currently characterized by a coalition government. Key issues include economic development, infrastructure projects, and addressing agrarian distress. Voter concerns revolve around inflation, employment opportunities, and social justice."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "manipur",
       "name": "Manipur",
       "description": "A state known for its rich culture and sports achievements, dealing with insurgency and ethnic conflicts.",
       "language": "Meitei",
-      "demographics": {
-        "population": 3000000,
-        "gdp": 4200000000,
-        "literacyRate": 79.85,
-        "crimeRate": 192.5
-      },
       "initialStats": {
         "budget": 6000,
         "revenue": 7500,
@@ -330,19 +337,20 @@
         "oppositionStrength": 58,
         "corruptionLevel": 72
       },
-      "politicalClimate": "Manipur's political climate is currently marked by ethnic tensions and security concerns. The state government faces challenges in maintaining law and order and addressing the grievances of various communities. Key issues include land rights, economic development, and political representation. Voter concerns revolve around peace, stability, and equitable governance."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "meghalaya",
       "name": "Meghalaya",
       "description": "The \"Abode of Clouds\", a picturesque state with unique matrilineal societies.",
       "language": "English",
-      "demographics": {
-        "population": 3366710,
-        "gdp": 5000000000,
-        "literacyRate": 74.43,
-        "crimeRate": 43.1
-      },
       "initialStats": {
         "budget": 7000,
         "revenue": 8500,
@@ -352,19 +360,20 @@
         "oppositionStrength": 34,
         "corruptionLevel": 42
       },
-      "politicalClimate": "The state politics is dominated by a coalition of regional parties. The focus is on tourism, protecting the fragile environment, and managing resources like coal. The opposition raises issues of illegal mining and lack of infrastructure development. Voter concerns include local employment and preservation of the unique cultural identity."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "mizoram",
       "name": "Mizoram",
       "description": "A peaceful state with a high literacy rate and a strong sense of community.",
       "language": "Mizo",
-      "demographics": {
-        "population": 1200000,
-        "gdp": 4150000000,
-        "literacyRate": 91.58,
-        "crimeRate": 253.7
-      },
       "initialStats": {
         "budget": 5500,
         "revenue": 6500,
@@ -374,19 +383,20 @@
         "oppositionStrength": 25,
         "corruptionLevel": 32
       },
-      "politicalClimate": "The political climate in Mizoram is currently dominated by a strong regional party. Key issues include development, unemployment, and border disputes with neighboring states. Voter concerns also revolve around infrastructure and healthcare."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "nagaland",
       "name": "Nagaland",
       "description": "A vibrant state with diverse tribes and a long history of seeking greater political autonomy.",
       "language": "English",
-      "demographics": {
-        "population": 2249692,
-        "gdp": 4000000000,
-        "literacyRate": 79.55,
-        "crimeRate": 36.8
-      },
       "initialStats": {
         "budget": 6500,
         "revenue": 8000,
@@ -396,19 +406,20 @@
         "oppositionStrength": 45,
         "corruptionLevel": 68
       },
-      "politicalClimate": "State politics are defined by the ongoing peace process and the quest for a final resolution to the Naga political issue. The government is an all-party coalition aimed at facilitating the talks. There is virtually no opposition. Voter concerns are tied to the outcome of the peace talks, infrastructure development, and employment."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "odisha",
       "name": "Odisha",
       "description": "A state rich in culture and minerals, frequently hit by natural disasters like cyclones.",
       "language": "Odia",
-      "demographics": {
-        "population": 46000000,
-        "gdp": 88000000000,
-        "literacyRate": 72.87,
-        "crimeRate": 78.5
-      },
       "initialStats": {
         "budget": 48000,
         "revenue": 55000,
@@ -418,19 +429,20 @@
         "oppositionStrength": 40,
         "corruptionLevel": 58
       },
-      "politicalClimate": "Odisha's political climate is currently dominated by a regional party, which has been in power for over two decades. The Chief Minister remains a popular figure. Key issues include infrastructure development, poverty alleviation, and tribal rights. Voter concerns also revolve around employment opportunities and agricultural reforms."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "punjab",
       "name": "Punjab",
       "description": "The \"Granary of India\", a prosperous agricultural state facing issues of drug abuse and water depletion.",
       "language": "Punjabi",
-      "demographics": {
-        "population": 30730000,
-        "gdp": 78000000000,
-        "literacyRate": 75.84,
-        "crimeRate": 169.1
-      },
       "initialStats": {
         "budget": 40000,
         "revenue": 48000,
@@ -440,19 +452,20 @@
         "oppositionStrength": 47,
         "corruptionLevel": 62
       },
-      "politicalClimate": "A new regional party has recently come to power, displacing traditional parties. The government's main focus is on eradicating corruption and improving public services like health and education. Key challenges include the state's high debt, agricultural distress, and the issue of drug trafficking. Voter concerns revolve around fiscal health, employment, and law and order."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "rajasthan",
       "name": "Rajasthan",
       "description": "The \"Land of Kings\", a vast desert state with a rich history and a thriving tourism industry.",
       "language": "Hindi",
-      "demographics": {
-        "population": 81032689,
-        "gdp": 160000000000,
-        "literacyRate": 66.11,
-        "crimeRate": 257.6
-      },
       "initialStats": {
         "budget": 65000,
         "revenue": 75000,
@@ -462,19 +475,20 @@
         "oppositionStrength": 44,
         "corruptionLevel": 55
       },
-      "politicalClimate": "A major national party is in power. The political discourse revolves around social welfare schemes, infrastructure development, and managing water resources in the arid state. The opposition questions the government on law and order and inflation. Voter concerns include access to water, electricity, and employment opportunities."
+      "demographics": {
+        "population": 0,
+        "gdp": 0,
+        "literacyRate": 0,
+        "crimeRate": 0
+      },
+      "politicalClimate": "Could not fetch latest data.",
+      "lastUpdated": 0
     },
     {
       "id": "sikkim",
       "name": "Sikkim",
       "description": "A small, pristine state in the Himalayas, known for its organic farming and stunning landscapes.",
       "language": "Nepali",
-      "demographics": {
-        "population": 690251,
-        "gdp": 3700000000,
-        "literacyRate": 81.42,
-        "crimeRate": 85.2
-      },
       "initialStats": {
         "budget": 4000,
         "revenue": 5000,
@@ -484,19 +498,20 @@
         "oppositionStrength": 22,
         "corruptionLevel": 25
       },
-      "politicalClimate": "The ruling regional party government faces challenges related to unemployment, infrastructure development, and environmental concerns. The opposition, a different regional front, seeks to regain influence by highlighting these issues. Voter concerns include job creation, healthcare accessibility, and protection of Sikkim's unique cultural identity and environment."
+      "demographics": {
+        "population": 710000,
+        "gdp": 340000000000,
+        "literacyRate": 81.42,
+        "crimeRate": 68.5
+      },
+      "politicalClimate": "The Ruling Party maintains a strong majority in the assembly. Recent debates have centered on infrastructure development, environmental regulations related to tourism, and social welfare programs. Public sentiment appears mixed, with some concerns regarding unemployment and the rising cost of living. The Main Opposition is attempting to gain traction by focusing on these economic issues, but the Chief Minister's continued popularity is a significant hurdle.",
+      "lastUpdated": 1755274718206
     },
     {
       "id": "tamil-nadu",
       "name": "Tamil Nadu",
       "description": "A major manufacturing and automotive hub with a rich cultural and linguistic heritage.",
       "language": "Tamil",
-      "demographics": {
-        "population": 77841000,
-        "gdp": 310000000000,
-        "literacyRate": 80.09,
-        "crimeRate": 387.6
-      },
       "initialStats": {
         "budget": 100000,
         "revenue": 120000,
@@ -506,19 +521,20 @@
         "oppositionStrength": 40,
         "corruptionLevel": 52
       },
-      "politicalClimate": "A regional party is in power, continuing the state's legacy of Dravidian politics. Key issues include state autonomy, language rights, and social justice. The government is focused on welfare schemes and attracting industrial investment. The opposition, a coalition led by another regional party and a national party, criticizes the government's handling of the economy. Voter concerns include water management, electricity supply, and employment."
+      "demographics": {
+        "population": 78400000,
+        "gdp": 24800000000000,
+        "literacyRate": 82.9,
+        "crimeRate": 251.5
+      },
+      "politicalClimate": "Tamil Nadu's political landscape is currently dominated by The Ruling Party, which enjoys a comfortable majority in the legislative assembly. The Main Opposition is actively trying to gain ground by raising concerns about rising living costs and unemployment rates. Public discourse is heavily focused on socio-economic development, job creation, and equitable distribution of resources. The Chief Minister is focused on attracting foreign investments and developing infrastructure. The Opposition Leader is trying to mobilize public opinion against the government, citing policy failures.",
+      "lastUpdated": 1755274718977
     },
     {
       "id": "telangana",
       "name": "Telangana",
       "description": "A newly formed state with a booming IT sector and a focus on irrigation projects.",
       "language": "Telugu",
-      "demographics": {
-        "population": 39362732,
-        "gdp": 160000000000,
-        "literacyRate": 66.54,
-        "crimeRate": 298.8
-      },
       "initialStats": {
         "budget": 75000,
         "revenue": 90000,
@@ -528,19 +544,20 @@
         "oppositionStrength": 38,
         "corruptionLevel": 48
       },
-      "politicalClimate": "A major national party has recently formed the government, defeating a long-ruling regional party. The new government's priorities are fulfilling its election guarantees, focusing on job creation, and social welfare. The opposition is strong and vocal, questioning the feasibility of the new government's promises. Key voter concerns are employment, irrigation, and farmer support."
+      "demographics": {
+        "population": 39160000,
+        "gdp": 13.33,
+        "literacyRate": 72.8,
+        "crimeRate": 275.5
+      },
+      "politicalClimate": "Telangana's political scene is currently dominated by 'The Ruling Party,' which enjoys a comfortable majority in the state legislature. Key issues include agricultural policies, infrastructure development, and job creation. The 'Main Opposition' faces challenges in uniting various factions and presenting a cohesive alternative. Public discourse is focused on the rising cost of living, unemployment, and the effectiveness of government schemes. Recent debates have centered on proposed land reforms and their potential impact on farmers. 'The Chief Minister' maintains high approval ratings, but faces scrutiny over alleged corruption within the administration. The upcoming local elections are expected to be a key test of the 'Ruling Party's' popularity.",
+      "lastUpdated": 1755274719016
     },
     {
       "id": "tripura",
       "name": "Tripura",
       "description": "A hilly state in Northeast India with a history of ethnic diversity and political change.",
       "language": "Bengali",
-      "demographics": {
-        "population": 4169794,
-        "gdp": 8000000000,
-        "literacyRate": 87.22,
-        "crimeRate": 165.1
-      },
       "initialStats": {
         "budget": 8500,
         "revenue": 10000,
@@ -550,19 +567,20 @@
         "oppositionStrength": 46,
         "corruptionLevel": 63
       },
-      "politicalClimate": "A major national party is in power. The political climate is focused on development, connectivity, and tribal welfare. The opposition, a mix of leftist and regional parties, raises issues of unemployment and political violence. Voter concerns include peace between ethnic communities, jobs, and infrastructure development."
+      "demographics": {
+        "population": 4100000,
+        "gdp": 590000000000,
+        "literacyRate": 87.75,
+        "crimeRate": 512.5
+      },
+      "politicalClimate": "The political climate in Tripura is currently moderate. The Ruling Party, which has been in power for the last several years, is focused on infrastructure development and social welfare programs. However, they are facing challenges from The Main Opposition, who are raising concerns about unemployment and the rising cost of living. Recent local elections indicate a slight shift in voter sentiment, with increased support for smaller regional parties. Key issues include healthcare accessibility, agricultural reforms, and border security. Voters are particularly concerned about job creation and ensuring sustainable economic growth.",
+      "lastUpdated": 1755274722815
     },
     {
       "id": "uttar-pradesh",
       "name": "Uttar Pradesh",
       "description": "India's most populous state, with significant political influence and a diverse economy.",
       "language": "Hindi",
-      "demographics": {
-        "population": 241360000,
-        "gdp": 270000000000,
-        "literacyRate": 67.68,
-        "crimeRate": 154.2
-      },
       "initialStats": {
         "budget": 180000,
         "revenue": 200000,
@@ -572,19 +590,20 @@
         "oppositionStrength": 52,
         "corruptionLevel": 70
       },
-      "politicalClimate": "A major national party has a strong hold on power, focusing on infrastructure development and law and order. The opposition is fragmented but tries to corner the government on issues like unemployment and caste politics. Voter concerns are complex and varied, including religious identity, caste affiliations, employment, and agricultural prices."
+      "demographics": {
+        "population": 240928764,
+        "gdp": 17.05,
+        "literacyRate": 72.8,
+        "crimeRate": 158.2
+      },
+      "politicalClimate": "Uttar Pradesh is currently governed by The Ruling Party, which enjoys a comfortable majority in the state assembly. Key issues include infrastructure development, job creation, and agricultural reforms. The Main Opposition is attempting to gain traction by focusing on rising unemployment and concerns about social issues. Recent local elections suggest some shifts in voter sentiment, but the overall political landscape remains stable. The Chief Minister maintains high approval ratings, while the Opposition Leader faces challenges in unifying various opposition factions.",
+      "lastUpdated": 1755274720619
     },
     {
       "id": "uttarakhand",
       "name": "Uttarakhand",
       "description": "A Himalayan state known for its religious tourism and natural beauty, facing environmental challenges.",
       "language": "Hindi",
-      "demographics": {
-        "population": 11250000,
-        "gdp": 38000000000,
-        "literacyRate": 78.82,
-        "crimeRate": 147.7
-      },
       "initialStats": {
         "budget": 15000,
         "revenue": 18000,
@@ -594,19 +613,20 @@
         "oppositionStrength": 36,
         "corruptionLevel": 45
       },
-      "politicalClimate": "A major national party is in power, focusing on religious tourism and infrastructure projects. The state faces significant environmental challenges, which is a key topic for the opposition. Voter concerns revolve around employment, preventing out-migration from hill areas, and disaster management."
+      "demographics": {
+        "population": 11350000,
+        "gdp": 2900000000000,
+        "literacyRate": 87.6,
+        "crimeRate": 178.5
+      },
+      "politicalClimate": "The political landscape in Uttarakhand is currently dominated by The Ruling Party, which holds a comfortable majority in the state legislature. Key issues include infrastructure development in the hilly regions, managing tourism sustainably, and addressing unemployment among the youth. The Main Opposition is focusing on raising concerns about inflation and seeking greater transparency in government projects. Public sentiment is mixed, with some appreciation for the government's efforts in improving connectivity, but also anxieties regarding environmental degradation and the rising cost of living. The Chief Minister remains a prominent figure, while the Opposition Leader is trying to gain traction by highlighting local grievances.",
+      "lastUpdated": 1755274724469
     },
     {
       "id": "west-bengal",
       "name": "West Bengal",
       "description": "A state with a rich literary and cultural history, known for its political fervor.",
       "language": "Bengali",
-      "demographics": {
-        "population": 102553000,
-        "gdp": 210000000000,
-        "literacyRate": 76.26,
-        "crimeRate": 142.1
-      },
       "initialStats": {
         "budget": 80000,
         "revenue": 95000,
@@ -616,7 +636,14 @@
         "oppositionStrength": 49,
         "corruptionLevel": 66
       },
-      "politicalClimate": "A strong regional party is in power, with a focus on social welfare schemes. It faces a strong challenge from a major national party. The political climate is highly competitive and often tense. Key issues include political violence, corruption allegations, and unemployment. Voter concerns are split between welfare benefits and economic development."
+      "demographics": {
+        "population": 99609303,
+        "gdp": 15800000000000,
+        "literacyRate": 76.26,
+        "crimeRate": 687.5
+      },
+      "politicalClimate": "West Bengal's political landscape is currently dominated by the Ruling Party, which enjoys a comfortable majority in the legislative assembly. Key issues include economic development, job creation, and social welfare programs. The Main Opposition is attempting to gain traction by focusing on issues of governance and corruption. Recent local elections suggest a slight shift in voter sentiment, with increased support for smaller regional parties. Public discourse is heavily focused on employment opportunities and rising costs of living. The Chief Minister remains a prominent figure, while the Opposition Leader is working to unify various opposition factions.",
+      "lastUpdated": 1755274723780
     }
   ]
 }

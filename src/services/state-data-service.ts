@@ -98,7 +98,6 @@ async function populateFirestoreFromCache(): Promise<State[]> {
         return [];
     }
 
-    const batch = writeBatch(db);
     const updatePromises: Promise<State>[] = [];
 
     // All states are fetched on first go now to ensure data integrity
@@ -137,7 +136,7 @@ export async function getStatesData(): Promise<State[]> {
         const now = Date.now();
 
         for (const state of states) {
-            const lastUpdated = state.lastUpdated?.toDate()?.getTime();
+            const lastUpdated = state.lastUpdated?.toDate?.()?.getTime() || state.lastUpdated as number || 0;
             const isStale = !lastUpdated || (now - lastUpdated > TWO_DAYS_IN_MS);
             const isDataMissing = !state.demographics || state.demographics.population === 0;
 
@@ -174,3 +173,5 @@ export async function getStatesData(): Promise<State[]> {
         return getCachedStates();
     }
 }
+
+    

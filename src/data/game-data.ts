@@ -3,7 +3,7 @@ import type { State } from '@/lib/types';
 // This file now provides the base structure and fallback initial stats.
 // The dynamic data (demographics, political climate) will be fetched by AI.
 
-export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] = [
+export const initialStates: Omit<State, 'demographics' | 'politicalClimate' | 'lastUpdated'>[] = [
   {
     id: 'andhra-pradesh',
     name: 'Andhra Pradesh',
@@ -411,9 +411,9 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
   },
   {
     id: 'west-bengal',
-    name: 'West Bengal',
     "description": "A state with a rich literary and cultural history, known for its political fervor.",
     "language": "Bengali",
+    "name": "West Bengal",
     "initialStats": {
       "budget": 80000,
       "revenue": 95000,
@@ -425,3 +425,5 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate'>[] =
     },
   },
 ];
+
+    
