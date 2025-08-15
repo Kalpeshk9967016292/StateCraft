@@ -10,15 +10,15 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const TWO_DAYS_IN_MS = 2 * 24 * 60 * 60 * 1000;
+const CACHE_PATH = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
 
 /**
  * Reads the state data from the local JSON cache file.
  * @returns {Promise<State[]>} - An array of states from the cache.
  */
 async function getCachedStates(): Promise<State[]> {
-    const cachePath = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
     try {
-        const fileContent = await fs.readFile(cachePath, 'utf-8');
+        const fileContent = await fs.readFile(CACHE_PATH, 'utf-8');
         const cacheData = JSON.parse(fileContent);
         if (cacheData.states && cacheData.states.length > 0) {
             // When reading from cache, the timestamp is already a plain number, so no conversion needed.
@@ -45,6 +45,19 @@ function serializeState(state: State): State {
         };
     }
     return state;
+}
+
+/**
+ * Writes the current state data to the local JSON cache file.
+ * @param {State[]} states - The array of states to cache.
+ */
+async function writeToCache(states: State[]): Promise<void> {
+    try {
+        await fs.mkdir(path.dirname(CACHE_PATH), { recursive: true });
+        await fs.writeFile(CACHE_PATH, JSON.stringify({ timestamp: Date.now(), states: states }, null, 2), 'utf-8');
+    } catch (error) {
+        console.error("Failed to write to state data cache:", error);
+    }
 }
 
 
@@ -90,7 +103,7 @@ async function updateSingleState(stateShell: Omit<State, 'demographics' | 'polit
  * Populates Firestore from the local cache file if the database is empty.
  * @returns {Promise<State[]>}
  */
-async function populateFirestoreFromCache(): Promise<State[]> {
+async function populateFirestoreFromScratch(): Promise<State[]> {
     console.log('Firestore is empty. Populating from source data...');
     const stateShells = initialStates;
     if (stateShells.length === 0) {
@@ -128,9 +141,7 @@ async function populateFirestoreFromCache(): Promise<State[]> {
         await batch.commit();
         console.log(`Firestore has been populated with ${populatedStates.length} states.`);
         
-        const cachePath = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
-        await fs.mkdir(path.dirname(cachePath), { recursive: true });
-        await fs.writeFile(cachePath, JSON.stringify({ timestamp: Date.now(), states: populatedStates }, null, 2), 'utf-8');
+        await writeToCache(populatedStates);
         
         return populatedStates.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -152,8 +163,17 @@ export async function getStatesData(): Promise<State[]> {
         const snapshot = await getDocs(statesCollection);
 
         if (snapshot.empty) {
-            console.log("Firestore is empty, populating from source.");
-            return await populateFirestoreFromCache();
+            console.log("Firestore is empty. Forcing repopulation from scratch.");
+            // If the DB is empty, the cache is invalid. Delete it before repopulating.
+            try {
+                await fs.unlink(CACHE_PATH);
+                console.log("Deleted stale cache file.");
+            } catch (error: any) {
+                if (error.code !== 'ENOENT') { // ENOENT means file doesn't exist, which is fine.
+                    console.warn("Could not delete cache file:", error);
+                }
+            }
+            return await populateFirestoreFromScratch();
         }
         
         let states = snapshot.docs.map(doc => doc.data() as State);
@@ -182,9 +202,7 @@ export async function getStatesData(): Promise<State[]> {
             states = states.map(s => serializeState(updatedStatesMap.get(s.id) || s));
             console.log("State updates complete.");
 
-            const cachePath = path.join(process.cwd(), '.tmp', 'state-data-cache.json');
-            await fs.mkdir(path.dirname(cachePath), { recursive: true });
-            await fs.writeFile(cachePath, JSON.stringify({ timestamp: Date.now(), states: states }, null, 2), 'utf-8');
+            await writeToCache(states);
 
         } else {
             console.log("All state data is fresh. No updates needed.");
