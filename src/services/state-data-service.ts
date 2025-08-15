@@ -98,7 +98,7 @@ async function populateFirestoreFromCache(): Promise<State[]> {
 
     for (const cachedState of cachedStates) {
         // If demographics are missing/zero, queue an immediate AI fetch.
-        if (cachedState.demographics.population === 0 || cachedState.demographics.gdp === 0) {
+        if (!cachedState.demographics || cachedState.demographics.population === 0 || cachedState.demographics.gdp === 0) {
              console.log(`Cached data for ${cachedState.name} is incomplete. Fetching fresh data...`);
              // We pass the shell of the state to be filled by the AI
              updatePromises.push(updateSingleState(cachedState));
