@@ -13,19 +13,21 @@ const AdBanner = () => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
-      console.error(err);
+      console.error("AdSense error:", err);
     }
   }, []);
 
   return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: 'block', width: '100%' }}
-      data-ad-client="ca-pub-4648414963251970"
-      data-ad-slot="1341194686"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
+    <div className="w-full text-center">
+        <ins
+          className="adsbygoogle"
+          style={{ display: 'block' }}
+          data-ad-client="ca-pub-4648414963251970"
+          data-ad-slot="1341194686"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
+    </div>
   );
 };
 
