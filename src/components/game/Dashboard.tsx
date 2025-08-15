@@ -13,6 +13,7 @@ import TurnFeedback from './TurnFeedback';
 import { Button } from '@/components/ui/button';
 import { Repeat, Loader2 } from 'lucide-react';
 import DecisionCard from './DecisionCard';
+import AdBanner from './AdBanner';
 import {
   Tabs,
   TabsContent,
@@ -71,8 +72,8 @@ export default function Dashboard({ gameState, setGameState, onRestart }: Dashbo
           <h1 className="text-4xl font-extrabold font-headline text-primary tracking-tight">{gameState.stateDetails.name}</h1>
           <p className="text-muted-foreground font-medium">Year {year}, Q{quarter} | Turn {gameState.turn} | Chief Minister's Dashboard</p>
         </div>
-        <div className="flex-grow flex items-center justify-center h-24 bg-muted/50 rounded-lg min-w-[300px]">
-          <span className="text-muted-foreground text-sm">Ad Placeholder</span>
+        <div className="flex-grow flex items-center justify-center h-24 bg-muted/50 rounded-lg min-w-[300px] overflow-hidden">
+          <AdBanner />
         </div>
         <div className="flex gap-2">
             <AdvisorDialog gameState={gameState} />
