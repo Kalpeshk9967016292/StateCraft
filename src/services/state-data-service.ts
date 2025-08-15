@@ -111,17 +111,13 @@ async function populateFirestoreFromScratch(): Promise<State[]> {
         return [];
     }
 
-    const statePromises = stateShells.map(shell => fetchStateData({ stateName: shell.name }));
+    const populatedStates: State[] = [];
+    const batch = writeBatch(db);
 
-    try {
-        const fetchedData = await Promise.all(statePromises);
-
-        const batch = writeBatch(db);
-        const populatedStates: State[] = [];
-
-        for (let i = 0; i < stateShells.length; i++) {
-            const shell = stateShells[i];
-            const dynamicData = fetchedData[i];
+    for (const shell of stateShells) {
+        console.log(`Fetching initial data for ${shell.name}...`);
+        try {
+            const dynamicData = await fetchStateData({ stateName: shell.name });
             const fullState: State = {
                 ...shell,
                 demographics: {
@@ -136,17 +132,19 @@ async function populateFirestoreFromScratch(): Promise<State[]> {
             const stateDocRef = doc(db, 'states', fullState.id);
             batch.set(stateDocRef, fullState);
             populatedStates.push(serializeState(fullState));
+            console.log(`Successfully fetched data for ${shell.name}.`);
+        } catch (error) {
+            console.error(`Failed to fetch initial data for ${shell.name}. It will be skipped.`, error);
         }
+    }
 
+    try {
         await batch.commit();
         console.log(`Firestore has been populated with ${populatedStates.length} states.`);
-        
         await writeToCache(populatedStates);
-        
         return populatedStates.sort((a, b) => a.name.localeCompare(b.name));
-
     } catch (error) {
-        console.error("Failed to fetch initial data and populate Firestore.", error);
+        console.error("CRITICAL: Failed to commit the batch to Firestore.", error);
         return [];
     }
 }
