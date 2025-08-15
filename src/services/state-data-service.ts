@@ -100,8 +100,8 @@ async function updateSingleState(stateShell: Omit<State, 'demographics' | 'polit
 
 
 /**
- * Populates Firestore from the local cache file if the database is empty.
- * This is a critical, one-time operation.
+ * Populates Firestore from scratch using the initial game data and enriching it with AI.
+ * This is a critical, one-time operation when the database is empty.
  * @returns {Promise<State[]>}
  */
 async function populateFirestoreFromScratch(): Promise<State[]> {
