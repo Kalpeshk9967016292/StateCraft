@@ -39,20 +39,20 @@ export default function DecisionCard({ challenges, onDecision, isLoading }: Deci
                     </AccordionTrigger>
                     <AccordionContent>
                         <div className="space-y-4 p-2 bg-background/50 rounded-md">
-                            <p className="text-sm text-muted-foreground">{challenge.description}</p>
+                            <p className="text-sm text-muted-foreground whitespace-pre-wrap">{challenge.description}</p>
                             <div className="space-y-2">
                                 {challenge.options.map(option => (
                                     <Button 
                                         key={option.id}
                                         onClick={() => onDecision(challenge, option)}
-                                        className="w-full justify-start h-auto py-2"
+                                        className="w-full justify-start h-auto py-2 text-left"
                                         variant="ghost"
                                         disabled={isLoading}
                                         title={option.description}
                                     >
-                                        <div className="flex flex-col items-start text-left">
-                                            <span className="font-semibold">{option.title}</span>
-                                            <span className="text-xs text-muted-foreground font-normal">{option.description}</span>
+                                        <div className="flex flex-col items-start">
+                                            <span className="font-semibold whitespace-normal">{option.title}</span>
+                                            <span className="text-xs text-muted-foreground font-normal whitespace-normal">{option.description}</span>
                                         </div>
                                     </Button>
                                 ))}
