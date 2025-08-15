@@ -411,9 +411,9 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate' | 'l
   },
   {
     id: 'west-bengal',
+    "name": "West Bengal",
     "description": "A state with a rich literary and cultural history, known for its political fervor.",
     "language": "Bengali",
-    "name": "West Bengal",
     "initialStats": {
       "budget": 80000,
       "revenue": 95000,
@@ -425,5 +425,3 @@ export const initialStates: Omit<State, 'demographics' | 'politicalClimate' | 'l
     },
   },
 ];
-
-    
