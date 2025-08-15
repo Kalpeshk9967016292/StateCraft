@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -40,7 +41,7 @@ const prompt = ai.definePrompt({
   - GDP (in INR)
   - Literacy Rate (%)
   - Crime Rate (per 100,000 population)
-  - A short, realistic summary of the current political climate.
+  - A short, realistic summary of the current political climate. **IMPORTANT: Do not use the real names of political parties or individuals.** Instead, use fictional, generic placeholders like 'The Ruling Party', 'The Main Opposition', 'Chief Minister', or 'Opposition Leader'.
 
   Return the data in the specified JSON format.
   `,

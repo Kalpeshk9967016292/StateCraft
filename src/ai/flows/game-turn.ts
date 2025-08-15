@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -72,11 +73,11 @@ Simulate the outcome of the player's action for this turn.
     -   **Key Events**: Write a brief narrative summary of what happened this turn, reflecting the nuanced analysis.
     -   **News Headlines**: Generate 2-3 diverse headlines from different types of media (e.g., national, local, pro-government, critical).
     -   **Social Media**: Come up with 1-2 trending topics on social media, reflecting the mixed public reaction.
-    -   **Opposition Statement**: Write a plausible, critical statement from an opposition leader based on their strategy.
+    -   **Opposition Statement**: Write a plausible, critical statement from an opposition leader. **IMPORTANT: Do not use real names for the speaker.** Use a generic title like 'The Opposition Leader' or 'Leader of the People's Party'.
 5.  **Introduce a Crisis (Optional)**: If the game is not over, there is a small chance (around 15-20%) that a random event or crisis occurs. This could be a natural disaster, a corruption scandal, a major protest, etc. If no crisis occurs, return null for this field. The crisis should feel like a consequence of the game state or be a plausible random event.
 
 RULES:
-- Use realistic Indian political, cultural, and economic context.
+- Use realistic Indian political, cultural, and economic context, but **never use the real names of political parties or individuals.**
 - Public reactions can be mixed and differ by demographic, which should be reflected in the media and social media trends.
 - Do not make the game impossible, but it should be challenging.
 
